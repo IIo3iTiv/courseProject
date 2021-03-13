@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2020.12.08 13:08:24.644,=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2020.12.08 13:09:06.707,C:\Users\Alex\Documents\Sekt\courseProject\delphi\Unit1.pas=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2020.12.08 13:09:06.707,C:\Users\Alex\Documents\Sekt\courseProject\delphi\Unit1.dfm=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2020.12.08 13:09:16.104,C:\Users\Alex\Documents\Sekt\courseProject\delphi\Project1.dproj=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.104,C:\Users\Alex\Documents\Sekt\courseProject\delphi\Project1.dproj=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.707,C:\Users\Alex\Documents\Sekt\courseProject\delphi\Unit1.dfm=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.707,C:\Users\Alex\Documents\Sekt\courseProject\delphi\Unit1.pas=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.397,=D:\Creations\Projects\courseProject\Unit3.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.079,=D:\Creations\Projects\courseProject\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.644,=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.054,=D:\Creations\Projects\courseProject\Unit3.pas</Transaction>
   </Transactions>
 </BorlandProject>
