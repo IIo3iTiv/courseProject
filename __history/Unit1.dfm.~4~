@@ -1,0 +1,241 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = #1041#1072#1079#1072' '#1044#1072#1085#1085#1099#1093
+  ClientHeight = 279
+  ClientWidth = 621
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ADOConnection1: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=dataBase\database2.' +
+      'mdb;Persist Security Info=False'
+    LoginPrompt = False
+    Mode = cmShareDenyNone
+    Provider = 'Microsoft.Jet.OLEDB.4.0'
+    Left = 40
+    Top = 8
+  end
+  object TActors: TADOTable
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    TableName = 'Actors'
+    Left = 16
+    Top = 64
+    object TActorsId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TActorsfullName_rus: TWideStringField
+      FieldName = 'fullName_rus'
+      Size = 150
+    end
+    object TActorsfullName_eng: TWideStringField
+      FieldName = 'fullName_eng'
+      Size = 150
+    end
+    object TActorsDateBirth: TDateTimeField
+      FieldName = 'DateBirth'
+    end
+    object TActorsCount: TSmallintField
+      FieldName = 'Count'
+    end
+  end
+  object TClients: TADOTable
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    TableName = 'Clients'
+    Left = 16
+    Top = 168
+    object TClientsId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TClientsMPAA: TWideStringField
+      FieldName = 'MPAA'
+      Size = 10
+    end
+    object TClientsClarification: TWideStringField
+      FieldName = 'Clarification'
+      Size = 50
+    end
+    object TClientsDescription: TWideStringField
+      FieldName = 'Description'
+      Size = 100
+    end
+  end
+  object TCategory: TADOTable
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    TableName = 'Category'
+    Left = 16
+    Top = 112
+    object TCategoryId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TCategoryfullNameRus: TWideStringField
+      FieldName = 'fullNameRus'
+      Size = 150
+    end
+    object TCategoryPlaceLivivng: TWideStringField
+      FieldName = 'PlaceLivivng'
+      Size = 200
+    end
+    object TCategoryMobileNumber: TWideStringField
+      FieldName = 'MobileNumber'
+      Size = 22
+    end
+  end
+  object TCountries: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Countries'
+    Left = 16
+    Top = 224
+  end
+  object TDisk: TADOTable
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    TableName = 'Disk'
+    Left = 152
+    Top = 64
+    object TDiskId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TDiskidMovie: TIntegerField
+      FieldName = 'idMovie'
+    end
+    object TDiskcountDisks: TSmallintField
+      FieldName = 'countDisks'
+    end
+    object TDiskUnitPrice: TBCDField
+      FieldName = 'UnitPrice'
+      Precision = 19
+    end
+    object TDiskpriceDay: TBCDField
+      FieldName = 'priceDay'
+      Precision = 19
+    end
+  end
+  object TGenre: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Genre'
+    Left = 152
+    Top = 120
+  end
+  object THire: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Hire'
+    Left = 152
+    Top = 176
+  end
+  object TMovie: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Movie'
+    Left = 152
+    Top = 224
+  end
+  object TMovieActors: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Movie - Actors'
+    Left = 288
+    Top = 64
+  end
+  object TMovieCountries: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Movie - Countries'
+    Left = 288
+    Top = 120
+  end
+  object TMovieGenre: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Movie - Genre'
+    Left = 288
+    Top = 176
+  end
+  object TMovieProducers: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Movie - Producers'
+    Left = 288
+    Top = 224
+  end
+  object TProducers: TADOTable
+    Connection = ADOConnection1
+    TableName = 'Producers'
+    Left = 472
+    Top = 64
+  end
+  object DSActors: TDataSource
+    DataSet = TActors
+    Left = 80
+    Top = 64
+  end
+  object DSCategory: TDataSource
+    DataSet = TCategory
+    Left = 80
+    Top = 112
+  end
+  object DSClients: TDataSource
+    DataSet = TClients
+    Left = 80
+    Top = 168
+  end
+  object DSCountries: TDataSource
+    DataSet = TCountries
+    Left = 80
+    Top = 224
+  end
+  object DSDisk: TDataSource
+    DataSet = TDisk
+    Left = 208
+    Top = 64
+  end
+  object DSGenre: TDataSource
+    Left = 208
+    Top = 120
+  end
+  object DSHire: TDataSource
+    DataSet = THire
+    Left = 208
+    Top = 176
+  end
+  object DSMovie: TDataSource
+    DataSet = TMovie
+    Left = 208
+    Top = 224
+  end
+  object DSMovieActors: TDataSource
+    DataSet = TMovieActors
+    Left = 384
+    Top = 64
+  end
+  object DSMovieCountries: TDataSource
+    DataSet = TMovieCountries
+    Left = 384
+    Top = 120
+  end
+  object DSMovieGenre: TDataSource
+    DataSet = TMovieGenre
+    Left = 384
+    Top = 176
+  end
+  object DSMovieProducers: TDataSource
+    DataSet = TMovieProducers
+    Left = 384
+    Top = 224
+  end
+  object DSProducers: TDataSource
+    DataSet = TProducers
+    Left = 536
+    Top = 64
+  end
+end

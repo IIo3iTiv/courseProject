@@ -1,0 +1,69 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Data.DB, Data.Win.ADODB;
+
+type
+  TForm1 = class(TForm)
+    ADOConnection1: TADOConnection;
+    TActors: TADOTable;
+    TActorsId: TAutoIncField;
+    TActorsfullName_rus: TWideStringField;
+    TActorsfullName_eng: TWideStringField;
+    TActorsDateBirth: TDateTimeField;
+    TActorsCount: TSmallintField;
+    TClients: TADOTable;
+    TClientsId: TAutoIncField;
+    TClientsMPAA: TWideStringField;
+    TClientsClarification: TWideStringField;
+    TClientsDescription: TWideStringField;
+    TCategory: TADOTable;
+    TCountries: TADOTable;
+    TCategoryId: TAutoIncField;
+    TCategoryfullNameRus: TWideStringField;
+    TCategoryPlaceLivivng: TWideStringField;
+    TCategoryMobileNumber: TWideStringField;
+    TDisk: TADOTable;
+    TGenre: TADOTable;
+    THire: TADOTable;
+    TMovie: TADOTable;
+    TDiskId: TAutoIncField;
+    TDiskidMovie: TIntegerField;
+    TDiskcountDisks: TSmallintField;
+    TDiskUnitPrice: TBCDField;
+    TDiskpriceDay: TBCDField;
+    TMovieActors: TADOTable;
+    TMovieCountries: TADOTable;
+    TMovieGenre: TADOTable;
+    TMovieProducers: TADOTable;
+    TProducers: TADOTable;
+    DSActors: TDataSource;
+    DSCategory: TDataSource;
+    DSClients: TDataSource;
+    DSCountries: TDataSource;
+    DSDisk: TDataSource;
+    DSGenre: TDataSource;
+    DSHire: TDataSource;
+    DSMovie: TDataSource;
+    DSMovieActors: TDataSource;
+    DSMovieCountries: TDataSource;
+    DSMovieGenre: TDataSource;
+    DSMovieProducers: TDataSource;
+    DSProducers: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+end.
