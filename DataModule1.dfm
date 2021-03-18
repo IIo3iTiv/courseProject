@@ -3,6 +3,7 @@ object DataModule1: TDataModule1
   Height = 560
   Width = 1105
   object ADOConnection1: TADOConnection
+    Connected = True
     ConnectionString = 
       'Provider=Microsoft.Jet.OLEDB.4.0;User ID=Admin;Data Source=datab' +
       'ase2.mdb;Mode=Share Deny None;Persist Security Info=False;Jet OL' +
@@ -14,6 +15,7 @@ object DataModule1: TDataModule1
       'et OLEDB:Don'#39't Copy Locale on Compact=False;Jet OLEDB:Compact Wi' +
       'thout Replica Repair=False;Jet OLEDB:SFP=False'
     LoginPrompt = False
+    Mode = cmShareDenyNone
     Provider = 'Microsoft.Jet.OLEDB.4.0'
     Left = 32
     Top = 16
@@ -133,6 +135,7 @@ object DataModule1: TDataModule1
     Top = 176
   end
   object TMovie: TADOTable
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     TableName = 'Movie'
@@ -188,21 +191,63 @@ object DataModule1: TDataModule1
   end
   object TMovieGenre: TADOTable
     Connection = ADOConnection1
+    CursorType = ctStatic
     TableName = 'Movie - Genre'
     Left = 304
     Top = 176
+    object TMovieGenreId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TMovieGenreidMovie: TIntegerField
+      FieldName = 'idMovie'
+    end
+    object TMovieGenreidGenre: TIntegerField
+      FieldName = 'idGenre'
+    end
   end
   object TMovieProducers: TADOTable
     Connection = ADOConnection1
+    CursorType = ctStatic
     TableName = 'Movie - Producers'
     Left = 304
     Top = 224
+    object TMovieProducersId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TMovieProducersidProducers: TIntegerField
+      FieldName = 'idProducers'
+    end
+    object TMovieProducersidMovie: TIntegerField
+      FieldName = 'idMovie'
+    end
   end
   object TProducers: TADOTable
+    Active = True
     Connection = ADOConnection1
+    CursorType = ctStatic
     TableName = 'Producers'
     Left = 488
     Top = 64
+    object TProducersId: TAutoIncField
+      FieldName = 'Id'
+      ReadOnly = True
+    end
+    object TProducersfullName_rus: TWideStringField
+      FieldName = 'fullName_rus'
+      Size = 150
+    end
+    object TProducersfullName_eng: TWideStringField
+      FieldName = 'fullName_eng'
+      Size = 150
+    end
+    object TProducersdateBirth: TDateTimeField
+      FieldName = 'dateBirth'
+    end
+    object TProducerscountFilms: TSmallintField
+      FieldName = 'countFilms'
+    end
   end
   object DSActors: TDataSource
     DataSet = TActors
@@ -268,9 +313,8 @@ object DataModule1: TDataModule1
     Left = 552
     Top = 64
   end
-  object QMovie: TADOQuery
+  object Request: TADOQuery
     Connection = ADOConnection1
-    DataSource = DSMovie
     Parameters = <>
     Left = 32
     Top = 280

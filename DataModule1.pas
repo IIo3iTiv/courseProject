@@ -62,7 +62,18 @@ type
     DSMovieGenre: TDataSource;
     DSMovieProducers: TDataSource;
     DSProducers: TDataSource;
-    QMovie: TADOQuery;
+    Request: TADOQuery;
+    TProducersId: TAutoIncField;
+    TProducersfullName_rus: TWideStringField;
+    TProducersfullName_eng: TWideStringField;
+    TProducersdateBirth: TDateTimeField;
+    TProducerscountFilms: TSmallintField;
+    TMovieProducersId: TAutoIncField;
+    TMovieProducersidProducers: TIntegerField;
+    TMovieProducersidMovie: TIntegerField;
+    TMovieGenreId: TAutoIncField;
+    TMovieGenreidMovie: TIntegerField;
+    TMovieGenreidGenre: TIntegerField;
   private
 
     { Private declarations }

@@ -4,8 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Imaging.pngimage,
-  Vcl.Buttons, Vcl.Imaging.JPEG;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons,
+  Vcl.Imaging.JPEG;
 
 type
   TForm1 = class(TForm)
@@ -138,9 +138,6 @@ type
     Button2: TButton;
     Button3: TButton;
     Button4: TButton;
-    Panel9: TPanel;
-    Label7: TLabel;
-    ComboBox3: TComboBox;
     Panel57: TPanel;
     Label46: TLabel;
     Edit12: TEdit;
@@ -242,26 +239,27 @@ type
     procedure Label45MouseLeave(Sender: TObject);
     procedure Label45MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure ComboBox3DrawItem(Control: TWinControl; Index: Integer;
-      Rect: TRect; State: TOwnerDrawState);
     procedure ComboBox3Enter(Sender: TObject);
-    procedure Panel22MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
     procedure FormActivate(Sender: TObject);
+    procedure Label41Click(Sender: TObject);
+    procedure Label17Click(Sender: TObject);
+    procedure Label15Click(Sender: TObject);
+    procedure Label14Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
 
   private
 
-    procedure showFilter();
-    procedure setEditMode();
-    procedure setViewMode();
-    procedure addRecord();      // Добавить запись
-    procedure delRecord();      // Удалить запись
-    procedure savRecord();      // Сохранить запись
-    procedure frtRecord();      // Первая запись
-    procedure prvRecord();      // Предыдущая запись
-    procedure nxtRecord();      // Следующая запись
-    procedure lstRecord();      // Последняя запись
-    procedure uplDataView();    // Загрузить данные
+    procedure showFilter;
+    procedure setEditMode;
+    procedure setViewMode;
+    procedure addRecord;      // Добавить запись
+    procedure delRecord;      // Удалить запись
+    procedure savRecord;      // Сохранить запись
+    procedure frtRecord;      // Первая запись
+    procedure prvRecord;      // Предыдущая запись
+    procedure nxtRecord;      // Следующая запись
+    procedure lstRecord;      // Последняя запись
+    procedure uplDataView;    // Загрузить данные
 
     { Private declarations }
   public
@@ -271,15 +269,16 @@ type
 
 var
   Form1: TForm1;
-  avatar: TPNGImage;
   filter: boolean;
   editMode: boolean;
+  idActors: array[0 .. 10] of integer;
+  idProducers: array[0 .. 10] of Integer;
 
 implementation
 
 {$R *.dfm}
 
-uses DataModule1, Unit2;
+uses DataModule1, Unit2, Unit3;
 
 procedure TForm1.showFilter();
 begin
@@ -373,8 +372,6 @@ begin
   Form1.Panel55.Left := 92;
   Form1.Panel56.Visible := true;
 
-  Form1.ComboBox3.Enabled := true;
-
 end;
 
 procedure TForm1.setViewMode();
@@ -451,7 +448,12 @@ begin
   Form1.Panel55.Left := 397;
   Form1.Panel56.Visible := false;
 
-  Form1.ComboBox3.Enabled := false;
+  Form1.ListBox1.Color := RGB(26, 20, 59);
+  Form1.ListBox2.Color := RGB(26, 20, 59);
+  Form1.ListBox3.Color := RGB(26, 20, 59);
+  Form1.ListBox4.Color := RGB(26, 20, 59);
+
+  //Form1.Label8.Font.Color := RGB(248, 16, 77);
 
 end;
 
@@ -473,20 +475,6 @@ end;
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   setViewMode();
-end;
-
-procedure TForm1.ComboBox3DrawItem(Control: TWinControl; Index: Integer;
-  Rect: TRect; State: TOwnerDrawState);
-begin
-
-  with ComboBox3 do
-    begin
-      if odSelected in State then
-          Canvas.Brush.Color := RGB(248, 222, 77);
-
-      DrawText(ComboBox3.Canvas.Handle, Combobox3.Items[Index], Length(Combobox3.Items[Index]), Rect, DT_CENTER);
-
-    end;
 end;
 
 procedure TForm1.ComboBox3Enter(Sender: TObject);
@@ -562,10 +550,9 @@ begin
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);
-var posterMovie, titleMovie: String;
 begin
-  titleMovie := DataModule.TMovietitleMovie.Value;
-  Form1.Label8.Caption := titleMovie;
+  DataModule.TMovie.First;
+  uplDataView;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -614,8 +601,19 @@ begin
   Form1.Edit3.Color := RGB(26, 20, 59);
   Form1.Edit4.Color := RGB(26, 20, 59);
 
-  Form1.ComboBox3.Color := RGB(26, 20, 59);
-  Form1.ComboBox3.Font.Color := clCream;
+end;
+
+procedure TForm1.Label14Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.TMovie.First;
+       uplDataView;
+     end
+   else
+     begin
+
+     end;
 end;
 
 procedure TForm1.Label14MouseDown(Sender: TObject; Button: TMouseButton;
@@ -635,6 +633,19 @@ begin
   Form1.Label14.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm1.Label15Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.TMovie.Prior;
+       uplDataView;
+     end
+   else
+     begin
+
+     end;
+end;
+
 procedure TForm1.Label15MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -650,6 +661,19 @@ procedure TForm1.Label15MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Form1.Label15.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm1.Label17Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.TMovie.Last;
+       uplDataView;
+     end
+   else
+     begin
+
+     end;
 end;
 
 procedure TForm1.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -756,6 +780,12 @@ begin
   Form1.Shape5.Pen.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm1.Label3Click(Sender: TObject);
+begin
+  Form1.Hide;
+  Form3.Show;
+end;
+
 procedure TForm1.Label3MouseLeave(Sender: TObject);
 begin
   Form1.Label3.Font.Color := clCream;
@@ -765,6 +795,19 @@ procedure TForm1.Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Form1.Label3.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm1.Label41Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.TMovie.Next;
+       uplDataView;
+     end
+   else
+     begin
+
+     end;
 end;
 
 procedure TForm1.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -878,12 +921,6 @@ begin
   showFilter();
 end;
 
-procedure TForm1.Panel22MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  ShowMessage('Навелся');
-end;
-
 procedure TForm1.Shape2MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -900,7 +937,7 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
-  ShowMessage(ListBox1.Items[ListBox1.ItemIndex]);
+  //ShowMessage(IntToStr(idActors[ListBox1.ItemIndex]));
 end;
 
 procedure TForm1.ListBox1DrawItem(Control: TWinControl; Index: Integer;
@@ -1059,8 +1096,110 @@ begin
 end;
 
 procedure TForm1.uplDataView;    // Загрузить данные
+var i: Integer;
 begin
-   Form1.Image1.Picture.LoadFromFile('img/Posters/1.jpg');
+   Form1.Image1.Picture.LoadFromFile('img/Posters/' + IntToStr(DataModule.TMovieId.Value) + '.jpg'); // Постер
+   Form1.Label8.Caption := DataModule.TMovietitleMovie.Value; // Название фильма
+   Form1.Edit5.Text := IntToStr(DataModule.TMovieyearIssue.Value) + ' год'; // Год выпуска
+   Form1.Edit6.Text := IntToStr(DataModule.TMovieduration.Value) + ' минут'; // Длительность
+   Form1.Edit7.Text := FloatToStr(Round(DataModule.TMovieIMDb.Value)); // Рейтинг IMDb
+   Form1.Edit8.Text := FloatToStr(Round(DataModule.TMovieKinopoisk.Value)); // Рейтинг Кинопоиск
+   Form1.Edit10.Text := CurrToStrF(DataModule.TMoviefeesWorld.Value, ffCurrency, 0); // Сборы в мире
+   Form1.Edit9.Text := CurrToStrF(DataModule.TMoviebudget.Value, ffCurrency, 0); // Бюджет
+   Form1.Memo1.Text := DataModule.TMovietagline.Value; // Слоган
+
+   // Возростная категория
+   DataModule.Request.SQL.Clear;
+   DataModule.Request.SQL.Text := 'SELECT Category.MPAA '
+                                + 'FROM Category INNER JOIN Movie '
+                                + 'ON Category.Id = Movie.ageCategory '
+                                + 'WHERE 1 = 1 '
+                                + ' and Movie.Id = ' + IntToStr(DataModule.TMovieId.Value) + ';';
+   DataModule.Request.Active := true;
+   Form1.Edit11.Text := DataModule.Request.Fields[0].AsString;
+
+   // Актёры
+   DataModule.Request.SQL.Clear;
+   DataModule.Request.SQL.Text := 'SELECT a.fullName_rus, a.Id '
+                                + 'FROM Actors AS a '
+                                + 'INNER JOIN ('
+                                    + 'SELECT ma.idActors '
+                                    + 'FROM Movie AS m '
+                                    + 'INNER JOIN [Movie - Actors] AS ma ON m.Id = ma.idMovie '
+                                    + 'WHERE 1 = 1 '
+                                    + ' and m.Id = ' + IntToStr(DataModule.TMovieId.Value)
+                                + ') AS ma ON a.Id = ma.idActors';
+   DataModule.Request.Active := true;
+   Form1.ListBox1.Clear;
+   i := 0;
+   while not DataModule.Request.Eof do
+   begin
+     Form1.ListBox1.Items.Add(DataModule.Request.Fields[0].AsString);
+     idActors[i] := DataModule.Request.Fields[1].AsInteger;
+     DataModule.Request.Next;
+     Inc(i);
+   end;
+
+   // Режиссёры
+   DataModule.Request.SQL.Clear;
+   DataModule.Request.SQL.Text := 'SELECT r.fullName_rus, r.Id '
+                                + 'FROM Producers AS r '
+                                + 'INNER JOIN ('
+                                    + 'SELECT mr.idProducers '
+                                    + 'FROM Movie AS m '
+                                    + 'INNER JOIN [Movie - Producers] AS mr ON m.Id = mr.idMovie '
+                                    + 'WHERE 1 = 1 '
+                                    + ' and m.Id = ' + IntToStr(DataModule.TMovieId.Value)
+                                + ') AS mr ON r.Id = mr.idProducers';
+   DataModule.Request.Active := true;
+   Form1.ListBox2.Clear;
+   i := 0;
+   while not DataModule.Request.Eof do
+   begin
+     Form1.ListBox2.Items.Add(DataModule.Request.Fields[0].AsString);
+     idProducers[i] := DataModule.Request.Fields[1].AsInteger;
+     DataModule.Request.Next;
+     Inc(i);
+   end;
+
+   // Жанр
+   DataModule.Request.SQL.Clear;
+   DataModule.Request.SQL.Text := 'SELECT g.Name '
+                                + 'FROM Genre AS g '
+                                + 'INNER JOIN ('
+                                    + 'SELECT mg.idGenre '
+                                    + 'FROM Movie AS m '
+                                    + 'INNER JOIN [Movie - Genre] AS mg ON m.Id = mg.idMovie '
+                                    + 'WHERE 1 = 1 '
+                                    + ' and m.Id = ' + IntToStr(DataModule.TMovieId.Value)
+                                + ') AS mg ON g.Id = mg.idGenre';
+   DataModule.Request.Active := true;
+   Form1.ListBox3.Clear;
+   while not DataModule.Request.Eof do
+   begin
+     Form1.ListBox3.Items.Add(DataModule.Request.Fields[0].AsString);
+     DataModule.Request.Next;
+   end;
+
+   // Страна
+   DataModule.Request.SQL.Clear;
+   DataModule.Request.SQL.Text := 'SELECT s.Name '
+                                + 'FROM Countries AS s '
+                                + 'INNER JOIN ('
+                                    + 'SELECT ms.idCountries '
+                                    + 'FROM Movie AS m '
+                                    + 'INNER JOIN [Movie - Countries] AS ms ON m.Id = ms.idMovie '
+                                    + 'WHERE 1 = 1 '
+                                    + ' and m.Id = ' + IntToStr(DataModule.TMovieId.Value)
+                                + ') AS ms ON s.Id = ms.idCountries';
+   DataModule.Request.Active := true;
+   Form1.ListBox4.Clear;
+   while not DataModule.Request.Eof do
+   begin
+     Form1.ListBox4.Items.Add(DataModule.Request.Fields[0].AsString);
+     DataModule.Request.Next;
+   end;
+
 end;
 
 end.
