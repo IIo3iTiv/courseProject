@@ -1,0 +1,40 @@
+unit DataModule2;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.Win.ADODB, Data.DB;
+
+type
+  TDataModule = class(TDataModule)
+    ADOConnection1: TADOConnection;
+    TActors: TADOTable;
+    TCategory: TADOTable;
+    ADOTable3: TADOTable;
+    TCountries: TADOTable;
+    TDisk: TADOTable;
+    TGenre: TADOTable;
+    THire: TADOTable;
+    TMovie: TADOTable;
+    TMovieActors: TADOTable;
+    TMovieCountries: TADOTable;
+    TMovieGenre: TADOTable;
+    TMovieProducers: TADOTable;
+    TProducers: TADOTable;
+    Request: TADOQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule: TDataModule;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

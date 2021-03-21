@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes;
 
 type
   TForm2 = class(TForm)
@@ -16,60 +16,16 @@ type
     Panel2: TPanel;
     Panel6: TPanel;
     Label4: TLabel;
-    Panel3: TPanel;
-    Label2: TLabel;
     Panel5: TPanel;
     Label3: TLabel;
     Panel7: TPanel;
     Label5: TLabel;
     Panel8: TPanel;
     Label6: TLabel;
-    Panel9: TPanel;
-    Label7: TLabel;
+    Panel3: TPanel;
+    Label2: TLabel;
+    Button4: TButton;
     Panel13: TPanel;
-    Image1: TImage;
-    Panel12: TPanel;
-    Label18: TLabel;
-    ListBox1: TListBox;
-    Panel10: TPanel;
-    Panel11: TPanel;
-    Button1: TButton;
-    Memo1: TMemo;
-    Panel16: TPanel;
-    Label19: TLabel;
-    ListBox2: TListBox;
-    Panel17: TPanel;
-    Label20: TLabel;
-    ListBox3: TListBox;
-    Panel18: TPanel;
-    Label21: TLabel;
-    ListBox4: TListBox;
-    Panel22: TPanel;
-    Label8: TLabel;
-    Panel38: TPanel;
-    Shape6: TShape;
-    Label39: TLabel;
-    Panel39: TPanel;
-    Label9: TLabel;
-    Edit5: TEdit;
-    Panel40: TPanel;
-    Label16: TLabel;
-    Edit6: TEdit;
-    Panel41: TPanel;
-    Label40: TLabel;
-    Edit7: TEdit;
-    Panel42: TPanel;
-    Label10: TLabel;
-    Edit8: TEdit;
-    Panel43: TPanel;
-    Label11: TLabel;
-    Edit9: TEdit;
-    Panel44: TPanel;
-    Label12: TLabel;
-    Edit10: TEdit;
-    Panel45: TPanel;
-    Label13: TLabel;
-    Edit11: TEdit;
     Panel14: TPanel;
     Panel51: TPanel;
     Panel55: TPanel;
@@ -88,18 +44,18 @@ type
     Label44: TLabel;
     Panel52: TPanel;
     Label43: TLabel;
+    Panel9: TPanel;
+    Label7: TLabel;
     Panel46: TPanel;
     Shape7: TShape;
     Label42: TLabel;
     Panel15: TPanel;
     Panel19: TPanel;
     Shape3: TShape;
-    ComboBox1: TComboBox;
     Panel28: TPanel;
     Label29: TLabel;
     Panel29: TPanel;
     Label30: TLabel;
-    ComboBox2: TComboBox;
     Panel30: TPanel;
     Label31: TLabel;
     Panel31: TPanel;
@@ -116,12 +72,13 @@ type
     Panel35: TPanel;
     Label36: TLabel;
     Edit4: TEdit;
-    Panel36: TPanel;
-    Shape4: TShape;
-    Label37: TLabel;
     Panel37: TPanel;
     Shape5: TShape;
     Label38: TLabel;
+    Panel58: TPanel;
+    Edit13: TEdit;
+    Panel59: TPanel;
+    Edit14: TEdit;
     Panel20: TPanel;
     Shape2: TShape;
     Panel21: TPanel;
@@ -137,10 +94,32 @@ type
     Panel27: TPanel;
     Label28: TLabel;
     Timer1: TTimer;
-    Panel57: TPanel;
-    Label46: TLabel;
-    procedure Label46Click(Sender: TObject);
+    Label9: TLabel;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure Shape2MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Label9Click(Sender: TObject);
+    procedure Label38MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure Label38MouseLeave(Sender: TObject);
+    procedure Label38MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Label22Click(Sender: TObject);
+    procedure Label23Click(Sender: TObject);
+    procedure Label25Click(Sender: TObject);
+    procedure Label26Click(Sender: TObject);
+    procedure Label27Click(Sender: TObject);
+    procedure Label28Click(Sender: TObject);
+    procedure Label9MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure Label9MouseLeave(Sender: TObject);
+    procedure Label9MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
+
+    procedure showFilter;
     { Private declarations }
   public
     { Public declarations }
@@ -148,6 +127,7 @@ type
 
 var
   Form2: TForm2;
+  filter: boolean;
 
 implementation
 
@@ -155,10 +135,136 @@ implementation
 
 uses Unit1;
 
-procedure TForm2.Label46Click(Sender: TObject);
+procedure TForm2.showFilter;
 begin
-  //Form2.Hide;
-  //Form1.Show;
+   filter := not(filter);
+end;
+
+procedure TForm2.Timer1Timer(Sender: TObject);
+begin
+  if (filter) and (Panel15.Left < 955) then
+    Panel15.Left := Panel15.Left + 5;
+
+  if (not filter) and (Panel15.Left > 616) then
+    Panel15.Left := Panel15.Left - 5;
+end;
+
+procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+   Form1.Show;
+   Form2.Hide;
+end;
+
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+  filter := true;
+
+  // Верхняя
+  Panel1.Color := RGB(248, 16, 77);
+  Shape1.Brush.Color := RGB(40, 31, 85);
+  Panel2.Color := RGB(40, 31, 85);
+
+  // Серцевина
+  Panel13.Color := RGB(26, 20, 59);
+
+  // Нижняя
+
+  // Фильтр
+  Label22.Font.Color := RGB(13, 156, 50);
+  Label23.Font.Color := RGB(13, 156, 50);
+  Label25.Font.Color := RGB(13, 156, 50);
+  Label26.Font.Color := RGB(13, 156, 50);
+  Label27.Font.Color := RGB(13, 156, 50);
+  Label28.Font.Color := RGB(13, 156, 50);
+  Shape3.Pen.Color := RGB(13, 156, 50);
+  Shape2.Pen.Color := RGB(13, 156, 50);
+  Shape3.Brush.Color := RGB(26, 20, 59);
+  Shape2.Brush.Color := RGB(26, 20, 59);
+  Edit13.Color := RGB(26, 20, 59);
+  Edit14.Color := RGB(26, 20, 59);
+  Edit1.Color := RGB(26, 20, 59);
+  Edit2.Color := RGB(26, 20, 59);
+  Edit3.Color := RGB(26, 20, 59);
+  Edit4.Color := RGB(26, 20, 59);
+  Shape5.Pen.Color := RGB(13, 156, 50);
+end;
+
+procedure TForm2.Label22Click(Sender: TObject);
+begin
+  showFilter;
+end;
+
+procedure TForm2.Label23Click(Sender: TObject);
+begin
+  showFilter;
+end;
+
+procedure TForm2.Label25Click(Sender: TObject);
+begin
+  showFilter;
+end;
+
+procedure TForm2.Label26Click(Sender: TObject);
+begin
+  showFilter;
+end;
+
+procedure TForm2.Label27Click(Sender: TObject);
+begin
+  showFilter;
+end;
+
+procedure TForm2.Label28Click(Sender: TObject);
+begin
+  showFilter;
+end;
+
+procedure TForm2.Label38MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label38.Font.Color := RGB(230, 230, 230);
+  Shape5.Pen.Color := RGB(210, 17, 77);
+end;
+
+procedure TForm2.Label38MouseLeave(Sender: TObject);
+begin
+  Label38.Font.Color := RGB(13, 156, 50);
+  Shape5.Pen.Color := RGB(13, 156, 50);
+end;
+
+procedure TForm2.Label38MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label38.Font.Color := clCream;
+  Shape5.Pen.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm2.Label9Click(Sender: TObject);
+begin
+   Form1.Show;
+end;
+
+procedure TForm2.Label9MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label9.Font.Color := RGB(26, 20, 59);
+end;
+
+procedure TForm2.Label9MouseLeave(Sender: TObject);
+begin
+  Label9.Font.Color := clCream;
+end;
+
+procedure TForm2.Label9MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label9.Font.Color := RGB(28, 28, 28);
+end;
+
+procedure TForm2.Shape2MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  showFilter;
 end;
 
 end.

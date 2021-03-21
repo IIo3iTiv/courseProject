@@ -1,0 +1,42 @@
+unit Unit4;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.Win.ADODB, Data.DB, Vcl.Dialogs,
+  Vcl.ExtDlgs;
+
+type
+  TDataModule4 = class(TDataModule)
+    ADOConnection1: TADOConnection;
+    TActors: TADOTable;
+    TCategory: TADOTable;
+    ADOTable3: TADOTable;
+    TCountries: TADOTable;
+    TDisk: TADOTable;
+    TGenre: TADOTable;
+    THire: TADOTable;
+    TMovie: TADOTable;
+    TMovieActors: TADOTable;
+    TMovieCountries: TADOTable;
+    TMovieGenre: TADOTable;
+    TMovieProducers: TADOTable;
+    TProducers: TADOTable;
+    Request: TADOQuery;
+    OpenPictureDialog1: TOpenPictureDialog;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule: TDataModule4;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

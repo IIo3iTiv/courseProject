@@ -30,19 +30,15 @@ object DataModule1: TDataModule1
       FieldName = 'Id'
       ReadOnly = True
     end
-    object TActorsfullName_rus: TWideStringField
-      FieldName = 'fullName_rus'
-      Size = 150
-    end
-    object TActorsfullName_eng: TWideStringField
-      FieldName = 'fullName_eng'
-      Size = 150
-    end
     object TActorsDateBirth: TDateTimeField
       FieldName = 'DateBirth'
     end
     object TActorsCount: TSmallintField
       FieldName = 'Count'
+    end
+    object TActorsfullName: TWideStringField
+      FieldName = 'fullName'
+      Size = 150
     end
   end
   object TClients: TADOTable
@@ -138,6 +134,7 @@ object DataModule1: TDataModule1
     Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
+    OnFilterRecord = TMovieFilterRecord
     TableName = 'Movie'
     Left = 168
     Top = 224
@@ -224,7 +221,6 @@ object DataModule1: TDataModule1
     end
   end
   object TProducers: TADOTable
-    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     TableName = 'Producers'
@@ -234,19 +230,15 @@ object DataModule1: TDataModule1
       FieldName = 'Id'
       ReadOnly = True
     end
-    object TProducersfullName_rus: TWideStringField
-      FieldName = 'fullName_rus'
-      Size = 150
-    end
-    object TProducersfullName_eng: TWideStringField
-      FieldName = 'fullName_eng'
-      Size = 150
-    end
     object TProducersdateBirth: TDateTimeField
       FieldName = 'dateBirth'
     end
     object TProducerscountFilms: TSmallintField
       FieldName = 'countFilms'
+    end
+    object TProducersfullName: TWideStringField
+      FieldName = 'fullName'
+      Size = 150
     end
   end
   object DSActors: TDataSource
@@ -275,6 +267,7 @@ object DataModule1: TDataModule1
     Top = 64
   end
   object DSGenre: TDataSource
+    DataSet = TGenre
     Left = 224
     Top = 120
   end
@@ -317,6 +310,11 @@ object DataModule1: TDataModule1
     Connection = ADOConnection1
     Parameters = <>
     Left = 32
+    Top = 280
+  end
+  object OpenPictureDialog1: TOpenPictureDialog
+    Filter = 'JPEG Image File (*.jpg)|*.jpg'
+    Left = 96
     Top = 280
   end
 end

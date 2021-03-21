@@ -3,15 +3,14 @@ unit DataModule1;
 interface
 
 uses
-  System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, Vcl.Dialogs;
+  System.SysUtils, System.Classes, Data.DB, Data.Win.ADODB, Vcl.Dialogs,
+  Vcl.ExtDlgs;
 
 type
   TDataModule1 = class(TDataModule)
     ADOConnection1: TADOConnection;
     TActors: TADOTable;
     TActorsId: TAutoIncField;
-    TActorsfullName_rus: TWideStringField;
-    TActorsfullName_eng: TWideStringField;
     TActorsDateBirth: TDateTimeField;
     TActorsCount: TSmallintField;
     TClients: TADOTable;
@@ -64,8 +63,6 @@ type
     DSProducers: TDataSource;
     Request: TADOQuery;
     TProducersId: TAutoIncField;
-    TProducersfullName_rus: TWideStringField;
-    TProducersfullName_eng: TWideStringField;
     TProducersdateBirth: TDateTimeField;
     TProducerscountFilms: TSmallintField;
     TMovieProducersId: TAutoIncField;
@@ -74,6 +71,10 @@ type
     TMovieGenreId: TAutoIncField;
     TMovieGenreidMovie: TIntegerField;
     TMovieGenreidGenre: TIntegerField;
+    OpenPictureDialog1: TOpenPictureDialog;
+    TActorsfullName: TWideStringField;
+    TProducersfullName: TWideStringField;
+    procedure TMovieFilterRecord(DataSet: TDataSet; var Accept: Boolean);
   private
 
     { Private declarations }
@@ -87,8 +88,19 @@ var
 
 implementation
 
+uses Unit1;
+
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+
+procedure TDataModule1.TMovieFilterRecord(DataSet: TDataSet;
+  var Accept: Boolean);
+var title, genre, year1, year2, dur1, dur2: string;
+begin
+   title := Copy(DataSet['titleMovie'], 1, Length(Form1.Edit13.Text));
+   Accept := title = Form1.Edit13.Text;
+end;
 
 end.

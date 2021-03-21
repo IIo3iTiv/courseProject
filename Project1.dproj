@@ -107,14 +107,14 @@
             <Form>Form2</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="DataModule1.pas">
-            <Form>DataModule</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
         <DCCReference Include="Unit3.pas">
             <Form>Form3</Form>
             <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="Unit4.pas">
+            <Form>DataModule4</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
