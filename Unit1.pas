@@ -20,8 +20,6 @@ type
     Label4: TLabel;
     Panel7: TPanel;
     Label5: TLabel;
-    Panel8: TPanel;
-    Label6: TLabel;
     Image1: TImage;
     Label8: TLabel;
     Memo1: TMemo;
@@ -153,9 +151,6 @@ type
     procedure Label5MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure Label5MouseLeave(Sender: TObject);
-    procedure Label6MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label6MouseLeave(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Panel20Click(Sender: TObject);
     procedure Shape2MouseUp(Sender: TObject; Button: TMouseButton;
@@ -811,6 +806,10 @@ begin
   Form1.Edit3.Color := RGB(26, 20, 59);
   Form1.Edit4.Color := RGB(26, 20, 59);
 
+  Form1.Panel51.Color := RGB(40, 31, 85);
+  Form1.Shape7.Brush.Color := RGB(248, 16, 77);
+  Form1.Panel46.Color := RGB(248, 16, 77);
+
 end;
 
 procedure TForm1.Image1Click(Sender: TObject);
@@ -1144,17 +1143,6 @@ end;
 procedure TForm1.Label6Click(Sender: TObject);
 begin
   setEditMode();
-end;
-
-procedure TForm1.Label6MouseLeave(Sender: TObject);
-begin
-  Form1.Label6.Font.Color := clCream;
-end;
-
-procedure TForm1.Label6MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Form1.Label6.Font.Color := RGB(248, 16, 77);
 end;
 
 procedure TForm1.Panel20Click(Sender: TObject);

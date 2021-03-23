@@ -101,7 +101,7 @@ object Form1: TForm1
       object Panel6: TPanel
         Left = 232
         Top = 0
-        Width = 83
+        Width = 68
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel6'
@@ -110,11 +110,11 @@ object Form1: TForm1
         object Label4: TLabel
           Left = 0
           Top = 0
-          Width = 83
+          Width = 68
           Height = 70
           Align = alClient
           Alignment = taCenter
-          Caption = #1050#1083#1080#1077#1085#1090#1099
+          Caption = #1055#1088#1086#1082#1072#1090
           Font.Charset = RUSSIAN_CHARSET
           Font.Color = clCream
           Font.Height = -19
@@ -159,44 +159,15 @@ object Form1: TForm1
         end
       end
       object Panel7: TPanel
-        Left = 340
+        Left = 325
         Top = 0
-        Width = 68
+        Width = 71
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel7'
         ShowCaption = False
         TabOrder = 2
         object Label5: TLabel
-          Left = 0
-          Top = 0
-          Width = 68
-          Height = 70
-          Align = alClient
-          Alignment = taCenter
-          Caption = #1055#1088#1086#1082#1072#1090
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -19
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          OnMouseMove = Label5MouseMove
-          OnMouseLeave = Label5MouseLeave
-          ExplicitHeight = 22
-        end
-      end
-      object Panel8: TPanel
-        Left = 433
-        Top = 0
-        Width = 71
-        Height = 70
-        BevelOuter = bvNone
-        Caption = 'Panel8'
-        ShowCaption = False
-        TabOrder = 3
-        object Label6: TLabel
           Left = 0
           Top = 0
           Width = 71
@@ -211,9 +182,8 @@ object Form1: TForm1
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
-          OnClick = Label6Click
-          OnMouseMove = Label6MouseMove
-          OnMouseLeave = Label6MouseLeave
+          OnMouseMove = Label5MouseMove
+          OnMouseLeave = Label5MouseLeave
           ExplicitHeight = 22
         end
       end
@@ -225,7 +195,7 @@ object Form1: TForm1
         BevelOuter = bvNone
         Caption = 'Panel3'
         ShowCaption = False
-        TabOrder = 4
+        TabOrder = 3
         object Label2: TLabel
           Left = 0
           Top = 0
@@ -277,8 +247,6 @@ object Form1: TForm1
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitLeft = -5
-    ExplicitTop = 73
     object Image1: TImage
       Left = 20
       Top = 23

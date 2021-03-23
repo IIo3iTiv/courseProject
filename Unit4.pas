@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.Win.ADODB, Data.DB, Vcl.Dialogs,
-  Vcl.ExtDlgs;
+  Vcl.ExtDlgs, Vcl.ExtCtrls;
 
 type
   TDataModule4 = class(TDataModule)

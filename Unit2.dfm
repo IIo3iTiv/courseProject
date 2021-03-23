@@ -29,8 +29,6 @@ object Form2: TForm2
     Color = clMaroon
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 1
-    ExplicitTop = -3
     object Shape1: TShape
       Left = 324
       Top = -79
@@ -62,9 +60,9 @@ object Form2: TForm2
       ShowCaption = False
       TabOrder = 0
       object Label1: TLabel
-        Left = 62
+        Left = 0
         Top = 0
-        Width = 267
+        Width = 329
         Height = 70
         Align = alClient
         Alignment = taRightJustify
@@ -80,26 +78,34 @@ object Form2: TForm2
         ExplicitWidth = 166
         ExplicitHeight = 52
       end
-      object Label9: TLabel
-        Left = 0
-        Top = 0
-        Width = 62
-        Height = 70
-        Align = alLeft
-        Alignment = taCenter
-        Caption = #1053#1072#1079#1072#1076
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clCream
-        Font.Height = -21
-        Font.Name = 'Magneto'
-        Font.Style = []
-        ParentFont = False
-        Layout = tlCenter
-        OnClick = Label9Click
-        OnMouseDown = Label9MouseDown
-        OnMouseMove = Label9MouseMove
-        OnMouseLeave = Label9MouseLeave
-        ExplicitHeight = 25
+      object Image2: TImage
+        Left = 8
+        Top = -60
+        Width = 50
+        Height = 50
+      end
+      object Panel6: TPanel
+        Left = 10
+        Top = 10
+        Width = 50
+        Height = 50
+        BevelOuter = bvNone
+        Caption = 'Panel6'
+        ShowCaption = False
+        TabOrder = 0
+        object Image1: TImage
+          Left = 0
+          Top = 0
+          Width = 50
+          Height = 50
+          Align = alClient
+          Center = True
+          Proportional = True
+          OnClick = Image1Click
+          OnMouseLeave = Image1MouseLeave
+          OnMouseMove = Image1MouseMove
+          ExplicitTop = -9
+        end
       end
     end
     object Panel2: TPanel
@@ -117,42 +123,15 @@ object Form2: TForm2
       ParentBackground = False
       ShowCaption = False
       TabOrder = 1
-      object Panel6: TPanel
-        Left = 232
-        Top = 0
-        Width = 83
-        Height = 70
-        BevelOuter = bvNone
-        Caption = 'Panel6'
-        ShowCaption = False
-        TabOrder = 0
-        object Label4: TLabel
-          Left = 0
-          Top = 0
-          Width = 83
-          Height = 70
-          Align = alClient
-          Alignment = taCenter
-          Caption = #1050#1083#1080#1077#1085#1090#1099
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -19
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          ExplicitHeight = 22
-        end
-      end
       object Panel5: TPanel
-        Left = 98
+        Left = 105
         Top = 0
         Width = 109
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel5'
         ShowCaption = False
-        TabOrder = 1
+        TabOrder = 0
         object Label3: TLabel
           Left = 0
           Top = 0
@@ -168,19 +147,22 @@ object Form2: TForm2
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnMouseDown = Label3MouseDown
+          OnMouseMove = Label3MouseMove
+          OnMouseLeave = Label3MouseLeave
           ExplicitWidth = 110
           ExplicitHeight = 22
         end
       end
       object Panel7: TPanel
-        Left = 340
+        Left = 239
         Top = 0
         Width = 68
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel7'
         ShowCaption = False
-        TabOrder = 2
+        TabOrder = 1
         object Label5: TLabel
           Left = 0
           Top = 0
@@ -196,18 +178,21 @@ object Form2: TForm2
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnMouseDown = Label5MouseDown
+          OnMouseMove = Label5MouseMove
+          OnMouseLeave = Label5MouseLeave
           ExplicitHeight = 22
         end
       end
       object Panel8: TPanel
-        Left = 433
+        Left = 332
         Top = 0
         Width = 71
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel8'
         ShowCaption = False
-        TabOrder = 3
+        TabOrder = 2
         object Label6: TLabel
           Left = 0
           Top = 0
@@ -223,26 +208,29 @@ object Form2: TForm2
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnMouseDown = Label6MouseDown
+          OnMouseMove = Label6MouseMove
+          OnMouseLeave = Label6MouseLeave
           ExplicitHeight = 22
         end
       end
       object Panel3: TPanel
         Left = 0
         Top = 0
-        Width = 73
+        Width = 80
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel3'
         ShowCaption = False
-        TabOrder = 4
+        TabOrder = 3
         object Label2: TLabel
           Left = 0
           Top = 0
-          Width = 73
+          Width = 80
           Height = 70
           Align = alClient
           Alignment = taCenter
-          Caption = #1040#1082#1090#1105#1088#1099
+          Caption = #1060#1080#1083#1100#1084#1099
           Font.Charset = ANSI_CHARSET
           Font.Color = clCream
           Font.Height = -19
@@ -251,6 +239,9 @@ object Form2: TForm2
           ParentFont = False
           Transparent = True
           Layout = tlCenter
+          OnMouseDown = Label2MouseDown
+          OnMouseMove = Label2MouseMove
+          OnMouseLeave = Label2MouseLeave
           ExplicitHeight = 24
         end
       end
@@ -283,8 +274,6 @@ object Form2: TForm2
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitLeft = -5
-    ExplicitTop = 64
   end
   object Panel14: TPanel
     Left = 0
@@ -300,8 +289,6 @@ object Form2: TForm2
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
-    ExplicitLeft = -10
-    ExplicitTop = 737
     object Panel51: TPanel
       Left = 0
       Top = 0
@@ -310,6 +297,8 @@ object Form2: TForm2
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel51'
+      Color = clSkyBlue
+      ParentBackground = False
       ShowCaption = False
       TabOrder = 0
       object Panel55: TPanel
@@ -340,12 +329,15 @@ object Form2: TForm2
             Alignment = taCenter
             Caption = '<<'
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -32
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnMouseDown = Label14MouseDown
+            OnMouseMove = Label14MouseMove
+            OnMouseLeave = Label14MouseLeave
             ExplicitWidth = 38
             ExplicitHeight = 37
           end
@@ -368,12 +360,15 @@ object Form2: TForm2
             Alignment = taCenter
             Caption = '<'
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -32
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnMouseDown = Label15MouseDown
+            OnMouseMove = Label15MouseMove
+            OnMouseLeave = Label15MouseLeave
             ExplicitWidth = 19
             ExplicitHeight = 37
           end
@@ -396,12 +391,15 @@ object Form2: TForm2
             Alignment = taCenter
             Caption = '>'
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -32
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnMouseDown = Label41MouseDown
+            OnMouseMove = Label41MouseMove
+            OnMouseLeave = Label41MouseLeave
             ExplicitWidth = 19
             ExplicitHeight = 37
           end
@@ -424,31 +422,35 @@ object Form2: TForm2
             Alignment = taCenter
             Caption = '>>'
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -32
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnMouseDown = Label17MouseDown
+            OnMouseMove = Label17MouseMove
+            OnMouseLeave = Label17MouseLeave
             ExplicitWidth = 38
             ExplicitHeight = 37
           end
         end
       end
       object Panel56: TPanel
-        Left = 394
+        Left = 437
         Top = 0
-        Width = 600
+        Width = 557
         Height = 50
         Align = alRight
         BevelOuter = bvNone
         Caption = 'Panel56'
         ShowCaption = False
         TabOrder = 1
+        ExplicitLeft = 440
         object Panel54: TPanel
-          Left = 450
+          Left = 435
           Top = 0
-          Width = 150
+          Width = 97
           Height = 50
           BevelOuter = bvNone
           Caption = 'Panel54'
@@ -463,26 +465,28 @@ object Form2: TForm2
           object Label45: TLabel
             Left = 0
             Top = 0
-            Width = 150
+            Width = 97
             Height = 50
             Align = alClient
             Alignment = taCenter
             Caption = #1059#1076#1072#1083#1080#1090#1100
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -24
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
-            ExplicitWidth = 97
+            OnMouseDown = Label45MouseDown
+            OnMouseMove = Label45MouseMove
+            OnMouseLeave = Label45MouseLeave
             ExplicitHeight = 29
           end
         end
         object Panel53: TPanel
-          Left = 150
+          Left = 141
           Top = 0
-          Width = 150
+          Width = 128
           Height = 50
           BevelOuter = bvNone
           Caption = 'Panel53'
@@ -491,26 +495,28 @@ object Form2: TForm2
           object Label44: TLabel
             Left = 0
             Top = 0
-            Width = 150
+            Width = 128
             Height = 50
             Align = alClient
             Alignment = taCenter
             Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -24
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
-            ExplicitWidth = 128
+            OnMouseDown = Label44MouseDown
+            OnMouseMove = Label44MouseMove
+            OnMouseLeave = Label44MouseLeave
             ExplicitHeight = 29
           end
         end
         object Panel52: TPanel
-          Left = 300
+          Left = 294
           Top = 0
-          Width = 150
+          Width = 116
           Height = 50
           BevelOuter = bvNone
           Caption = 'Panel52'
@@ -519,26 +525,28 @@ object Form2: TForm2
           object Label43: TLabel
             Left = 0
             Top = 0
-            Width = 150
+            Width = 116
             Height = 50
             Align = alClient
             Alignment = taCenter
             Caption = #1044#1086#1073#1072#1074#1080#1090#1100
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -24
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
-            ExplicitWidth = 116
+            OnMouseDown = Label43MouseDown
+            OnMouseMove = Label43MouseMove
+            OnMouseLeave = Label43MouseLeave
             ExplicitHeight = 29
           end
         end
         object Panel9: TPanel
           Left = 0
           Top = 0
-          Width = 150
+          Width = 116
           Height = 50
           BevelOuter = bvNone
           Caption = 'Panel9'
@@ -547,19 +555,21 @@ object Form2: TForm2
           object Label7: TLabel
             Left = 0
             Top = 0
-            Width = 150
+            Width = 116
             Height = 50
             Align = alClient
             Alignment = taCenter
             Caption = #1048#1079#1084#1077#1085#1080#1090#1100
             Font.Charset = RUSSIAN_CHARSET
-            Font.Color = clWindowText
+            Font.Color = clCream
             Font.Height = -24
             Font.Name = 'Magneto'
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
-            ExplicitWidth = 116
+            OnMouseDown = Label7MouseDown
+            OnMouseMove = Label7MouseMove
+            OnMouseLeave = Label7MouseLeave
             ExplicitHeight = 29
           end
         end
@@ -573,6 +583,7 @@ object Form2: TForm2
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel46'
+      ParentBackground = False
       ShowCaption = False
       TabOrder = 1
       object Shape7: TShape
@@ -583,10 +594,11 @@ object Form2: TForm2
         Margins.Left = 0
         Margins.Right = 0
         Align = alClient
-        Pen.Color = clCream
-        Pen.Width = 3
-        ExplicitLeft = 8
-        ExplicitTop = 44
+        Brush.Color = clMaroon
+        Pen.Color = clBlue
+        Pen.Style = psClear
+        Pen.Width = 0
+        ExplicitWidth = 222222
       end
       object Label42: TLabel
         Left = 0
@@ -595,15 +607,15 @@ object Form2: TForm2
         Height = 40
         Align = alClient
         Caption = '  '#1050#1086#1084#1084#1077#1085#1090#1072#1088#1080#1081' '#1082' '#1076#1077#1081#1089#1090#1074#1080#1102
-        Font.Charset = RUSSIAN_CHARSET
-        Font.Color = clBlack
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clCream
         Font.Height = -19
         Font.Name = 'Magneto'
-        Font.Style = [fsBold]
+        Font.Style = []
         ParentFont = False
         Layout = tlCenter
-        ExplicitWidth = 253
-        ExplicitHeight = 22
+        ExplicitLeft = 40
+        ExplicitTop = 16
       end
     end
   end
@@ -1229,7 +1241,7 @@ object Form2: TForm2
   object Timer1: TTimer
     Interval = 10
     OnTimer = Timer1Timer
-    Left = 964
-    Top = 670
+    Left = 963
+    Top = 675
   end
 end
