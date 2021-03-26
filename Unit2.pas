@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes,
-  Vcl.Buttons, PNGImage;
+  Vcl.Buttons, PNGImage, Vcl.DBCtrls;
 
 type
   TForm2 = class(TForm)
@@ -50,38 +50,9 @@ type
     Label42: TLabel;
     Panel15: TPanel;
     Panel19: TPanel;
-    Shape3: TShape;
-    Panel28: TPanel;
-    Label29: TLabel;
-    Panel29: TPanel;
-    Label30: TLabel;
-    Panel30: TPanel;
-    Label31: TLabel;
-    Panel31: TPanel;
-    Label32: TLabel;
-    Edit1: TEdit;
-    Panel32: TPanel;
-    Label33: TLabel;
-    Edit2: TEdit;
-    Panel33: TPanel;
-    Label34: TLabel;
-    Panel34: TPanel;
-    Label35: TLabel;
-    Edit3: TEdit;
-    Panel35: TPanel;
-    Label36: TLabel;
-    Edit4: TEdit;
-    Panel37: TPanel;
-    Shape5: TShape;
-    Label38: TLabel;
-    Panel58: TPanel;
-    Edit13: TEdit;
-    Panel59: TPanel;
-    Edit14: TEdit;
     Panel20: TPanel;
     Shape2: TShape;
     Panel21: TPanel;
-    Label22: TLabel;
     Panel23: TPanel;
     Label23: TLabel;
     Panel24: TPanel;
@@ -92,21 +63,45 @@ type
     Label27: TLabel;
     Panel27: TPanel;
     Label28: TLabel;
-    Image1: TImage;
     Timer1: TTimer;
     Image2: TImage;
     Panel6: TPanel;
+    Image3: TImage;
+    Panel10: TPanel;
+    Label4: TLabel;
+    Edit5: TEdit;
+    Panel11: TPanel;
+    Label8: TLabel;
+    Edit6: TEdit;
+    Panel12: TPanel;
+    Label9: TLabel;
+    Edit7: TEdit;
+    Panel16: TPanel;
+    Label10: TLabel;
+    ListBox1: TListBox;
+    Panel17: TPanel;
+    Label12: TLabel;
+    DBLookupComboBox1: TDBLookupComboBox;
+    Panel18: TPanel;
+    Label13: TLabel;
+    Edit1: TEdit;
+    Panel22: TPanel;
+    Label16: TLabel;
+    Panel28: TPanel;
+    ComboBox1: TComboBox;
+    Edit2: TEdit;
+    Panel37: TPanel;
+    Shape5: TShape;
+    Label38: TLabel;
+    Shape3: TShape;
+    Label22: TLabel;
+    Button1: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure Shape2MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure Label9Click(Sender: TObject);
-    procedure Label38MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label38MouseLeave(Sender: TObject);
-    procedure Label38MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure Label22Click(Sender: TObject);
     procedure Label23Click(Sender: TObject);
     procedure Label25Click(Sender: TObject);
@@ -173,13 +168,29 @@ type
     procedure Label6MouseLeave(Sender: TObject);
     procedure Label6MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
+    procedure Label2Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
+    procedure Label38MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
-    procedure Image1MouseLeave(Sender: TObject);
+    procedure Label38MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Label38MouseLeave(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure Label17Click(Sender: TObject);
+    procedure Label41Click(Sender: TObject);
+    procedure Edit5Enter(Sender: TObject);
+    procedure Edit6Enter(Sender: TObject);
+    procedure Edit7Enter(Sender: TObject);
+    procedure ListBox1DrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure ListBox1Enter(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
     procedure Image1Click(Sender: TObject);
   private
 
+    procedure setViewMode;
     procedure showFilter;
+    procedure setEditMode;
     { Private declarations }
   public
     { Public declarations }
@@ -187,13 +198,13 @@ type
 
 var
   Form2: TForm2;
-  filter: boolean;
+  filter, editMode: boolean;
 
 implementation
 
 {$R *.dfm}
 
-uses Unit1;
+uses Unit1, Unit3, Unit4;
 
 procedure TForm2.showFilter;
 begin
@@ -209,10 +220,40 @@ begin
     Panel15.Left := Panel15.Left - 5;
 end;
 
+procedure TForm2.Edit5Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm2.Edit6Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm2.Edit7Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm2.FormActivate(Sender: TObject);
+begin
+  editMode := false;
+  setViewMode;
+  Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+end;
+
 procedure TForm2.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
    Form1.Show;
-   Form2.Hide;
 end;
 
 procedure TForm2.FormCreate(Sender: TObject);
@@ -223,10 +264,10 @@ begin
   Panel1.Color := RGB(248, 16, 77);
   Shape1.Brush.Color := RGB(40, 31, 85);
   Panel2.Color := RGB(40, 31, 85);
-  Image1.Picture.LoadFromFile('img/app/back1.png');
 
   // Серцевина
   Panel13.Color := RGB(26, 20, 59);
+  ListBox1.Color := RGB(26, 20, 59);
 
   // Нижняя
   Panel51.Color := RGB(40, 31, 85);
@@ -244,30 +285,80 @@ begin
   Shape2.Pen.Color := RGB(13, 156, 50);
   Shape3.Brush.Color := RGB(26, 20, 59);
   Shape2.Brush.Color := RGB(26, 20, 59);
-  Edit13.Color := RGB(26, 20, 59);
-  Edit14.Color := RGB(26, 20, 59);
   Edit1.Color := RGB(26, 20, 59);
-  Edit2.Color := RGB(26, 20, 59);
-  Edit3.Color := RGB(26, 20, 59);
-  Edit4.Color := RGB(26, 20, 59);
+  Label38.Font.Color := RGB(13, 156, 50);
   Shape5.Pen.Color := RGB(13, 156, 50);
+  DBLookupComboBox1.Color := RGB(26, 20, 59);
+  ComboBox1.Color := RGB(26, 20, 59);
+  Edit2.Color := RGB(26, 20, 59);
+end;
+
+procedure TForm2.setViewMode;
+begin
+  editMode := false;
+
+  Edit5.Color := RGB(26, 20, 59);
+  Edit5.BorderStyle := bsNone;
+  Edit5.Font.Color := clCream;
+  Edit5.ReadOnly := true;
+  Edit5.Cursor := crArrow;
+  Edit5.Align := alNone;
+  Edit5.Top := 8;
+
+  Edit6.Color := RGB(26, 20, 59);
+  Edit6.BorderStyle := bsNone;
+  Edit6.Font.Color := clCream;
+  Edit6.ReadOnly := true;
+  Edit6.Cursor := crArrow;
+  Edit6.Align := alNone;
+  Edit6.Top := 8;
+
+  Edit7.Color := RGB(26, 20, 59);
+  Edit7.BorderStyle := bsNone;
+  Edit7.Font.Color := clCream;
+  Edit7.ReadOnly := true;
+  Edit7.Cursor := crArrow;
+  Edit7.Align := alNone;
+  Edit7.Top := 8;
+
+end;
+
+procedure TForm2.setEditMode;
+begin
+  editMode := true;
+
+  Edit5.Color := clCream;
+  Edit5.BorderStyle := bsSingle;
+  Edit5.Font.Color := clWindowText;
+  Edit5.ReadOnly := false;
+  Edit5.Cursor := crDefault;
+  Edit5.Align := alClient;
+  Edit5.Top := 3;
+
+  Edit6.Color := clCream;
+  Edit6.BorderStyle := bsSingle;
+  Edit6.Font.Color := clWindowText;
+  Edit6.ReadOnly := false;
+  Edit6.Cursor := crDefault;
+  Edit6.Align := alClient;
+  Edit6.Top := 3;
+
+  Edit7.Color := clCream;
+  Edit7.BorderStyle := bsSingle;
+  Edit7.Font.Color := clWindowText;
+  Edit7.ReadOnly := false;
+  Edit7.Cursor := crDefault;
+  Edit7.Align := alClient;
+  Edit7.Top := 3;
+
+  ListBox1.ClearSelection;
+
 end;
 
 procedure TForm2.Image1Click(Sender: TObject);
 begin
-  Form1.Show;
   Form2.Hide;
-end;
-
-procedure TForm2.Image1MouseLeave(Sender: TObject);
-begin
-  Image1.Picture.LoadFromFile('img/app/back1.png');
-end;
-
-procedure TForm2.Image1MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Image1.Picture.LoadFromFile('img/app/back2.png');
+  Form1.Show;
 end;
 
 procedure TForm2.Label14MouseDown(Sender: TObject; Button: TMouseButton;
@@ -302,6 +393,11 @@ procedure TForm2.Label15MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label15.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm2.Label17Click(Sender: TObject);
+begin
+  setViewMode;
 end;
 
 procedure TForm2.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -351,6 +447,12 @@ begin
   showFilter;
 end;
 
+procedure TForm2.Label2Click(Sender: TObject);
+begin
+  Form2.Hide;
+  Form1.Show;
+end;
+
 procedure TForm2.Label2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -368,24 +470,10 @@ begin
   Label2.Font.Color := RGB(248, 16, 77);
 end;
 
-procedure TForm2.Label38MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TForm2.Label3Click(Sender: TObject);
 begin
-  Label38.Font.Color := RGB(230, 230, 230);
-  Shape5.Pen.Color := RGB(210, 17, 77);
-end;
-
-procedure TForm2.Label38MouseLeave(Sender: TObject);
-begin
-  Label38.Font.Color := RGB(13, 156, 50);
-  Shape5.Pen.Color := RGB(13, 156, 50);
-end;
-
-procedure TForm2.Label38MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Label38.Font.Color := clCream;
-  Shape5.Pen.Color := RGB(248, 16, 77);
+  Form2.Hide;
+  Form3.Show;
 end;
 
 procedure TForm2.Label3MouseDown(Sender: TObject; Button: TMouseButton;
@@ -403,6 +491,11 @@ procedure TForm2.Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label3.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm2.Label41Click(Sender: TObject);
+begin
+  setEditMode;
 end;
 
 procedure TForm2.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -529,10 +622,65 @@ begin
    Form1.Show;
 end;
 
+procedure TForm2.ListBox1Click(Sender: TObject);
+begin
+  Button1.SetFocus;
+end;
+
+procedure TForm2.ListBox1DrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+var BackColor, FontColor : tColor;
+    Offset: Integer;
+begin
+  if odSelected in State then begin
+    BackColor := RGB(248, 16, 77);
+    FontColor := clCream;
+  end else begin
+    BackColor := RGB(26, 20, 59);
+    FontColor := clCream;
+  end;
+
+  With ListBox1.Canvas do begin
+    Brush.Color := BackColor;
+    FillRect(rect);
+    Font.Color := FontColor;
+    Offset := Round(Rect.Right / 2 - TextWidth((Control as TListBox).Items[Index])/2 );
+    TextOut( Offset, Rect.Top + 2, (Control as TListBox).Items[Index]  );
+  end;
+end;
+
+procedure TForm2.ListBox1Enter(Sender: TObject);
+begin
+  if editMode then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
 procedure TForm2.Shape2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   showFilter;
+end;
+
+procedure TForm2.Label38MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label38.Font.Color := clCream;
+  Shape5.Pen.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm2.Label38MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label38.Font.Color := RGB(230, 230, 230);
+  Shape5.Pen.Color := RGB(210, 17, 77);
+end;
+
+procedure TForm2.Label38MouseLeave(Sender: TObject);
+begin
+  Label38.Font.Color := RGB(13, 156, 50);
+  Shape5.Pen.Color := RGB(13, 156, 50);
 end;
 
 end.

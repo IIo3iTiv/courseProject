@@ -260,6 +260,8 @@ type
     procedure Edit3KeyPress(Sender: TObject; var Key: Char);
     procedure Edit4KeyPress(Sender: TObject; var Key: Char);
     procedure Edit13Change(Sender: TObject);
+    procedure ListBox2Click(Sender: TObject);
+    procedure Label4Click(Sender: TObject);
 
   private
 
@@ -294,7 +296,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, Unit3, Unit4;
+uses Unit2, Unit3, Unit4, Unit6, Unit5;
 
 procedure TForm1.showFilter();
 begin
@@ -1118,6 +1120,12 @@ begin
   Form1.Label45.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm1.Label4Click(Sender: TObject);
+begin
+  Form1.Hide;
+  Form5.Show;
+end;
+
 procedure TForm1.Label4MouseLeave(Sender: TObject);
 begin
   Form1.Label4.Font.Color := clCream;
@@ -1183,7 +1191,7 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
-  //ShowMessage(IntToStr(idActors[ListBox1.ItemIndex]));
+  Form1.Button4.SetFocus;
 end;
 
 procedure TForm1.ListBox1DrawItem(Control: TWinControl; Index: Integer;
@@ -1212,6 +1220,11 @@ begin
     begin
       Form1.Button4.SetFocus;
     end;
+end;
+
+procedure TForm1.ListBox2Click(Sender: TObject);
+begin
+  Form1.Button4.SetFocus;
 end;
 
 procedure TForm1.ListBox2DrawItem(Control: TWinControl; Index: Integer;
