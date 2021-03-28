@@ -762,7 +762,6 @@ begin
   uploadData;
   newRecord := false;
   saveRecord := false;
-  filtr := '';
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);

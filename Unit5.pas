@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes,
-  Vcl.Buttons, PNGImage, Vcl.DBCtrls;
+  Vcl.Buttons, PNGImage, Vcl.DBCtrls, Vcl.Mask, DateUtils;
 
 type
   TForm5 = class(TForm)
@@ -50,8 +50,6 @@ type
     Image3: TImage;
     Button1: TButton;
     Shape1: TShape;
-    Panel7: TPanel;
-    Label5: TLabel;
     Panel10: TPanel;
     ComboBox2: TComboBox;
     Panel11: TPanel;
@@ -60,10 +58,6 @@ type
     Label4: TLabel;
     Panel16: TPanel;
     Panel29: TPanel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Edit3: TEdit;
-    Edit4: TEdit;
     Panel30: TPanel;
     Label10: TLabel;
     Edit5: TEdit;
@@ -77,13 +71,12 @@ type
     Shape6: TShape;
     Label39: TLabel;
     Image1: TImage;
-    Panel15: TPanel;
-    Label12: TLabel;
     Panel17: TPanel;
     Panel18: TPanel;
+    MaskEdit1: TMaskEdit;
+    MaskEdit2: TMaskEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
     procedure Shape2MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure Label9Click(Sender: TObject);
@@ -163,11 +156,31 @@ type
     procedure Edit4Enter(Sender: TObject);
     procedure ComboBox2Enter(Sender: TObject);
     procedure ComboBox3Enter(Sender: TObject);
+    procedure Label15Click(Sender: TObject);
+    procedure Label14Click(Sender: TObject);
+    procedure ComboBox2DrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure Label7Click(Sender: TObject);
+    procedure ComboBox3DrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure MaskEdit1Enter(Sender: TObject);
+    procedure MaskEdit2Enter(Sender: TObject);
+    procedure MaskEdit1KeyPress(Sender: TObject; var Key: Char);
+    procedure MaskEdit2KeyPress(Sender: TObject; var Key: Char);
+    procedure Label39Click(Sender: TObject);
+    procedure MaskEdit2Change(Sender: TObject);
+    procedure MaskEdit1Change(Sender: TObject);
+    procedure Label44Click(Sender: TObject);
   private
 
     procedure setViewMode;
     procedure showFilter;
     procedure setEditMode;
+    procedure addRecord;      // Добавить запись
+    procedure delRecord;      // Удалить запись
+    procedure savRecord;      // Сохранить запись
+    procedure chnRecord;      // Изменить запись
+    procedure uploadData;    // Загрузить данные
     { Private declarations }
   public
     { Public declarations }
@@ -175,7 +188,9 @@ type
 
 var
   Form5: TForm5;
-  filter, editMode: boolean;
+  filter, editMode, retDisk, newRecord: boolean;
+  idMovie: Integer;
+  idClient: Integer;
 
 implementation
 
@@ -188,23 +203,34 @@ begin
    filter := not(filter);
 end;
 
-procedure TForm5.Timer1Timer(Sender: TObject);
-begin
-  if (filter) and (Panel15.Left < 955) then
-    Panel15.Left := Panel15.Left + 5;
-
-  if (not filter) and (Panel15.Left > 616) then
-    Panel15.Left := Panel15.Left - 5;
-end;
-
 procedure TForm5.ComboBox2Change(Sender: TObject);
 begin
   Button1.SetFocus;
 end;
 
+procedure TForm5.ComboBox2DrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+begin
+  with ComboBox2 do
+  begin
+    if odSelected in State then
+    begin
+      Canvas.Brush.Color := RGB(214, 16, 77);
+    end
+    else
+    begin
+      Canvas.Brush.Color := RGB(26, 20, 59);
+    end;
+    Canvas.FillRect(Rect);
+
+    Canvas.TextOut(Rect.Left + 5, Rect.Top + 3, Items[Index]);
+    if odFocused in State then Canvas.DrawFocusRect(Rect);
+  end;
+end;
+
 procedure TForm5.ComboBox2Enter(Sender: TObject);
 begin
-  if Not(editMode) then
+  if Not(newRecord) then
   begin
     Button1.SetFocus;
   end;
@@ -215,9 +241,29 @@ begin
   Button1.SetFocus;
 end;
 
+procedure TForm5.ComboBox3DrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+begin
+  with ComboBox3 do
+  begin
+    if odSelected in State then
+    begin
+      Canvas.Brush.Color := RGB(214, 16, 77);
+    end
+    else
+    begin
+      Canvas.Brush.Color := RGB(26, 20, 59);
+    end;
+    Canvas.FillRect(Rect);
+
+    Canvas.TextOut(Rect.Left + 5, Rect.Top + 3, Items[Index]);
+    if odFocused in State then Canvas.DrawFocusRect(Rect);
+  end;
+end;
+
 procedure TForm5.ComboBox3Enter(Sender: TObject);
 begin
-  if Not(editMode) then
+  if Not(newRecord) then
   begin
     Button1.SetFocus;
   end;
@@ -241,34 +287,26 @@ end;
 
 procedure TForm5.Edit5Enter(Sender: TObject);
 begin
-  if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
+  Button1.SetFocus;
 end;
 
 procedure TForm5.Edit6Enter(Sender: TObject);
 begin
-  if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
+  Button1.SetFocus;
 end;
 
 procedure TForm5.Edit7Enter(Sender: TObject);
 begin
-  if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
+  Button1.SetFocus;
 end;
 
 procedure TForm5.FormActivate(Sender: TObject);
 begin
   editMode := false;
+  newRecord := false;
   setViewMode;
-  Image1.Picture.LoadFromFile('img/Posters/0.jpg');
-  Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+  DataModule.THire.First;
+  uploadData;
 end;
 
 procedure TForm5.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -301,21 +339,23 @@ procedure TForm5.setViewMode;
 begin
   editMode := false;
 
-  Edit3.Color := RGB(26, 20, 59);
-  Edit3.BorderStyle := bsNone;
-  Edit3.Font.Color := clCream;
-  Edit3.ReadOnly := true;
-  Edit3.Cursor := crArrow;
-  Edit3.Align := alNone;
-  Edit3.Top := 8;
+  MaskEdit1.Color := RGB(26, 20, 59);
+  MaskEdit1.BorderStyle := bsNone;
+  MaskEdit1.Font.Color := clCream;
+  MaskEdit1.ReadOnly := true;
+  MaskEdit1.Cursor := crArrow;
+  MaskEdit1.Align := alNone;
+  MaskEdit1.Top := 8;
+  MaskEdit1.EditMask := '';
 
-  Edit4.Color := RGB(26, 20, 59);
-  Edit4.BorderStyle := bsNone;
-  Edit4.Font.Color := clCream;
-  Edit4.ReadOnly := true;
-  Edit4.Cursor := crArrow;
-  Edit4.Align := alNone;
-  Edit4.Top := 8;
+  MaskEdit2.Color := RGB(26, 20, 59);
+  MaskEdit2.BorderStyle := bsNone;
+  MaskEdit2.Font.Color := clCream;
+  MaskEdit2.ReadOnly := true;
+  MaskEdit2.Cursor := crArrow;
+  MaskEdit2.Align := alNone;
+  MaskEdit2.Top := 8;
+  MaskEdit2.EditMask := '';
 
   Edit5.Color := RGB(26, 20, 59);
   Edit5.BorderStyle := bsNone;
@@ -347,45 +387,25 @@ procedure TForm5.setEditMode;
 begin
   editMode := true;
 
-  Edit3.Color := clCream;
-  Edit3.BorderStyle := bsSingle;
-  Edit3.Font.Color := clWindowText;
-  Edit3.ReadOnly := false;
-  Edit3.Cursor := crDefault;
-  Edit3.Align := alClient;
-  Edit3.Top := 3;
+  MaskEdit1.Color := clCream;
+  MaskEdit1.BorderStyle := bsSingle;
+  MaskEdit1.Font.Color := clWindowText;
+  MaskEdit1.ReadOnly := false;
+  MaskEdit1.Cursor := crDefault;
+  MaskEdit1.Align := alClient;
+  MaskEdit1.Alignment := taCenter;
+  MaskEdit1.Top := 3;
+  MaskEdit1.EditMask := '!00/00/0000';
 
-  Edit4.Color := clCream;
-  Edit4.BorderStyle := bsSingle;
-  Edit4.Font.Color := clWindowText;
-  Edit4.ReadOnly := false;
-  Edit4.Cursor := crDefault;
-  Edit4.Align := alClient;
-  Edit4.Top := 3;
-
-  Edit5.Color := clCream;
-  Edit5.BorderStyle := bsSingle;
-  Edit5.Font.Color := clWindowText;
-  Edit5.ReadOnly := false;
-  Edit5.Cursor := crDefault;
-  Edit5.Align := alClient;
-  Edit5.Top := 3;
-
-  Edit6.Color := clCream;
-  Edit6.BorderStyle := bsSingle;
-  Edit6.Font.Color := clWindowText;
-  Edit6.ReadOnly := false;
-  Edit6.Cursor := crDefault;
-  Edit6.Align := alClient;
-  Edit6.Top := 3;
-
-  Edit7.Color := clCream;
-  Edit7.BorderStyle := bsSingle;
-  Edit7.Font.Color := clWindowText;
-  Edit7.ReadOnly := false;
-  Edit7.Cursor := crDefault;
-  Edit7.Align := alClient;
-  Edit7.Top := 3;
+  MaskEdit2.Color := clCream;
+  MaskEdit2.BorderStyle := bsSingle;
+  MaskEdit2.Font.Color := clWindowText;
+  MaskEdit2.ReadOnly := false;
+  MaskEdit2.Cursor := crDefault;
+  MaskEdit2.Align := alClient;
+  MaskEdit2.Alignment := taCenter;
+  MaskEdit2.Top := 3;
+  MaskEdit2.EditMask := '!00/00/0000';
 
 end;
 
@@ -393,6 +413,23 @@ procedure TForm5.Image1Click(Sender: TObject);
 begin
   Form3.Hide;
   Form1.Show;
+end;
+
+procedure TForm5.Label14Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.THire.First;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.THire.First;
+         uploadData;
+     end;
 end;
 
 procedure TForm5.Label14MouseDown(Sender: TObject; Button: TMouseButton;
@@ -410,6 +447,23 @@ procedure TForm5.Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label14.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm5.Label15Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.THire.Prior;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.THire.Prior;
+         uploadData;
+     end;
 end;
 
 procedure TForm5.Label15MouseDown(Sender: TObject; Button: TMouseButton;
@@ -431,7 +485,19 @@ end;
 
 procedure TForm5.Label17Click(Sender: TObject);
 begin
-  setViewMode;
+   if Not(editMode) then
+     begin
+       DataModule.THire.Last;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.THire.Last;
+         uploadData;
+     end;
 end;
 
 procedure TForm5.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -504,6 +570,27 @@ begin
   Label2.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm5.Label39Click(Sender: TObject);
+begin
+  if editMode then
+  begin
+    if retDisk then
+    begin
+      Label39.Caption := 'Диск отсутствует';
+      Label39.Font.Color := RGB(176, 13, 30);
+      Shape6.Pen.Color := RGB(176, 13, 30);
+      retDisk := Not(retDisk);
+    end
+    else
+    begin
+      Label39.Caption := 'Диск возвращен';
+      Label39.Font.Color := RGB(13, 156, 50);
+      Shape6.Pen.Color := RGB(13, 156, 50);
+      retDisk := Not(retDisk);
+    end;
+  end;
+end;
+
 procedure TForm5.Label3Click(Sender: TObject);
 begin
   Form5.Hide;
@@ -529,7 +616,19 @@ end;
 
 procedure TForm5.Label41Click(Sender: TObject);
 begin
-  setEditMode;
+   if Not(editMode) then
+     begin
+       DataModule.THire.Next;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.THire.Next;
+         uploadData;
+     end;
 end;
 
 procedure TForm5.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -564,6 +663,11 @@ procedure TForm5.Label43MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label43.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm5.Label44Click(Sender: TObject);
+begin
+  savRecord;
 end;
 
 procedure TForm5.Label44MouseDown(Sender: TObject; Button: TMouseButton;
@@ -617,6 +721,11 @@ begin
   Label6.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm5.Label7Click(Sender: TObject);
+begin
+  chnRecord;
+end;
+
 procedure TForm5.Label7MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -639,10 +748,289 @@ begin
    Form1.Show;
 end;
 
+procedure TForm5.MaskEdit1Change(Sender: TObject);
+var days: integer;
+begin
+  if editMode then
+  begin
+    days := DaysBetween(DataModule.THireDateIssue.Value, DataModule.THireDateReturn.Value);
+    Edit7.Text := CurrToStrF(DataModule.THirePledge.Value + DataModule.THirePricePerDay.Value * days, ffCurrency, 0);
+  end;
+end;
+
+procedure TForm5.MaskEdit1Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm5.MaskEdit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    '0' .. '9': ;
+    #8: ;
+    #13: ;
+    else Key := Chr(0);
+  end;
+end;
+
+procedure TForm5.MaskEdit2Change(Sender: TObject);
+var days: integer;
+begin
+  if editMode then
+  begin
+    days := DaysBetween(DataModule.THireDateIssue.Value, DataModule.THireDateReturn.Value);
+    Edit7.Text := CurrToStrF(DataModule.THirePledge.Value + DataModule.THirePricePerDay.Value * days, ffCurrency, 0);
+  end;
+end;
+
+procedure TForm5.MaskEdit2Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm5.MaskEdit2KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    '0' .. '9': ;
+    #8: ;
+    #13: ;
+    else Key := Chr(0);
+  end;
+end;
+
 procedure TForm5.Shape2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   showFilter;
+end;
+
+procedure TForm5.addRecord;      // Добавить запись
+begin
+
+end;
+
+procedure TForm5.delRecord;      // Удалить запись
+begin
+
+end;
+
+procedure TForm5.savRecord;      // Сохранить запись
+var changes: Boolean;
+    btnSel, i: integer;
+    pledge, day, amount: string;
+begin
+
+  changes := false;
+  if editMode then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'UPDATE Hire '
+                                 + 'SET idDisk = :disk '
+                                 + '  , idClient = :client '
+                                 + '  , DateIssue = :issue '
+                                 + '  , DateReturn = :return '
+                                 + '  , Pledge = :pledge '
+                                 + '  , PricePerDay = :day '
+                                 + '  , amountPay = :amount '
+                                 + '  , Return = :return '
+                                 + 'WHERE Id = ' + IntToStr(DataModule.THireId.Value);
+
+    pledge := '';
+    for i := 0 to Length(Edit5.Text) do
+      if Edit5.Text[i] in ['0' .. '9']  then
+        pledge := pledge + Edit5.Text[i];
+
+    day := '';
+    for i := 0 to Length(Edit6.Text) do
+      if Edit6.Text[i] in ['0' .. '9']  then
+        day := day + Edit6.Text[i];
+
+    amount := '';
+    for i := 0 to Length(Edit7.Text) do
+      if Edit7.Text[i] in ['0' .. '9']  then
+        amount := amount + Edit7.Text[i];
+
+    ShowMessage(pledge);
+
+    DataModule.Request.Parameters.ParamByName('disk').Value := IntToStr(idMovie);
+    DataModule.Request.Parameters.ParamByName('client').Value := IntToStr(idClient);
+    DataModule.Request.Parameters.ParamByName('issue').Value := MaskEdit1.Text;
+    DataModule.Request.Parameters.ParamByName('return').Value := MaskEdit2.Text;
+    DataModule.Request.Parameters.ParamByName('pledge').Value := pledge;
+    DataModule.Request.Parameters.ParamByName('day').Value := day;
+    DataModule.Request.Parameters.ParamByName('amount').Value := amount;
+    DataModule.Request.Parameters.ParamByName('return').Value := retDisk;
+
+    if DataModule.THireDateIssue.Value <> StrToDate(MaskEdit1.Text) then changes := true;
+    if DataModule.THireDateReturn.Value <> StrToDate(MaskEdit2.Text) then changes := true;
+    if DataModule.THireReturn.Value <> retDisk then changes := true;
+
+
+    if changes then
+    begin
+      btnSel := MessageDlg('Были внесены изменения. Хотите ли вы их сохранить?', mtConfirmation, mbYesNo, 0);
+      if btnSel = mrYes then
+        DataModule.Request.ExecSQL;
+      DataModule.THire.Refresh;
+    end;
+
+    setViewMode;
+    uploadData;
+
+  end;
+end;
+
+procedure TForm5.chnRecord;      // Изменить запись
+begin
+  setEditMode;
+  uploadData;
+end;
+
+procedure TForm5.uploadData;    // Загрузить данные
+var id: string;
+    date: string;
+begin
+
+  id := IntToStr(DataModule.THireId.Value);
+  idMovie := 0;
+  idClient := 0;
+
+  // Диски
+  if Not(newRecord) then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id '
+                                 + 'FROM Movie AS m '
+                                 + 'INNER JOIN (SELECT idMovie '
+                                 + '            FROM Disk AS d '
+                                 + '            INNER JOIN Hire AS h '
+                                 + '            ON d.Id = h.idDisk '
+                                 + '            WHERE h.Id = ' + id
+                                 + '            ) AS d '
+                                 + 'ON d.idMovie = m.Id ';
+
+    DataModule.Request.Active := true;
+
+    ComboBox2.Clear;
+    ComboBox2.Items.Add(DataModule.Request.Fields[0].AsString);
+    ComboBox2.ItemIndex := 0;
+    idMovie := DataModule.Request.Fields[1].AsInteger;
+
+  end
+  else
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id '
+                                 + 'FROM Movie AS m '
+                                 + 'INNER JOIN Disk AS d '
+                                 + 'ON m.Id = d.idMovie ';
+
+    DataModule.Request.Active := true;
+
+    ComboBox2.Clear;
+    ComboBox2.Items.Add('Выберите диск...');
+    while Not(DataModule.Request.Eof) do
+    begin
+      ComboBox2.Items.Add(DataModule.Request.Fields[0].AsString);
+      DataModule.Request.Next;
+    end;
+    ComboBox2.ItemIndex := 0;
+
+  end;
+
+  // Клиенты
+  if Not(newRecord) then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT c.fullName, c.Id '
+                                 + 'FROM Clients AS c '
+                                 + 'INNER JOIN Hire AS h '
+                                 + 'ON h.idClient = c.Id '
+                                 + 'WHERE h.Id = ' + id;
+
+    DataModule.Request.Active := true;
+
+    ComboBox3.Clear;
+    ComboBox3.Items.Add(DataModule.Request.Fields[0].AsString);
+    ComboBox3.ItemIndex := 0;
+    idClient := DataModule.Request.Fields[1].AsInteger;
+  end
+  else
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT c.fullName '
+                                 + 'FROM Clients AS c ';
+
+    DataModule.Request.Active := true;
+
+    ComboBox3.Clear;
+    ComboBox3.Items.Add('Выберите клиента...');
+    while Not(DataModule.Request.Eof) do
+    begin
+      ComboBox3.Items.Add(DataModule.Request.Fields[0].AsString);
+      DataModule.Request.Next;
+    end;
+    ComboBox3.ItemIndex := 0;
+  end;
+
+  // Картинки
+  Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie) + '.jpg');
+  Image1.Picture.LoadFromFile('img/Clients/' + IntToStr(idClient) + '.jpg');
+
+  // Дата выдачи
+  if Not(editMode) then
+  begin
+    DateTimeToString(date, 'dddddd', DataModule.THireDateIssue.Value);
+    MaskEdit1.Text := 'с ' + date;
+  end
+  else
+  begin
+    DateTimeToString(date, 'ddddd', DataModule.THireDateIssue.Value);
+    MaskEdit1.Text := date;
+  end;
+
+  // Дата сдачи
+  if Not(editMode) then
+  begin
+    DateTimeToString(date, 'dddddd', DataModule.THireDateReturn.Value);
+    MaskEdit2.Text := 'по ' + date;
+  end
+  else
+  begin
+    DateTimeToString(date, 'ddddd', DataModule.THireDateReturn.Value);
+    MaskEdit2.Text := date;
+  end;
+
+  // Залог
+  Edit5.Text := CurrToStrF(DataModule.THirePledge.Value, ffCurrency, 0);
+
+  // Цена проката в день
+  Edit6.Text := CurrToStrF(DataModule.THirePricePerDay.Value, ffCurrency, 0);
+
+  // Сумма к оплате
+  Edit7.Text := CurrToStrF(DataModule.THireamountPay.Value, ffCurrency, 0);
+
+  // Вернули ли диск
+  retDisk := DataModule.THireReturn.Value;
+  if retDisk then
+  begin
+    Label39.Caption := 'Диск возвращен';
+    Label39.Font.Color := RGB(13, 156, 50);
+    Shape6.Pen.Color := RGB(13, 156, 50);
+  end
+  else
+  begin
+    Label39.Caption := 'Диск отсутствует';
+    Label39.Font.Color := RGB(176, 13, 30);
+    Shape6.Pen.Color := RGB(176, 13, 30);
+  end;
+
 end;
 
 end.

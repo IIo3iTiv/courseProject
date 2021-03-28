@@ -2358,7 +2358,7 @@ object Form6: TForm6
     end
     object Panel8: TPanel
       Left = 400
-      Top = 25
+      Top = 100
       Width = 500
       Height = 70
       BevelOuter = bvNone
@@ -2398,14 +2398,11 @@ object Form6: TForm6
         TabOrder = 0
         Text = 'Edit1'
         OnEnter = Edit1Enter
-        ExplicitLeft = 0
-        ExplicitTop = 9
-        ExplicitWidth = 500
       end
     end
     object Panel10: TPanel
       Left = 400
-      Top = 120
+      Top = 195
       Width = 500
       Height = 70
       BevelOuter = bvNone
@@ -2445,14 +2442,11 @@ object Form6: TForm6
         TabOrder = 0
         Text = 'Edit2'
         OnEnter = Edit2Enter
-        ExplicitLeft = 0
-        ExplicitTop = 38
-        ExplicitWidth = 500
       end
     end
     object Panel11: TPanel
       Left = 400
-      Top = 215
+      Top = 290
       Width = 500
       Height = 70
       BevelOuter = bvNone
@@ -2492,9 +2486,6 @@ object Form6: TForm6
         TabOrder = 0
         Text = 'Edit3'
         OnEnter = Edit3Enter
-        ExplicitLeft = 0
-        ExplicitTop = 30
-        ExplicitWidth = 500
       end
     end
   end

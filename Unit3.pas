@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes,
-  Vcl.Buttons, PNGImage, Vcl.DBCtrls;
+  Vcl.Buttons, PNGImage, Vcl.DBCtrls, Vcl.Mask;
 
 type
   TForm3 = class(TForm)
@@ -71,7 +71,6 @@ type
     Edit5: TEdit;
     Panel11: TPanel;
     Label8: TLabel;
-    Edit6: TEdit;
     Panel12: TPanel;
     Label9: TLabel;
     Edit7: TEdit;
@@ -96,6 +95,7 @@ type
     Label22: TLabel;
     Button1: TButton;
     Shape1: TShape;
+    MaskEdit1: TMaskEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -186,11 +186,27 @@ type
     procedure ListBox1Enter(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
     procedure Image1Click(Sender: TObject);
+    procedure MaskEdit1Enter(Sender: TObject);
+    procedure Label15Click(Sender: TObject);
+    procedure Label14Click(Sender: TObject);
+    procedure Label7Click(Sender: TObject);
+    procedure Label44Click(Sender: TObject);
+    procedure Label43Click(Sender: TObject);
+    procedure Label45Click(Sender: TObject);
+    procedure Edit5KeyPress(Sender: TObject; var Key: Char);
+    procedure MaskEdit1KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit7KeyPress(Sender: TObject; var Key: Char);
+    procedure Image3Click(Sender: TObject);
   private
 
     procedure setViewMode;
     procedure showFilter;
     procedure setEditMode;
+    procedure addRecord;      // Добавить запись
+    procedure delRecord;      // Удалить запись
+    procedure savRecord;      // Сохранить запись
+    procedure chnRecord;      // Изменить запись
+    procedure uploadData;    // Загрузить данные
     { Private declarations }
   public
     { Public declarations }
@@ -228,6 +244,19 @@ begin
   end;
 end;
 
+procedure TForm3.Edit5KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    'а' .. 'я': ;
+    'А' .. 'Я': ;
+    #8: ;
+    #13: ;
+    #32: ;
+    #3, #22: ;
+    else Key := Chr(0);
+  end;
+end;
+
 procedure TForm3.Edit6Enter(Sender: TObject);
 begin
   if Not(editMode) then
@@ -244,11 +273,24 @@ begin
   end;
 end;
 
+procedure TForm3.Edit7KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    '0' .. '9': ;
+    #8: ;
+    #13: ;
+    #3, #22: ;
+    else Key := Chr(0);
+  end;
+end;
+
 procedure TForm3.FormActivate(Sender: TObject);
 begin
   editMode := false;
+  newRecord := false;
   setViewMode;
-  Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+  DataModule.TActors.First;
+  uploadData;
 end;
 
 procedure TForm3.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -288,7 +330,6 @@ begin
   Edit1.Color := RGB(26, 20, 59);
   Label38.Font.Color := RGB(13, 156, 50);
   Shape5.Pen.Color := RGB(13, 156, 50);
-  DBLookupComboBox1.Color := RGB(26, 20, 59);
   ComboBox1.Color := RGB(26, 20, 59);
   Edit2.Color := RGB(26, 20, 59);
 end;
@@ -305,13 +346,13 @@ begin
   Edit5.Align := alNone;
   Edit5.Top := 8;
 
-  Edit6.Color := RGB(26, 20, 59);
-  Edit6.BorderStyle := bsNone;
-  Edit6.Font.Color := clCream;
-  Edit6.ReadOnly := true;
-  Edit6.Cursor := crArrow;
-  Edit6.Align := alNone;
-  Edit6.Top := 8;
+  MaskEdit1.Color := RGB(26, 20, 59);
+  MaskEdit1.BorderStyle := bsNone;
+  MaskEdit1.Font.Color := clCream;
+  MaskEdit1.ReadOnly := true;
+  MaskEdit1.Cursor := crArrow;
+  MaskEdit1.Align := alNone;
+  MaskEdit1.Top := 8;
 
   Edit7.Color := RGB(26, 20, 59);
   Edit7.BorderStyle := bsNone;
@@ -320,6 +361,9 @@ begin
   Edit7.Cursor := crArrow;
   Edit7.Align := alNone;
   Edit7.Top := 8;
+
+  Panel15.Visible := true;
+  MaskEdit1.EditMask := '';
 
 end;
 
@@ -335,13 +379,13 @@ begin
   Edit5.Align := alClient;
   Edit5.Top := 3;
 
-  Edit6.Color := clCream;
-  Edit6.BorderStyle := bsSingle;
-  Edit6.Font.Color := clWindowText;
-  Edit6.ReadOnly := false;
-  Edit6.Cursor := crDefault;
-  Edit6.Align := alClient;
-  Edit6.Top := 3;
+  MaskEdit1.Color := clCream;
+  MaskEdit1.BorderStyle := bsSingle;
+  MaskEdit1.Font.Color := clWindowText;
+  MaskEdit1.ReadOnly := false;
+  MaskEdit1.Cursor := crDefault;
+  MaskEdit1.Align := alClient;
+  MaskEdit1.Top := 3;
 
   Edit7.Color := clCream;
   Edit7.BorderStyle := bsSingle;
@@ -352,6 +396,8 @@ begin
   Edit7.Top := 3;
 
   ListBox1.ClearSelection;
+  Panel15.Visible := false;
+  MaskEdit1.EditMask := '!00/00/0000';
 
 end;
 
@@ -359,6 +405,38 @@ procedure TForm3.Image1Click(Sender: TObject);
 begin
   Form3.Hide;
   Form1.Show;
+end;
+
+procedure TForm3.Image3Click(Sender: TObject);
+begin
+  if (editMode) then
+   begin
+     if Not(newRecord) then
+      begin
+        if DataModule.OpenPictureDialog1.Execute then
+         begin
+           CopyFile(PChar(DataModule.OpenPictureDialog1.FileName), PChar('img/Producers/' + IntToStr(DataModule.TProducersId.Value) + '.jpg'), false);
+           Image3.Picture.LoadFromFile('img/Producers/' + IntToStr(DataModule.TProducersId.Value) + '.jpg');
+         end;
+      end;
+   end;
+end;
+
+procedure TForm3.Label14Click(Sender: TObject);
+begin
+  if Not(editMode) then
+     begin
+       DataModule.TProducers.First;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TProducers.First;
+         uploadData;
+     end;
 end;
 
 procedure TForm3.Label14MouseDown(Sender: TObject; Button: TMouseButton;
@@ -376,6 +454,23 @@ procedure TForm3.Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label14.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm3.Label15Click(Sender: TObject);
+begin
+  if Not(editMode) then
+     begin
+       DataModule.TProducers.Prior;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TProducers.Prior;
+         uploadData;
+     end;
 end;
 
 procedure TForm3.Label15MouseDown(Sender: TObject; Button: TMouseButton;
@@ -397,7 +492,19 @@ end;
 
 procedure TForm3.Label17Click(Sender: TObject);
 begin
-  setViewMode;
+  if Not(editMode) then
+     begin
+       DataModule.TProducers.Last;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TProducers.Last;
+         uploadData;
+     end;
 end;
 
 procedure TForm3.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -495,7 +602,19 @@ end;
 
 procedure TForm3.Label41Click(Sender: TObject);
 begin
-  setEditMode;
+  if Not(editMode) then
+     begin
+       DataModule.TProducers.Next;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TProducers.Next;
+         uploadData;
+     end;
 end;
 
 procedure TForm3.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -515,6 +634,11 @@ begin
   Label41.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm3.Label43Click(Sender: TObject);
+begin
+  addRecord;
+end;
+
 procedure TForm3.Label43MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -532,6 +656,11 @@ begin
   Label43.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm3.Label44Click(Sender: TObject);
+begin
+  savRecord;
+end;
+
 procedure TForm3.Label44MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -547,6 +676,14 @@ procedure TForm3.Label44MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label44.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm3.Label45Click(Sender: TObject);
+var btnSel: integer;
+begin
+  btnSel := MessageDlg('Вы действительно хотите удалить текущую запись?', mtConfirmation, mbYesNo, 0);
+  if btnSel = mrYes then
+    delRecord;
 end;
 
 procedure TForm3.Label45MouseDown(Sender: TObject; Button: TMouseButton;
@@ -600,6 +737,11 @@ begin
   Label6.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm3.Label7Click(Sender: TObject);
+begin
+  chnRecord;
+end;
+
 procedure TForm3.Label7MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -629,23 +771,18 @@ end;
 
 procedure TForm3.ListBox1DrawItem(Control: TWinControl; Index: Integer;
   Rect: TRect; State: TOwnerDrawState);
-var BackColor, FontColor : tColor;
-    Offset: Integer;
+var Offset: Integer;
 begin
-  if odSelected in State then begin
-    BackColor := RGB(248, 16, 77);
-    FontColor := clCream;
-  end else begin
-    BackColor := RGB(26, 20, 59);
-    FontColor := clCream;
-  end;
+  with ListBox1.Canvas do begin
+    if odSelected in State then
+      Brush.Color := RGB(248, 16, 77)
+    else
+      Brush.Color := RGB(26, 20, 59);
 
-  With ListBox1.Canvas do begin
-    Brush.Color := BackColor;
-    FillRect(rect);
-    Font.Color := FontColor;
+    FillRect(Rect);
     Offset := Round(Rect.Right / 2 - TextWidth((Control as TListBox).Items[Index])/2 );
-    TextOut( Offset, Rect.Top + 2, (Control as TListBox).Items[Index]  );
+    TextOut( Offset, Rect.Top + 5, (Control as TListBox).Items[Index]  );
+    if odFocused in State then DrawFocusRect(Rect);
   end;
 end;
 
@@ -654,6 +791,24 @@ begin
   if editMode then
   begin
     Button1.SetFocus;
+  end;
+end;
+
+procedure TForm3.MaskEdit1Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm3.MaskEdit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    '0' .. '9': ;
+    #8: ;
+    #13: ;
+    else Key := Chr(0);
   end;
 end;
 
@@ -681,6 +836,130 @@ procedure TForm3.Label38MouseLeave(Sender: TObject);
 begin
   Label38.Font.Color := RGB(13, 156, 50);
   Shape5.Pen.Color := RGB(13, 156, 50);
+end;
+
+procedure TForm3.addRecord;      // Добавить запись
+begin
+  if Not(editMode) then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'INSERT INTO Producers DEFAULT VALUES';
+    DataModule.Request.ExecSQL;
+    DataModule.TProducers.Close;
+    DataModule.TProducers.Open;
+    DataModule.TProducers.Last;
+    setEditMode;
+    uploadData;
+  end;
+end;
+
+procedure TForm3.delRecord;      // Удалить запись
+begin
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM Producers WHERE Id = ' + IntToStr(DataModule.TProducersId.Value);
+  DataModule.Request.ExecSQL;
+  DataModule.TProducers.Close;
+  DataModule.TProducers.Open;
+  setViewMode;
+  uploadData;
+end;
+
+procedure TForm3.savRecord;      // Сохранить запись
+var btnSel: integer;
+begin
+
+  changes := false;
+  if editMode then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'UPDATE Producers SET dateBirth = :date, fullName = :name, countFilms = :count '
+                                 + 'WHERE Id = ' + IntToStr(DataModule.TProducersId.Value);
+
+    DataModule.Request.Parameters.ParamByName('name').Value := Edit5.Text;
+    DataModule.Request.Parameters.ParamByName('date').Value := MaskEdit1.Text;
+    DataModule.Request.Parameters.ParamByName('count').Value := Edit7.Text;
+
+    if DataModule.TProducersfullName.Value <> Edit5.Text then changes := true;
+    if DataModule.TProducersdateBirth.Value <> StrToDateTime(MaskEdit1.Text) then changes := true;
+    if DataModule.TProducerscountFilms.Value <> StrToInt(Edit7.Text) then changes := true;
+
+    if changes then
+    begin
+      btnSel := MessageDlg('Были внесены изменения. Хотите ли вы их сохранить?', mtConfirmation, mbYesNo, 0);
+      if btnSel = mrYes then
+        DataModule.Request.ExecSQL;
+      DataModule.TProducers.Refresh;
+    end;
+
+    setViewMode;
+    uploadData;
+
+  end;
+
+end;
+
+procedure TForm3.chnRecord;      // Изменить запись
+begin
+  editMode := true;
+  setEditMode;
+  uploadData;
+end;
+
+procedure TForm3.uploadData;    // Загрузить данные
+var id, i: integer;
+    date: string;
+begin
+
+  id := DataModule.TProducersId.Value;
+
+  // Фото
+  if FileExists('img/Producers/' + IntToStr(id) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Producers/' + IntToStr(id) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Producers/0.jpg');
+
+  // Актёр
+  Edit5.Text := DataModule.TProducersfullName.Value;
+
+  // Дата рождения
+  if Not(editMode) then
+  begin
+    DateTimeToString(date, 'dddddd', DataModule.TProducersdateBirth.Value);
+    MaskEdit1.Text := date;
+  end
+  else
+  begin
+    DateTimeToString(date, 'ddddd', DataModule.TProducersdateBirth.Value);
+    MaskEdit1.Text := date;
+  end;
+
+  // Количество фильмов
+  Edit7.Text := IntToStr(DataModule.TProducerscountFilms.Value);
+
+  // Фильмы
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id '
+                               + 'FROM Movie AS m '
+                               + 'INNER JOIN (SELECT mp.idMovie '
+                               + '            FROM [Movie - Producers] AS mp '
+                               + '            INNER JOIN Producers AS p '
+                               + '            ON mp.idProducers = p.Id '
+                               + '            WHERE p.Id = ' + IntToStr(id) + ') AS mp '
+                               + 'ON m.Id = mp.idMovie ';
+  DataModule.Request.Active := true;
+
+  i := 0;
+  ListBox1.Clear;
+  while Not(DataModule.Request.Eof) do
+  begin
+    ListBox1.Items.Add(DataModule.Request.Fields[0].AsString);
+    idMovie[i] := DataModule.Request.Fields[1].AsInteger;
+    DataModule.Request.Next;
+    Inc(i);
+  end;
+  ListBox1.Items.Add('Добавить фильмы');
+
+
 end;
 
 end.

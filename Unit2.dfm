@@ -2190,7 +2190,7 @@ object Form2: TForm2
         Font.Style = [fsBold]
         ParentFont = False
         Layout = tlCenter
-        ExplicitLeft = 163
+        ExplicitLeft = 164
         ExplicitWidth = 166
         ExplicitHeight = 52
       end
@@ -2380,12 +2380,13 @@ object Form2: TForm2
     ShowCaption = False
     TabOrder = 1
     object Image3: TImage
-      Left = 20
+      Left = 18
       Top = 25
       Width = 345
       Height = 460
       Center = True
       Proportional = True
+      OnClick = Image3Click
     end
     object Panel10: TPanel
       Left = 400
@@ -2429,6 +2430,7 @@ object Form2: TForm2
         TabOrder = 0
         Text = 'Edit5'
         OnEnter = Edit5Enter
+        OnKeyPress = Edit5KeyPress
         ExplicitHeight = 32
       end
     end
@@ -2458,7 +2460,7 @@ object Form2: TForm2
         Layout = tlCenter
         ExplicitHeight = 24
       end
-      object Edit6: TEdit
+      object MaskEdit1: TMaskEdit
         AlignWithMargins = True
         Left = 174
         Top = 3
@@ -2472,8 +2474,9 @@ object Form2: TForm2
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        Text = 'Edit6'
-        OnEnter = Edit6Enter
+        Text = 'MaskEdit1'
+        OnEnter = MaskEdit1Enter
+        OnKeyPress = MaskEdit1KeyPress
         ExplicitHeight = 32
       end
     end
@@ -2519,6 +2522,7 @@ object Form2: TForm2
         TabOrder = 0
         Text = 'Edit7'
         OnEnter = Edit7Enter
+        OnKeyPress = Edit7KeyPress
         ExplicitHeight = 32
       end
     end
@@ -2550,10 +2554,15 @@ object Form2: TForm2
       end
       object ListBox1: TListBox
         Left = 103
-        Top = 40
+        Top = 35
         Width = 300
         Height = 200
         Style = lbOwnerDrawFixed
+        Font.Charset = RUSSIAN_CHARSET
+        Font.Color = clCream
+        Font.Height = -16
+        Font.Name = 'Magneto'
+        Font.Style = [fsBold]
         ItemHeight = 30
         Items.Strings = (
           #1060#1080#1083#1100#1084
@@ -2563,6 +2572,7 @@ object Form2: TForm2
           #1060#1080#1083#1100#1084
           #1060#1080#1083#1100#1084
           #1060#1080#1083#1100#1084)
+        ParentFont = False
         TabOrder = 0
         OnClick = ListBox1Click
         OnDrawItem = ListBox1DrawItem
@@ -2630,6 +2640,7 @@ object Form2: TForm2
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label14Click
             OnMouseDown = Label14MouseDown
             OnMouseMove = Label14MouseMove
             OnMouseLeave = Label14MouseLeave
@@ -2661,6 +2672,7 @@ object Form2: TForm2
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label15Click
             OnMouseDown = Label15MouseDown
             OnMouseMove = Label15MouseMove
             OnMouseLeave = Label15MouseLeave
@@ -2773,6 +2785,7 @@ object Form2: TForm2
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label45Click
             OnMouseDown = Label45MouseDown
             OnMouseMove = Label45MouseMove
             OnMouseLeave = Label45MouseLeave
@@ -2803,6 +2816,7 @@ object Form2: TForm2
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label44Click
             OnMouseDown = Label44MouseDown
             OnMouseMove = Label44MouseMove
             OnMouseLeave = Label44MouseLeave
@@ -2833,6 +2847,7 @@ object Form2: TForm2
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label43Click
             OnMouseDown = Label43MouseDown
             OnMouseMove = Label43MouseMove
             OnMouseLeave = Label43MouseLeave
@@ -2863,6 +2878,7 @@ object Form2: TForm2
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label7Click
             OnMouseDown = Label7MouseDown
             OnMouseMove = Label7MouseMove
             OnMouseLeave = Label7MouseLeave
@@ -2982,18 +2998,31 @@ object Form2: TForm2
           Layout = tlCenter
           ExplicitWidth = 60
         end
-        object DBLookupComboBox1: TDBLookupComboBox
+        object ComboBox2: TComboBox
           Left = 25
           Top = 30
           Width = 300
           Height = 32
+          Style = csOwnerDrawFixed
           Font.Charset = RUSSIAN_CHARSET
           Font.Color = clCream
           Font.Height = -21
           Font.Name = 'Magneto'
           Font.Style = []
+          ItemHeight = 26
           ParentFont = False
           TabOrder = 0
+          OnChange = ComboBox2Change
+          OnDrawItem = ComboBox2DrawItem
+          Items.Strings = (
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088
+            #1040#1082#1090#1105#1088)
         end
       end
       object Panel18: TPanel
@@ -3076,18 +3105,22 @@ object Form2: TForm2
           object ComboBox1: TComboBox
             Left = 0
             Top = 0
-            Width = 100
+            Width = 120
             Height = 32
             Align = alLeft
+            Style = csOwnerDrawFixed
             Font.Charset = RUSSIAN_CHARSET
             Font.Color = clCream
             Font.Height = -21
             Font.Name = 'Magneto'
             Font.Style = []
+            ItemHeight = 26
             ItemIndex = 0
             ParentFont = False
             TabOrder = 0
             Text = #1041#1086#1083#1100#1096#1077
+            OnChange = ComboBox1Change
+            OnDrawItem = ComboBox1DrawItem
             Items.Strings = (
               #1041#1086#1083#1100#1096#1077
               #1052#1077#1085#1100#1096#1077

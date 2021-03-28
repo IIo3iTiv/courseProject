@@ -35,11 +35,11 @@ object DataModule4: TDataModule4
       FieldName = 'fullName'
       Size = 150
     end
+    object TActorscountFilms: TSmallintField
+      FieldName = 'countFilms'
+    end
     object TActorsDateBirth: TDateTimeField
       FieldName = 'DateBirth'
-    end
-    object TActorsCount: TSmallintField
-      FieldName = 'Count'
     end
   end
   object TCategory: TADOTable
@@ -67,6 +67,7 @@ object DataModule4: TDataModule4
     end
   end
   object TClients: TADOTable
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Filtered = True
@@ -91,6 +92,7 @@ object DataModule4: TDataModule4
     end
   end
   object TCountries: TADOTable
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Filtered = True
@@ -107,6 +109,7 @@ object DataModule4: TDataModule4
     end
   end
   object TDisk: TADOTable
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Filtered = True
@@ -133,6 +136,7 @@ object DataModule4: TDataModule4
     end
   end
   object TGenre: TADOTable
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Filtered = True
@@ -148,6 +152,7 @@ object DataModule4: TDataModule4
     end
   end
   object THire: TADOTable
+    Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
     Filtered = True
@@ -158,11 +163,11 @@ object DataModule4: TDataModule4
       FieldName = 'Id'
       ReadOnly = True
     end
-    object THireDisk_Id: TIntegerField
-      FieldName = 'Disk_Id'
+    object THireidDisk: TIntegerField
+      FieldName = 'idDisk'
     end
-    object THireClients_Id: TIntegerField
-      FieldName = 'Clients_Id'
+    object THireidClient: TIntegerField
+      FieldName = 'idClient'
     end
     object THireDateIssue: TDateTimeField
       FieldName = 'DateIssue'
@@ -178,8 +183,8 @@ object DataModule4: TDataModule4
       FieldName = 'PricePerDay'
       Precision = 19
     end
-    object THireAmountPay: TBCDField
-      FieldName = 'AmountPay'
+    object THireamountPay: TBCDField
+      FieldName = 'amountPay'
       Precision = 19
     end
     object THireReturn: TBooleanField

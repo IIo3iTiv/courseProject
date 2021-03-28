@@ -36,8 +36,6 @@ type
     TMovieageCategory: TIntegerField;
     TActorsId: TAutoIncField;
     TActorsfullName: TWideStringField;
-    TActorsDateBirth: TDateTimeField;
-    TActorsCount: TSmallintField;
     TCategoryId: TAutoIncField;
     TCategoryMPAA: TWideStringField;
     TCategoryClarification: TWideStringField;
@@ -48,22 +46,6 @@ type
     TClientsMobileNumber: TWideStringField;
     TCountriesId: TAutoIncField;
     TCountriesName: TWideStringField;
-    TDiskId: TAutoIncField;
-    TDiskidMovie: TIntegerField;
-    TDiskcountDisks: TSmallintField;
-    TDiskUnitPrice: TBCDField;
-    TDiskpriceDay: TBCDField;
-    TGenreId: TAutoIncField;
-    TGenreName: TWideStringField;
-    THireId: TAutoIncField;
-    THireDisk_Id: TIntegerField;
-    THireClients_Id: TIntegerField;
-    THireDateIssue: TDateTimeField;
-    THireDateReturn: TDateTimeField;
-    THirePledge: TBCDField;
-    THirePricePerDay: TBCDField;
-    THireAmountPay: TBCDField;
-    THireReturn: TBooleanField;
     TMovieActorsId: TAutoIncField;
     TMovieActorsidActors: TIntegerField;
     TMovieActorsidMovie: TIntegerField;
@@ -80,6 +62,24 @@ type
     TProducersfullName: TWideStringField;
     TProducersdateBirth: TDateTimeField;
     TProducerscountFilms: TSmallintField;
+    TActorscountFilms: TSmallintField;
+    TActorsDateBirth: TDateTimeField;
+    TDiskId: TAutoIncField;
+    TDiskidMovie: TIntegerField;
+    TDiskcountDisks: TSmallintField;
+    TDiskUnitPrice: TBCDField;
+    TDiskpriceDay: TBCDField;
+    TGenreId: TAutoIncField;
+    TGenreName: TWideStringField;
+    THireId: TAutoIncField;
+    THireidDisk: TIntegerField;
+    THireidClient: TIntegerField;
+    THireDateIssue: TDateTimeField;
+    THireDateReturn: TDateTimeField;
+    THirePledge: TBCDField;
+    THirePricePerDay: TBCDField;
+    THireamountPay: TBCDField;
+    THireReturn: TBooleanField;
   private
     { Private declarations }
   public

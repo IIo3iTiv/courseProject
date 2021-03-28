@@ -2379,12 +2379,13 @@ object Form3: TForm3
     ShowCaption = False
     TabOrder = 1
     object Image3: TImage
-      Left = 20
+      Left = 18
       Top = 25
       Width = 345
       Height = 460
       Center = True
       Proportional = True
+      OnClick = Image3Click
     end
     object Panel10: TPanel
       Left = 400
@@ -2428,6 +2429,7 @@ object Form3: TForm3
         TabOrder = 0
         Text = 'Edit5'
         OnEnter = Edit5Enter
+        OnKeyPress = Edit5KeyPress
         ExplicitHeight = 32
       end
     end
@@ -2457,7 +2459,7 @@ object Form3: TForm3
         Layout = tlCenter
         ExplicitHeight = 24
       end
-      object Edit6: TEdit
+      object MaskEdit1: TMaskEdit
         AlignWithMargins = True
         Left = 174
         Top = 3
@@ -2471,8 +2473,12 @@ object Form3: TForm3
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        Text = 'Edit6'
-        OnEnter = Edit6Enter
+        Text = 'MaskEdit1'
+        OnEnter = MaskEdit1Enter
+        OnKeyPress = MaskEdit1KeyPress
+        ExplicitLeft = 3
+        ExplicitTop = 73
+        ExplicitWidth = 988
         ExplicitHeight = 32
       end
     end
@@ -2518,6 +2524,7 @@ object Form3: TForm3
         TabOrder = 0
         Text = 'Edit7'
         OnEnter = Edit7Enter
+        OnKeyPress = Edit7KeyPress
         ExplicitHeight = 32
       end
     end
@@ -2553,6 +2560,11 @@ object Form3: TForm3
         Width = 300
         Height = 200
         Style = lbOwnerDrawFixed
+        Font.Charset = RUSSIAN_CHARSET
+        Font.Color = clCream
+        Font.Height = -16
+        Font.Name = 'Magneto'
+        Font.Style = [fsBold]
         ItemHeight = 30
         Items.Strings = (
           #1060#1080#1083#1100#1084
@@ -2562,6 +2574,7 @@ object Form3: TForm3
           #1060#1080#1083#1100#1084
           #1060#1080#1083#1100#1084
           #1060#1080#1083#1100#1084)
+        ParentFont = False
         TabOrder = 0
         OnClick = ListBox1Click
         OnDrawItem = ListBox1DrawItem
@@ -2629,6 +2642,7 @@ object Form3: TForm3
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label14Click
             OnMouseDown = Label14MouseDown
             OnMouseMove = Label14MouseMove
             OnMouseLeave = Label14MouseLeave
@@ -2660,6 +2674,7 @@ object Form3: TForm3
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label15Click
             OnMouseDown = Label15MouseDown
             OnMouseMove = Label15MouseMove
             OnMouseLeave = Label15MouseLeave
@@ -2772,6 +2787,7 @@ object Form3: TForm3
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label45Click
             OnMouseDown = Label45MouseDown
             OnMouseMove = Label45MouseMove
             OnMouseLeave = Label45MouseLeave
@@ -2802,6 +2818,7 @@ object Form3: TForm3
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label44Click
             OnMouseDown = Label44MouseDown
             OnMouseMove = Label44MouseMove
             OnMouseLeave = Label44MouseLeave
@@ -2832,6 +2849,7 @@ object Form3: TForm3
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label43Click
             OnMouseDown = Label43MouseDown
             OnMouseMove = Label43MouseMove
             OnMouseLeave = Label43MouseLeave
@@ -2862,6 +2880,7 @@ object Form3: TForm3
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label7Click
             OnMouseDown = Label7MouseDown
             OnMouseMove = Label7MouseMove
             OnMouseLeave = Label7MouseLeave
