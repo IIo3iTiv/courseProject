@@ -3260,8 +3260,8 @@ object Form1: TForm1
             OnMouseDown = Label45MouseDown
             OnMouseMove = Label45MouseMove
             OnMouseLeave = Label45MouseLeave
-            ExplicitWidth = 97
-            ExplicitHeight = 29
+            ExplicitLeft = 6
+            ExplicitTop = -6
           end
         end
         object Panel53: TPanel

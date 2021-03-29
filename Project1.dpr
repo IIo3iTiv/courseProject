@@ -15,11 +15,11 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm6, Form6);
   Application.CreateForm(TForm5, Form5);
   Application.CreateForm(TForm3, Form3);
   Application.CreateForm(TForm2, Form2);
   Application.CreateForm(TForm7, Form7);
-  Application.CreateForm(TForm6, Form6);
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TDataModule4, DataModule);
   Application.Run;

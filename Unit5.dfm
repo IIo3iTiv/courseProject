@@ -2349,7 +2349,6 @@ object Form5: TForm5
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitHeight = 595
     object Image3: TImage
       Left = 20
       Top = 25
@@ -2474,8 +2473,6 @@ object Form5: TForm5
           Caption = 'Panel17'
           ShowCaption = False
           TabOrder = 0
-          ExplicitLeft = 12
-          ExplicitWidth = 138
           object MaskEdit1: TMaskEdit
             AlignWithMargins = True
             Left = 3
@@ -2517,8 +2514,6 @@ object Form5: TForm5
           Caption = 'Panel18'
           ShowCaption = False
           TabOrder = 0
-          ExplicitLeft = 26
-          ExplicitWidth = 124
           object MaskEdit2: TMaskEdit
             AlignWithMargins = True
             Left = 3
@@ -2738,7 +2733,6 @@ object Form5: TForm5
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
-    ExplicitTop = 665
     object Panel51: TPanel
       Left = 0
       Top = 0
@@ -2853,7 +2847,7 @@ object Form5: TForm5
             OnMouseDown = Label41MouseDown
             OnMouseMove = Label41MouseMove
             OnMouseLeave = Label41MouseLeave
-            ExplicitLeft = -6
+            ExplicitLeft = 6
             ExplicitTop = -6
           end
         end
@@ -2885,8 +2879,8 @@ object Form5: TForm5
             OnMouseDown = Label17MouseDown
             OnMouseMove = Label17MouseMove
             OnMouseLeave = Label17MouseLeave
-            ExplicitWidth = 38
-            ExplicitHeight = 37
+            ExplicitLeft = 6
+            ExplicitTop = -6
           end
         end
       end
@@ -2930,10 +2924,11 @@ object Form5: TForm5
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label45Click
             OnMouseDown = Label45MouseDown
             OnMouseMove = Label45MouseMove
             OnMouseLeave = Label45MouseLeave
-            ExplicitHeight = 29
+            ExplicitTop = 6
           end
         end
         object Panel53: TPanel
@@ -2964,7 +2959,7 @@ object Form5: TForm5
             OnMouseDown = Label44MouseDown
             OnMouseMove = Label44MouseMove
             OnMouseLeave = Label44MouseLeave
-            ExplicitTop = 6
+            ExplicitHeight = 29
           end
         end
         object Panel52: TPanel
@@ -2991,6 +2986,7 @@ object Form5: TForm5
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label43Click
             OnMouseDown = Label43MouseDown
             OnMouseMove = Label43MouseMove
             OnMouseLeave = Label43MouseLeave
@@ -3025,7 +3021,7 @@ object Form5: TForm5
             OnMouseDown = Label7MouseDown
             OnMouseMove = Label7MouseMove
             OnMouseLeave = Label7MouseLeave
-            ExplicitTop = -6
+            ExplicitHeight = 29
           end
         end
       end
@@ -3069,7 +3065,8 @@ object Form5: TForm5
         Font.Style = []
         ParentFont = False
         Layout = tlCenter
-        ExplicitHeight = 25
+        ExplicitWidth = 251
+        ExplicitHeight = 24
       end
     end
   end

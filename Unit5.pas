@@ -171,6 +171,8 @@ type
     procedure MaskEdit2Change(Sender: TObject);
     procedure MaskEdit1Change(Sender: TObject);
     procedure Label44Click(Sender: TObject);
+    procedure Label43Click(Sender: TObject);
+    procedure Label45Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -188,9 +190,10 @@ type
 
 var
   Form5: TForm5;
-  filter, editMode, retDisk, newRecord: boolean;
-  idMovie: Integer;
-  idClient: Integer;
+  filter, editMode, retDisk, newRecord, chng: boolean;
+  idMovie, idClient, idDisk: Integer;
+  idD: array[0 .. 100] of Integer;
+  idC: array[0 .. 100] of Integer;
 
 implementation
 
@@ -204,8 +207,36 @@ begin
 end;
 
 procedure TForm5.ComboBox2Change(Sender: TObject);
+var cnt, idM: integer;
 begin
   Button1.SetFocus;
+  idMovie := idD[ComboBox2.ItemIndex - 1];
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'SELECT countDisks, idMovie '
+                               + 'FROM Disk '
+                               + 'WHERE Id = ' + IntToStr(idMovie);
+  DataModule.Request.Active := true;
+
+  cnt := DataModule.Request.Fields[0].AsInteger;
+  idM := DataModule.Request.Fields[1].AsInteger;
+
+  if cnt > 0 then
+  begin
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idM) + '.jpg');
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT UnitPrice, priceDay '
+                                 + 'FROM Disk '
+                                 + 'WHERE Id = ' + IntToStr(idMovie);
+    DataModule.Request.Active := true;
+    Edit5.Text := DataModule.Request.Fields[0].AsString;
+    Edit6.Text := DataModule.Request.Fields[1].AsString;
+    Edit7.Text := IntToStr(DataModule.Request.Fields[0].AsInteger + DataModule.Request.Fields[1].AsInteger * DaysBetween(StrToDate(MaskEdit1.Text), StrToDate(MaskEdit2.Text)));
+  end
+  else
+  begin
+    ShowMessage('Диски с выбранным фильмом закончились!');
+    ComboBox2.ItemIndex := 0;
+  end;
 end;
 
 procedure TForm5.ComboBox2DrawItem(Control: TWinControl; Index: Integer;
@@ -239,6 +270,8 @@ end;
 procedure TForm5.ComboBox3Change(Sender: TObject);
 begin
   Button1.SetFocus;
+  idClient := idC[ComboBox3.ItemIndex - 1];
+  Image1.Picture.LoadFromFile('img/Clients/' + IntToStr(idClient) + '.jpg');
 end;
 
 procedure TForm5.ComboBox3DrawItem(Control: TWinControl; Index: Integer;
@@ -304,6 +337,7 @@ procedure TForm5.FormActivate(Sender: TObject);
 begin
   editMode := false;
   newRecord := false;
+  chng := false;
   setViewMode;
   DataModule.THire.First;
   uploadData;
@@ -430,6 +464,16 @@ begin
          DataModule.THire.First;
          uploadData;
      end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.THire.First;
+     uploadData;
+   end;
+
 end;
 
 procedure TForm5.Label14MouseDown(Sender: TObject; Button: TMouseButton;
@@ -464,6 +508,16 @@ begin
          DataModule.THire.Prior;
          uploadData;
      end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.THire.Prior;
+     uploadData;
+   end;
+
 end;
 
 procedure TForm5.Label15MouseDown(Sender: TObject; Button: TMouseButton;
@@ -498,6 +552,15 @@ begin
          DataModule.THire.Last;
          uploadData;
      end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.THire.Last;
+     uploadData;
+   end;
 end;
 
 procedure TForm5.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -572,23 +635,17 @@ end;
 
 procedure TForm5.Label39Click(Sender: TObject);
 begin
-  if editMode then
+  if editMode And Not(newRecord) then
   begin
-    if retDisk then
-    begin
-      Label39.Caption := 'Диск отсутствует';
-      Label39.Font.Color := RGB(176, 13, 30);
-      Shape6.Pen.Color := RGB(176, 13, 30);
-      retDisk := Not(retDisk);
-    end
-    else
+    if Not(retDisk) then
     begin
       Label39.Caption := 'Диск возвращен';
       Label39.Font.Color := RGB(13, 156, 50);
       Shape6.Pen.Color := RGB(13, 156, 50);
-      retDisk := Not(retDisk);
+      retDisk := true;
     end;
   end;
+
 end;
 
 procedure TForm5.Label3Click(Sender: TObject);
@@ -629,6 +686,16 @@ begin
          DataModule.THire.Next;
          uploadData;
      end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.THire.Next;
+     uploadData;
+   end;
+
 end;
 
 procedure TForm5.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -646,6 +713,11 @@ procedure TForm5.Label41MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label41.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm5.Label43Click(Sender: TObject);
+begin
+  addRecord;
 end;
 
 procedure TForm5.Label43MouseDown(Sender: TObject; Button: TMouseButton;
@@ -685,6 +757,14 @@ procedure TForm5.Label44MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label44.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm5.Label45Click(Sender: TObject);
+var btnSel: Integer;
+begin
+  btnSel := MessageDlg('Вы действительно хотите удалить текущую запись?', mtConfirmation, mbYesNo, 0);
+  if btnSel = mrYes then
+    delRecord;
 end;
 
 procedure TForm5.Label45MouseDown(Sender: TObject; Button: TMouseButton;
@@ -751,10 +831,10 @@ end;
 procedure TForm5.MaskEdit1Change(Sender: TObject);
 var days: integer;
 begin
-  if editMode then
+  if editMode And Not(chng) then
   begin
-    days := DaysBetween(DataModule.THireDateIssue.Value, DataModule.THireDateReturn.Value);
-    Edit7.Text := CurrToStrF(DataModule.THirePledge.Value + DataModule.THirePricePerDay.Value * days, ffCurrency, 0);
+    days := DaysBetween(StrToDate(MaskEdit1.Text), StrToDate(MaskEdit2.Text));
+    Edit7.Text := CurrToStr(DataModule.THirePledge.Value + DataModule.THirePricePerDay.Value * days);
   end;
 end;
 
@@ -779,10 +859,10 @@ end;
 procedure TForm5.MaskEdit2Change(Sender: TObject);
 var days: integer;
 begin
-  if editMode then
+  if editMode And Not(chng)  then
   begin
-    days := DaysBetween(DataModule.THireDateIssue.Value, DataModule.THireDateReturn.Value);
-    Edit7.Text := CurrToStrF(DataModule.THirePledge.Value + DataModule.THirePricePerDay.Value * days, ffCurrency, 0);
+    days := DaysBetween(StrToDate(MaskEdit1.Text), StrToDate(MaskEdit2.Text));
+    Edit7.Text := CurrToStr(DataModule.THirePledge.Value + DataModule.THirePricePerDay.Value * days);
   end;
 end;
 
@@ -812,22 +892,41 @@ end;
 
 procedure TForm5.addRecord;      // Добавить запись
 begin
-
+  savRecord;
+  chng := true;
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'INSERT INTO Hire DEFAULT VALUES';
+  DataModule.Request.ExecSQL;
+  DataModule.THire.Close;
+  DataModule.THire.Open;
+  DataModule.THire.Last;
+  newRecord := true;
+  setEditMode;
+  uploadData;
+  chng := false;
 end;
 
 procedure TForm5.delRecord;      // Удалить запись
 begin
-
+  if Not(newRecord) And not(editMode) then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Hire WHERE Id = ' + IntToStr(DataModule.THireId.Value);
+    DataModule.Request.ExecSQL;
+    DataModule.THire.Close;
+    DataModule.THire.Open;
+    DataModule.THire.Last;
+    setViewMode;
+    uploadData;
+  end;
 end;
 
 procedure TForm5.savRecord;      // Сохранить запись
-var changes: Boolean;
-    btnSel, i: integer;
-    pledge, day, amount: string;
+var changes, ret: Boolean;
+    btnSel, cnt: integer;
 begin
-
-  changes := false;
-  if editMode then
+  changes := false; ret := false;
+  if editMode And Not(newRecord) then
   begin
     DataModule.Request.SQL.Clear;
     DataModule.Request.SQL.Text := 'UPDATE Hire '
@@ -838,76 +937,128 @@ begin
                                  + '  , Pledge = :pledge '
                                  + '  , PricePerDay = :day '
                                  + '  , amountPay = :amount '
-                                 + '  , Return = :return '
-                                 + 'WHERE Id = ' + IntToStr(DataModule.THireId.Value);
-
-    pledge := '';
-    for i := 0 to Length(Edit5.Text) do
-      if Edit5.Text[i] in ['0' .. '9']  then
-        pledge := pledge + Edit5.Text[i];
-
-    day := '';
-    for i := 0 to Length(Edit6.Text) do
-      if Edit6.Text[i] in ['0' .. '9']  then
-        day := day + Edit6.Text[i];
-
-    amount := '';
-    for i := 0 to Length(Edit7.Text) do
-      if Edit7.Text[i] in ['0' .. '9']  then
-        amount := amount + Edit7.Text[i];
-
-    ShowMessage(pledge);
+                                 + '  , Return = ' + BoolToStr(retDisk)
+                                 + ' WHERE Id = ' + IntToStr(DataModule.THireId.Value);
 
     DataModule.Request.Parameters.ParamByName('disk').Value := IntToStr(idMovie);
     DataModule.Request.Parameters.ParamByName('client').Value := IntToStr(idClient);
     DataModule.Request.Parameters.ParamByName('issue').Value := MaskEdit1.Text;
     DataModule.Request.Parameters.ParamByName('return').Value := MaskEdit2.Text;
-    DataModule.Request.Parameters.ParamByName('pledge').Value := pledge;
-    DataModule.Request.Parameters.ParamByName('day').Value := day;
-    DataModule.Request.Parameters.ParamByName('amount').Value := amount;
-    DataModule.Request.Parameters.ParamByName('return').Value := retDisk;
+    DataModule.Request.Parameters.ParamByName('pledge').Value := Edit5.Text;
+    DataModule.Request.Parameters.ParamByName('day').Value := Edit6.Text;
+    DataModule.Request.Parameters.ParamByName('amount').Value := Edit7.Text;
 
     if DataModule.THireDateIssue.Value <> StrToDate(MaskEdit1.Text) then changes := true;
     if DataModule.THireDateReturn.Value <> StrToDate(MaskEdit2.Text) then changes := true;
-    if DataModule.THireReturn.Value <> retDisk then changes := true;
-
+    if DataModule.THireReturn.Value <> retDisk then begin changes := true; ret := true end;
 
     if changes then
     begin
       btnSel := MessageDlg('Были внесены изменения. Хотите ли вы их сохранить?', mtConfirmation, mbYesNo, 0);
       if btnSel = mrYes then
-        DataModule.Request.ExecSQL;
+        begin
+          DataModule.Request.ExecSQL;
+          if ret then
+          begin
+            DataModule.Request.SQL.Clear;
+            DataModule.Request.SQL.Text := 'SELECT countDisks '
+                                         + 'FROM Disk '
+                                         + 'WHERE Id = ' + IntToStr(idDisk);
+            ShowMessage(IntToStr(idMovie));
+
+            DataModule.Request.Active := true;
+            cnt := DataModule.Request.Fields[0].AsInteger;
+            cnt := cnt + 1;
+
+            DataModule.Request.SQL.Clear;
+            DataModule.Request.SQL.Text := 'UPDATE Disk '
+                                         + 'SET countDisks = ' + IntToStr(cnt) + ' '
+                                         + 'WHERE Id = ' + IntToStr(idDisk);
+            DataModule.Request.ExecSQL;
+          end;
+        end;
       DataModule.THire.Refresh;
     end;
 
     setViewMode;
     uploadData;
-
+    editMode := false;
   end;
+
+  if newRecord then
+  begin
+    retDisk := false;
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'UPDATE Hire '
+                                 + 'SET idDisk = :disk '
+                                 + '  , idClient = :client '
+                                 + '  , DateIssue = :issue '
+                                 + '  , DateReturn = :return '
+                                 + '  , Pledge = :pledge '
+                                 + '  , PricePerDay = :day '
+                                 + '  , amountPay = :amount '
+                                 + '  , Return = ' + BoolToStr(retDisk)
+                                 + ' WHERE Id = ' + IntToStr(DataModule.THireId.Value);
+
+    DataModule.Request.Parameters.ParamByName('disk').Value := IntToStr(idMovie);
+    DataModule.Request.Parameters.ParamByName('client').Value := IntToStr(idClient);
+    DataModule.Request.Parameters.ParamByName('issue').Value := MaskEdit1.Text;
+    DataModule.Request.Parameters.ParamByName('return').Value := MaskEdit2.Text;
+    DataModule.Request.Parameters.ParamByName('pledge').Value := Edit5.Text;
+    DataModule.Request.Parameters.ParamByName('day').Value := Edit6.Text;
+    DataModule.Request.Parameters.ParamByName('amount').Value := Edit7.Text;
+    DataModule.Request.ExecSQL;
+
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT countDisks '
+                                 + 'FROM Disk '
+                                 + 'WHERE Id = ' + IntToStr(idD[ComboBox2.ItemIndex - 1]);
+    DataModule.Request.Active := true;
+    cnt := DataModule.Request.Fields[0].AsInteger;
+    cnt := cnt - 1;
+
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'UPDATE Disk '
+                                 + 'SET countDisks = ' + IntToStr(cnt) + ' '
+                                 + 'WHERE Id = ' + IntToStr(idD[ComboBox2.ItemIndex - 1]);
+    DataModule.Request.ExecSQL;
+    DataModule.THire.Refresh;
+    newRecord := false;
+    setViewMode;
+    uploadData;
+  end;
+
 end;
 
 procedure TForm5.chnRecord;      // Изменить запись
 begin
-  setEditMode;
-  uploadData;
+  if Not(newRecord) then
+  begin
+    chng := true;
+    setEditMode;
+    uploadData;
+    chng := false;
+  end;
 end;
 
 procedure TForm5.uploadData;    // Загрузить данные
 var id: string;
     date: string;
+    iCl, iDs: Integer;
 begin
 
   id := IntToStr(DataModule.THireId.Value);
   idMovie := 0;
   idClient := 0;
+  iDs := 0; iCl := 0;
 
   // Диски
   if Not(newRecord) then
   begin
     DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id '
+    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id, d.Id '
                                  + 'FROM Movie AS m '
-                                 + 'INNER JOIN (SELECT idMovie '
+                                 + 'INNER JOIN (SELECT idMovie, d.Id '
                                  + '            FROM Disk AS d '
                                  + '            INNER JOIN Hire AS h '
                                  + '            ON d.Id = h.idDisk '
@@ -921,12 +1072,13 @@ begin
     ComboBox2.Items.Add(DataModule.Request.Fields[0].AsString);
     ComboBox2.ItemIndex := 0;
     idMovie := DataModule.Request.Fields[1].AsInteger;
+    idDisk := DataModule.Request.Fields[2].AsInteger;
 
   end
   else
   begin
     DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id '
+    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, d.Id '
                                  + 'FROM Movie AS m '
                                  + 'INNER JOIN Disk AS d '
                                  + 'ON m.Id = d.idMovie ';
@@ -938,6 +1090,8 @@ begin
     while Not(DataModule.Request.Eof) do
     begin
       ComboBox2.Items.Add(DataModule.Request.Fields[0].AsString);
+      idD[iDs] := DataModule.Request.Fields[1].AsInteger;
+      Inc(iDs);
       DataModule.Request.Next;
     end;
     ComboBox2.ItemIndex := 0;
@@ -964,7 +1118,7 @@ begin
   else
   begin
     DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'SELECT c.fullName '
+    DataModule.Request.SQL.Text := 'SELECT c.fullName, c.Id '
                                  + 'FROM Clients AS c ';
 
     DataModule.Request.Active := true;
@@ -974,6 +1128,8 @@ begin
     while Not(DataModule.Request.Eof) do
     begin
       ComboBox3.Items.Add(DataModule.Request.Fields[0].AsString);
+      idC[iCl] := DataModule.Request.Fields[1].AsInteger;
+      Inc(iCl);
       DataModule.Request.Next;
     end;
     ComboBox3.ItemIndex := 0;
@@ -1008,13 +1164,22 @@ begin
   end;
 
   // Залог
-  Edit5.Text := CurrToStrF(DataModule.THirePledge.Value, ffCurrency, 0);
+  if Not(editMode) then
+    Edit5.Text := CurrToStrF(DataModule.THirePledge.Value, ffCurrency, 0)
+  else
+    Edit5.Text := CurrToStr(DataModule.THirePledge.Value);
 
   // Цена проката в день
-  Edit6.Text := CurrToStrF(DataModule.THirePricePerDay.Value, ffCurrency, 0);
+  if Not(editMode) then
+    Edit6.Text := CurrToStrF(DataModule.THirePricePerDay.Value, ffCurrency, 0)
+  else
+    Edit6.Text := CurrToStr(DataModule.THirePricePerDay.Value);
 
   // Сумма к оплате
-  Edit7.Text := CurrToStrF(DataModule.THireamountPay.Value, ffCurrency, 0);
+  if Not(editMode) then
+    Edit7.Text := CurrToStrF(DataModule.THireamountPay.Value, ffCurrency, 0)
+  else
+    Edit7.Text := CurrToStr(DataModule.THireamountPay.Value);
 
   // Вернули ли диск
   retDisk := DataModule.THireReturn.Value;

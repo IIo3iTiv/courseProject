@@ -2425,7 +2425,7 @@ object Form6: TForm6
         ParentFont = False
         ExplicitWidth = 310
       end
-      object Edit2: TEdit
+      object MaskEdit1: TMaskEdit
         AlignWithMargins = True
         Left = 3
         Top = 35
@@ -2440,8 +2440,8 @@ object Form6: TForm6
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        Text = 'Edit2'
-        OnEnter = Edit2Enter
+        Text = 'MaskEdit1'
+        ExplicitTop = 27
       end
     end
     object Panel11: TPanel

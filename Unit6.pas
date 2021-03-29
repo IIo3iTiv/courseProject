@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes,
-  Vcl.Buttons, PNGImage, Vcl.DBCtrls;
+  Vcl.Buttons, PNGImage, Vcl.DBCtrls, Vcl.Mask;
 
 type
   TForm6 = class(TForm)
@@ -55,10 +55,10 @@ type
     Edit1: TEdit;
     Panel10: TPanel;
     Label6: TLabel;
-    Edit2: TEdit;
     Panel11: TPanel;
     Label8: TLabel;
     Edit3: TEdit;
+    MaskEdit1: TMaskEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure Shape2MouseDown(Sender: TObject; Button: TMouseButton;
@@ -147,6 +147,11 @@ type
     procedure setViewMode;
     procedure showFilter;
     procedure setEditMode;
+    procedure addRecord;      // Добавить запись
+    procedure delRecord;      // Удалить запись
+    procedure savRecord;      // Сохранить запись
+    procedure chnRecord;      // Изменить запись
+    procedure uploadData;    // Загрузить данные
     { Private declarations }
   public
     { Public declarations }
@@ -256,11 +261,11 @@ begin
   Edit1.ReadOnly := true;
   Edit1.Cursor := crArrow;
 
-  Edit2.Color := RGB(26, 20, 59);
-  Edit2.BorderStyle := bsNone;
-  Edit2.Font.Color := clCream;
-  Edit2.ReadOnly := true;
-  Edit2.Cursor := crArrow;
+  MaskEdit1.Color := RGB(26, 20, 59);
+  MaskEdit1.BorderStyle := bsNone;
+  MaskEdit1.Font.Color := clCream;
+  MaskEdit1.ReadOnly := true;
+  MaskEdit1.Cursor := crArrow;
 
   Edit3.Color := RGB(26, 20, 59);
   Edit3.BorderStyle := bsNone;
@@ -280,11 +285,11 @@ begin
   Edit1.ReadOnly := false;
   Edit1.Cursor := crDefault;
 
-  Edit2.Color := clCream;
-  Edit2.BorderStyle := bsSingle;
-  Edit2.Font.Color := clWindowText;
-  Edit2.ReadOnly := false;
-  Edit2.Cursor := crDefault;
+  MaskEdit1.Color := clCream;
+  MaskEdit1.BorderStyle := bsSingle;
+  MaskEdit1.Font.Color := clWindowText;
+  MaskEdit1.ReadOnly := false;
+  MaskEdit1.Cursor := crDefault;
 
   Edit3.Color := clCream;
   Edit3.BorderStyle := bsSingle;
@@ -566,5 +571,31 @@ procedure TForm6.Shape2MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   showFilter;
 end;
+
+procedure addRecord;      // Добавить запись
+begin
+
+end;
+
+procedure delRecord;      // Удалить запись
+begin
+
+end;
+
+procedure savRecord;      // Сохранить запись
+begin
+
+end;
+
+procedure chnRecord;      // Изменить запись
+begin
+
+end;
+
+procedure uploadData;    // Загрузить данные
+begin
+
+end;
+
 
 end.
