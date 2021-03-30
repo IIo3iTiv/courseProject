@@ -57,8 +57,8 @@ type
     Label6: TLabel;
     Panel11: TPanel;
     Label8: TLabel;
-    Edit3: TEdit;
     MaskEdit1: TMaskEdit;
+    Memo1: TMemo;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure Shape2MouseDown(Sender: TObject; Button: TMouseButton;
@@ -135,13 +135,18 @@ type
     procedure FormActivate(Sender: TObject);
     procedure Label17Click(Sender: TObject);
     procedure Label41Click(Sender: TObject);
-    procedure Edit5Enter(Sender: TObject);
-    procedure Edit6Enter(Sender: TObject);
-    procedure Edit7Enter(Sender: TObject);
     procedure Image1Click(Sender: TObject);
     procedure Edit1Enter(Sender: TObject);
     procedure Edit2Enter(Sender: TObject);
-    procedure Edit3Enter(Sender: TObject);
+    procedure Label15Click(Sender: TObject);
+    procedure Label14Click(Sender: TObject);
+    procedure Label7Click(Sender: TObject);
+    procedure MaskEdit1Enter(Sender: TObject);
+    procedure Label44Click(Sender: TObject);
+    procedure Memo1Enter(Sender: TObject);
+    procedure Memo1Click(Sender: TObject);
+    procedure Label43Click(Sender: TObject);
+    procedure Label45Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -188,43 +193,12 @@ if Not(editMode) then
   end;
 end;
 
-procedure TForm6.Edit3Enter(Sender: TObject);
-begin
-if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
-end;
-
-procedure TForm6.Edit5Enter(Sender: TObject);
-begin
-  if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
-end;
-
-procedure TForm6.Edit6Enter(Sender: TObject);
-begin
-  if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
-end;
-
-procedure TForm6.Edit7Enter(Sender: TObject);
-begin
-  if Not(editMode) then
-  begin
-    Button1.SetFocus;
-  end;
-end;
-
 procedure TForm6.FormActivate(Sender: TObject);
 begin
   editMode := false;
   setViewMode;
-  Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+  DataModule.THire.First;
+  uploadData;
 end;
 
 procedure TForm6.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -267,11 +241,11 @@ begin
   MaskEdit1.ReadOnly := true;
   MaskEdit1.Cursor := crArrow;
 
-  Edit3.Color := RGB(26, 20, 59);
-  Edit3.BorderStyle := bsNone;
-  Edit3.Font.Color := clCream;
-  Edit3.ReadOnly := true;
-  Edit3.Cursor := crArrow;
+  Memo1.Color := RGB(26, 20, 59);
+  Memo1.BorderStyle := bsNone;
+  Memo1.Font.Color := clCream;
+  Memo1.ReadOnly := true;
+  Memo1.Cursor := crArrow;
 
 end;
 
@@ -291,11 +265,11 @@ begin
   MaskEdit1.ReadOnly := false;
   MaskEdit1.Cursor := crDefault;
 
-  Edit3.Color := clCream;
-  Edit3.BorderStyle := bsSingle;
-  Edit3.Font.Color := clWindowText;
-  Edit3.ReadOnly := false;
-  Edit3.Cursor := crDefault;
+  Memo1.Color := clCream;
+  Memo1.BorderStyle := bsSingle;
+  Memo1.Font.Color := clWindowText;
+  Memo1.ReadOnly := false;
+  Memo1.Cursor := crDefault;
 
 end;
 
@@ -303,6 +277,22 @@ procedure TForm6.Image1Click(Sender: TObject);
 begin
   Form3.Hide;
   Form1.Show;
+end;
+
+procedure TForm6.Label14Click(Sender: TObject);
+begin
+  if Not(editMode) then
+    begin
+      DataModule.TClients.First;
+      uploadData;
+    end
+  else
+    begin
+      savRecord;
+      setViewMode;
+      DataModule.TClients.First;
+      uploadData;
+    end;
 end;
 
 procedure TForm6.Label14MouseDown(Sender: TObject; Button: TMouseButton;
@@ -320,6 +310,22 @@ procedure TForm6.Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label14.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm6.Label15Click(Sender: TObject);
+begin
+  if Not(editMode) then
+    begin
+      DataModule.TClients.Prior;
+      uploadData;
+    end
+  else
+    begin
+      savRecord;
+      setViewMode;
+      DataModule.TClients.Prior;
+      uploadData;
+    end;
 end;
 
 procedure TForm6.Label15MouseDown(Sender: TObject; Button: TMouseButton;
@@ -341,7 +347,18 @@ end;
 
 procedure TForm6.Label17Click(Sender: TObject);
 begin
-  setViewMode;
+  if Not(editMode) then
+    begin
+      DataModule.TClients.Last;
+      uploadData;
+    end
+  else
+    begin
+      savRecord;
+      setViewMode;
+      DataModule.TClients.Last;
+      uploadData;
+    end;
 end;
 
 procedure TForm6.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -439,7 +456,18 @@ end;
 
 procedure TForm6.Label41Click(Sender: TObject);
 begin
-  setEditMode;
+  if Not(editMode) then
+    begin
+      DataModule.TClients.Next;
+      uploadData;
+    end
+  else
+    begin
+      savRecord;
+      setViewMode;
+      DataModule.TClients.Next;
+      uploadData;
+    end;
 end;
 
 procedure TForm6.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -459,6 +487,11 @@ begin
   Label41.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm6.Label43Click(Sender: TObject);
+begin
+  addRecord;
+end;
+
 procedure TForm6.Label43MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -476,6 +509,11 @@ begin
   Label43.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm6.Label44Click(Sender: TObject);
+begin
+  savRecord;
+end;
+
 procedure TForm6.Label44MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -491,6 +529,11 @@ procedure TForm6.Label44MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label44.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm6.Label45Click(Sender: TObject);
+begin
+  delRecord;
 end;
 
 procedure TForm6.Label45MouseDown(Sender: TObject; Button: TMouseButton;
@@ -544,6 +587,11 @@ begin
   Label6.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm6.Label7Click(Sender: TObject);
+begin
+  chnRecord;
+end;
+
 procedure TForm6.Label7MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -566,35 +614,154 @@ begin
    Form1.Show;
 end;
 
+procedure TForm6.MaskEdit1Enter(Sender: TObject);
+begin
+  if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm6.Memo1Click(Sender: TObject);
+begin
+if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
+procedure TForm6.Memo1Enter(Sender: TObject);
+begin
+if Not(editMode) then
+  begin
+    Button1.SetFocus;
+  end;
+end;
+
 procedure TForm6.Shape2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   showFilter;
 end;
 
-procedure addRecord;      // Добавить запись
+procedure TForm6.addRecord;      // Добавить запись
 begin
+  if Not(editMode) then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'INSERT INTO Clients DEFAULT VALUES';
+    DataModule.Request.ExecSQL;
+    DataModule.TClients.Close;
+    DataModule.TClients.Open;
+    DataModule.TClients.Last;
+    setEditMode;
+    uploadData;
+  end;
+end;
+
+procedure TForm6.delRecord;      // Удалить запись
+var ret: boolean;
+    btnSel: integer;
+begin
+  ret := false;
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'SELECT h.Return '
+                               + 'FROM Hire AS h '
+                               + 'INNER JOIN Clients AS c '
+                               + 'ON h.idClient = c.Id '
+                               + 'WHERE c.Id = ' + IntToStr(DataModule.TClientsId.Value);
+  DataModule.Request.Active := true;
+  if DataModule.Request.RecordCount > 1 then
+    while Not(DataModule.Request.Eof) do
+    begin
+      if Not(DataModule.Request.Fields[0].AsBoolean) then
+        ret := true;
+      DataModule.Request.Next;
+    end
+  else
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Clients WHERE Id = ' + IntToStr(DataModule.TClientsId.Value);
+    DataModule.Request.ExecSQL;
+    DataModule.TClients.Close;
+    DataModule.TClients.Open;
+    setViewMode;
+    uploadData;
+  end;
+
+  if ret then
+  begin
+    btnSel := MessageDlg('У клиента присутствуют неотданные диски. Вы действительно хотите его удалить? Удалятся все записи о клиенте!', mtConfirmation, mbYesNo, 0);
+    if btnSel = mrYes then
+      begin
+        DataModule.Request.SQL.Clear;
+        DataModule.Request.SQL.Text := 'DELETE FROM Hire WHERE idClient = ' + IntToStr(DataModule.TClientsId.Value);
+        DataModule.Request.ExecSQL;
+
+        DataModule.Request.SQL.Clear;
+        DataModule.Request.SQL.Text := 'DELETE FROM Clients WHERE Id = ' + IntToStr(DataModule.TClientsId.Value);
+        DataModule.Request.ExecSQL;
+        DataModule.TClients.Close;
+        DataModule.TClients.Open;
+        setViewMode;
+        uploadData;
+      end;
+  end;
+end;
+
+procedure TForm6.savRecord;      // Сохранить запись
+var changes: boolean;
+    btnSel: integer;
+begin
+  changes := false;
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'UPDATE Clients '
+                               + 'SET fullName = :name '
+                               + ', PlaceLivivng = :live '
+                               + ', MobileNumber = :mobil '
+                               + 'WHERE Id = ' + IntToStr(DataModule.TClientsId.Value);
+
+  DataModule.Request.Parameters.ParamByName('name').Value := Edit1.Text;
+  DataModule.Request.Parameters.ParamByName('live').Value := Memo1.Text;
+  DataModule.Request.Parameters.ParamByName('mobil').Value := MaskEdit1.Text;
+
+  if DataModule.TClientsfullName.Value <> Edit1.Text then changes := true;
+  if DataModule.TClientsMobileNumber.Value <> MaskEdit1.Text then changes := true;
+  if DataModule.TClientsPlaceLivivng.Value <> Memo1.Text then changes := true;
+
+  if changes then
+  begin
+    btnSel := MessageDlg('Были внесены изменения. Хотите ли вы их сохранить?', mtConfirmation, mbYesNo, 0);
+      if btnSel = mrYes then
+      begin
+        DataModule.Request.ExecSQL;
+        DataModule.TClients.Refresh;
+      end;
+  end;
+
+  setViewMode;
+  uploadData;
+  editMode := false;
 
 end;
 
-procedure delRecord;      // Удалить запись
+procedure TForm6.chnRecord;      // Изменить запись
 begin
-
+  setEditMode;
+  uploadData;
 end;
 
-procedure savRecord;      // Сохранить запись
+procedure TForm6.uploadData;    // Загрузить данные
 begin
-
-end;
-
-procedure chnRecord;      // Изменить запись
-begin
-
-end;
-
-procedure uploadData;    // Загрузить данные
-begin
-
+  Edit1.Text := DataModule.TClientsfullName.Value;
+  MaskEdit1.EditMask := '';
+  MaskEdit1.Text := DataModule.TClientsMobileNumber.Value;
+  MaskEdit1.EditMask := '+0-000-000-00-00;0;';
+  Memo1.Text := DataModule.TClientsPlaceLivivng.Value;
+  if FileExists('img/Clients/' + IntToStr(DataModule.TClientsId.Value) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Clients/' + IntToStr(DataModule.TClientsId.Value) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Clients/0.jpg');
 end;
 
 

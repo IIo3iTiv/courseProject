@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes,
-  Vcl.Buttons, PNGImage, Vcl.DBCtrls;
+  Vcl.Buttons, PNGImage, Vcl.DBCtrls, DB;
 
 type
   TForm7 = class(TForm)
@@ -144,11 +144,21 @@ type
       Rect: TRect; State: TOwnerDrawState);
     procedure ComboBox1Change(Sender: TObject);
     procedure ComboBox1Enter(Sender: TObject);
+    procedure Label15Click(Sender: TObject);
+    procedure Label14Click(Sender: TObject);
+    procedure Label7Click(Sender: TObject);
+    procedure Label44Click(Sender: TObject);
+    procedure Label43Click(Sender: TObject);
   private
 
     procedure setViewMode;
     procedure showFilter;
     procedure setEditMode;
+    procedure addRecord;      // Добавить запись
+    procedure delRecord;      // Удалить запись
+    procedure savRecord;      // Сохранить запись
+    procedure chnRecord;      // Изменить запись
+    procedure uploadData;    // Загрузить данные
     { Private declarations }
   public
     { Public declarations }
@@ -156,7 +166,9 @@ type
 
 var
   Form7: TForm7;
-  filter, editMode: boolean;
+  filter, editMode, newRecord :boolean;
+  idMovie: array[0 .. 100] of integer;
+  idCurMovie: integer;
 
 implementation
 
@@ -170,8 +182,30 @@ begin
 end;
 
 procedure TForm7.ComboBox1Change(Sender: TObject);
+var btnSel: integer;
 begin
   Button1.SetFocus;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'SELECT Id '
+                               + 'FROM Disk '
+                               + 'WHERE idMovie = ' + IntToStr(idCurMovie);
+  DataModule.Request.Active := true;
+
+  if DataModule.Request.RecordCount >= 1 then
+    btnSel := MessageDlg('Диск с таким фильмом уже есть в продаже, вы хотите редактировать его?', mtConfirmation, mbYesNo, 0);
+    if btnSel = mrYes then
+    begin
+      DataModule.Request.SQL.Clear;
+      DataModule.Request.SQL.Text := 'DELETE FROM Disk WHERE idMovie = ' + IntToStr(idMovie[ComboBox1.ItemIndex - 1]);
+      DataModule.Request.ExecSQL;
+      DataModule.THire.Close;
+      DataModule.THire.Open;
+      DataModule.TDisk.Locate('idMovie', IntToStr(idMovie[ComboBox1.ItemIndex - 1]), [loPartialKey, loCaseInsensitive]);
+      newRecord := false;
+      uploadData;
+      chnRecord;
+    end;
 end;
 
 procedure TForm7.ComboBox1DrawItem(Control: TWinControl; Index: Integer;
@@ -196,7 +230,7 @@ end;
 
 procedure TForm7.ComboBox1Enter(Sender: TObject);
 begin
-  if Not(editMode) then
+  if Not(newRecord) then
   begin
     Button1.SetFocus;
   end;
@@ -253,8 +287,10 @@ end;
 procedure TForm7.FormActivate(Sender: TObject);
 begin
   editMode := false;
+  newRecord := false;
   setViewMode;
-  Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+  DataModule.TDisk.First;
+  uploadData;
 end;
 
 procedure TForm7.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -348,6 +384,32 @@ begin
   Form1.Show;
 end;
 
+procedure TForm7.Label14Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.TDisk.First;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TDisk.First;
+         uploadData;
+     end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.TDisk.First;
+     uploadData;
+   end;
+end;
+
 procedure TForm7.Label14MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -363,6 +425,32 @@ procedure TForm7.Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label14.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm7.Label15Click(Sender: TObject);
+begin
+   if Not(editMode) then
+     begin
+       DataModule.TDisk.Prior;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TDisk.Prior;
+         uploadData;
+     end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.TDisk.Prior;
+     uploadData;
+   end;
 end;
 
 procedure TForm7.Label15MouseDown(Sender: TObject; Button: TMouseButton;
@@ -384,7 +472,28 @@ end;
 
 procedure TForm7.Label17Click(Sender: TObject);
 begin
-  setViewMode;
+   if Not(editMode) then
+     begin
+       DataModule.TDisk.Last;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TDisk.Last;
+         uploadData;
+     end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.TDisk.Last;
+     uploadData;
+   end;
 end;
 
 procedure TForm7.Label17MouseDown(Sender: TObject; Button: TMouseButton;
@@ -482,7 +591,28 @@ end;
 
 procedure TForm7.Label41Click(Sender: TObject);
 begin
-  setEditMode;
+   if Not(editMode) then
+     begin
+       DataModule.TDisk.Next;
+       uploadData;
+     end
+   else
+     begin
+         savRecord;
+         editMode := false;
+         setViewMode;
+         DataModule.TDisk.Next;
+         uploadData;
+     end;
+
+   if newRecord then
+   begin
+     savRecord;
+     newRecord := false;
+     setViewMode;
+     DataModule.TDisk.Next;
+     uploadData;
+   end;
 end;
 
 procedure TForm7.Label41MouseDown(Sender: TObject; Button: TMouseButton;
@@ -502,6 +632,11 @@ begin
   Label41.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm7.Label43Click(Sender: TObject);
+begin
+  addRecord;
+end;
+
 procedure TForm7.Label43MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -517,6 +652,11 @@ procedure TForm7.Label43MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label43.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm7.Label44Click(Sender: TObject);
+begin
+  savRecord;
 end;
 
 procedure TForm7.Label44MouseDown(Sender: TObject; Button: TMouseButton;
@@ -570,6 +710,11 @@ begin
   Label5.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm7.Label7Click(Sender: TObject);
+begin
+  chnRecord;
+end;
+
 procedure TForm7.Label7MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -597,5 +742,153 @@ procedure TForm7.Shape2MouseDown(Sender: TObject; Button: TMouseButton;
 begin
   showFilter;
 end;
+
+procedure TForm7.addRecord;      // Добавить запись
+begin
+  savRecord;
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'INSERT INTO Disk DEFAULT VALUES';
+  DataModule.Request.ExecSQL;
+  DataModule.TDisk.Close;
+  DataModule.TDisk.Open;
+  DataModule.TDisk.Last;
+  newRecord := true;
+  setEditMode;
+  uploadData;
+end;
+
+procedure TForm7.delRecord;      // Удалить запись
+begin
+
+end;
+
+procedure TForm7.savRecord;      // Сохранить запись
+var changes: boolean;
+    btnSel: integer;
+begin
+  if editMode And Not(newRecord) then
+  begin
+    changes := false;
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'UPDATE Disk '
+                                 + 'SET idMovie = :movie '
+                                 + ', countDisks = :count '
+                                 + ', UnitPrice = :price '
+                                 + ', priceDay = :day '
+                                 + 'WHERE idMovie = ' + IntToStr(idCurMovie);
+
+    DataModule.Request.Parameters.ParamByName('movie').Value := IntToStr(idCurMovie);
+    DataModule.Request.Parameters.ParamByName('count').Value := Edit1.Text;
+    DataModule.Request.Parameters.ParamByName('price').Value := Edit2.Text;
+    DataModule.Request.Parameters.ParamByName('day').Value := Edit3.Text;
+
+    if DataModule.TDiskcountDisks.Value <> StrToInt(Edit1.Text) then changes := true;
+    if DataModule.TDiskUnitPrice.Value <> StrToInt(Edit2.Text) then changes := true;
+    if DataModule.TDiskpriceDay.Value <> StrToInt(Edit3.Text) then changes := true;
+
+    if changes then
+    begin
+      btnSel := MessageDlg('Были внесены изменения. Хотите ли вы их сохранить?', mtConfirmation, mbYesNo, 0);
+      if btnSel = mrYes then
+        begin
+          DataModule.Request.ExecSQL;
+          DataModule.TDisk.Refresh;
+        end;
+    end;
+
+    setViewMode;
+    uploadData;
+    editMode := false;
+  end;
+
+  if newRecord then
+  begin
+    changes := false;
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'UPDATE Disk '
+                                 + 'SET idMovie = :movie '
+                                 + ', countDisks = :count '
+                                 + ', UnitPrice = :price '
+                                 + ', priceDay = :day '
+                                 + 'WHERE idMovie = ' + IntToStr(idMovie[ComboBox1.ItemIndex - 1]);
+
+    DataModule.Request.Parameters.ParamByName('movie').Value := IntToStr(idCurMovie);
+    DataModule.Request.Parameters.ParamByName('count').Value := Edit1.Text;
+    DataModule.Request.Parameters.ParamByName('price').Value := Edit2.Text;
+    DataModule.Request.Parameters.ParamByName('day').Value := Edit3.Text;
+
+    DataModule.Request.ExecSQL;
+    DataModule.TDisk.Refresh;
+    setViewMode;
+    uploadData;
+    editMode := false;
+  end;
+end;
+
+procedure TForm7.chnRecord;      // Изменить запись
+begin
+  if Not(newRecord) then
+  begin
+    setEditMode;
+    uploadData;
+  end;
+end;
+
+procedure TForm7.uploadData;    // Загрузить данные
+var i: integer;
+begin
+  if newRecord then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT titleMovie, Id '
+                                 + 'FROM Movie ';
+    DataModule.Request.Active := true;
+    ComboBox1.Clear;
+    ComboBox1.Items.Add('Выберите фильм...');
+    ComboBox1.ItemIndex := 0;
+    i := 0;
+    while Not(DataModule.Request.Eof) do
+    begin
+      ComboBox1.Items.Add(DataModule.Request.Fields[0].AsString);
+      idMovie[i] := DataModule.Request.Fields[1].AsInteger;
+      Inc(i);
+      DataModule.Request.Next;
+    end;
+    idCurMovie := DataModule.TDiskId.Value;
+  end
+  else
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT m.titleMovie, m.Id '
+                                 + 'FROM Movie AS m '
+                                 + 'INNER JOIN Disk AS d '
+                                 + 'ON m.Id = d.idMovie '
+                                 + 'WHERE d.idMovie = ' + IntToStr(DataModule.TDiskidMovie.Value);
+    DataModule.Request.Active := true;
+
+    ComboBox1.Clear;
+    ComboBox1.Items.Add(DataModule.Request.Fields[0].AsString);
+    idCurMovie := DataModule.Request.Fields[1].AsInteger;
+    ComboBox1.ItemIndex := 0;
+  end;
+
+  if FileExists('img/Posters/' + IntToStr(DataModule.TDiskidMovie.Value) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(DataModule.TDiskidMovie.Value) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+
+  Edit1.Text := IntToStr(DataModule.TDiskcountDisks.Value);
+
+  if Not(editMode) And Not(newRecord) then
+    Edit2.Text := CurrToStrF(DataModule.TDiskUnitPrice.Value, ffCurrency, 0)
+  else
+    Edit2.Text := CurrToStr(DataModule.TDiskUnitPrice.Value);
+
+  if Not(editMode) And Not(newRecord) then
+    Edit3.Text := CurrToStrF(DataModule.TDiskpriceDay.Value, ffCurrency, 0)
+  else
+    Edit3.Text := CurrToStr(DataModule.TDiskpriceDay.Value);
+end;
+
 
 end.

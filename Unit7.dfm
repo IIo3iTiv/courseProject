@@ -2348,8 +2348,6 @@ object Form7: TForm7
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitLeft = -56
-    ExplicitTop = -354
     object Image3: TImage
       Left = 20
       Top = 25
@@ -2409,6 +2407,7 @@ object Form7: TForm7
           '3'
           '4'
           '5')
+        ExplicitLeft = 92
       end
     end
     object Panel10: TPanel
@@ -2453,7 +2452,7 @@ object Form7: TForm7
         TabOrder = 0
         Text = 'Edit1'
         OnEnter = Edit1Enter
-        ExplicitLeft = 222
+        ExplicitHeight = 32
       end
     end
     object Panel11: TPanel
@@ -2606,6 +2605,7 @@ object Form7: TForm7
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label14Click
             OnMouseDown = Label14MouseDown
             OnMouseMove = Label14MouseMove
             OnMouseLeave = Label14MouseLeave
@@ -2637,6 +2637,7 @@ object Form7: TForm7
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label15Click
             OnMouseDown = Label15MouseDown
             OnMouseMove = Label15MouseMove
             OnMouseLeave = Label15MouseLeave
@@ -2779,6 +2780,7 @@ object Form7: TForm7
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label44Click
             OnMouseDown = Label44MouseDown
             OnMouseMove = Label44MouseMove
             OnMouseLeave = Label44MouseLeave
@@ -2809,6 +2811,7 @@ object Form7: TForm7
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label43Click
             OnMouseDown = Label43MouseDown
             OnMouseMove = Label43MouseMove
             OnMouseLeave = Label43MouseLeave
@@ -2839,6 +2842,7 @@ object Form7: TForm7
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label7Click
             OnMouseDown = Label7MouseDown
             OnMouseMove = Label7MouseMove
             OnMouseLeave = Label7MouseLeave
