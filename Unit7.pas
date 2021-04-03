@@ -42,9 +42,6 @@ type
     Label43: TLabel;
     Panel9: TPanel;
     Label7: TLabel;
-    Panel46: TPanel;
-    Shape7: TShape;
-    Label42: TLabel;
     Image2: TImage;
     Panel6: TPanel;
     Image3: TImage;
@@ -149,6 +146,7 @@ type
     procedure Label7Click(Sender: TObject);
     procedure Label44Click(Sender: TObject);
     procedure Label43Click(Sender: TObject);
+    procedure Label45Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -313,8 +311,6 @@ begin
 
   // Нижняя
   Panel51.Color := RGB(40, 31, 85);
-  Shape7.Brush.Color := RGB(248, 16, 77);
-  Panel46.Color := RGB(248, 16, 77);
 
 end;
 
@@ -676,6 +672,11 @@ begin
   Label44.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm7.Label45Click(Sender: TObject);
+begin
+  delRecord;
+end;
+
 procedure TForm7.Label45MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -745,7 +746,6 @@ end;
 
 procedure TForm7.addRecord;      // Добавить запись
 begin
-  savRecord;
   DataModule.Request.SQL.Clear;
   DataModule.Request.SQL.Text := 'INSERT INTO Disk DEFAULT VALUES';
   DataModule.Request.ExecSQL;
@@ -758,8 +758,30 @@ begin
 end;
 
 procedure TForm7.delRecord;      // Удалить запись
+var btnSel: integer;
 begin
+  btnSel := MessageDlg('Вы действительно хотите удалить запись? Все данные связанные с этой записью будут удалены!', mtConfirmation, mbYesNo, 0);
+  if btnSel = mrYes then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Hire WHERE idDisk = ' + IntToStr(DataModule.TDiskId.Value);
+    DataModule.Request.ExecSQL;
+    DataModule.THire.Close;
+    DataModule.THire.Open;
 
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Disk WHERE Id = ' + IntToStr(DataModule.TDiskId.Value);
+    DataModule.Request.ExecSQL;
+    DataModule.TDisk.Close;
+    DataModule.TDisk.Open;
+
+    DataModule.TDisk.Refresh;
+    DataModule.THire.Refresh;
+
+    DataModule.TDisk.First;
+    setViewMode;
+    uploadData;
+  end;
 end;
 
 procedure TForm7.savRecord;      // Сохранить запись
@@ -768,6 +790,7 @@ var changes: boolean;
 begin
   if editMode And Not(newRecord) then
   begin
+    ShowMessage('я тут');
     changes := false;
     DataModule.Request.SQL.Clear;
     DataModule.Request.SQL.Text := 'UPDATE Disk '
@@ -803,25 +826,48 @@ begin
 
   if newRecord then
   begin
-    changes := false;
+    DataModule.TDisk.Last;
+
     DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'UPDATE Disk '
-                                 + 'SET idMovie = :movie '
-                                 + ', countDisks = :count '
-                                 + ', UnitPrice = :price '
-                                 + ', priceDay = :day '
-                                 + 'WHERE idMovie = ' + IntToStr(idMovie[ComboBox1.ItemIndex - 1]);
+    DataModule.Request.SQL.Text := 'SELECT m.titleMovie '
+                                 + 'FROM Disk AS d '
+                                 + 'INNER JOIN Movie AS m '
+                                 + 'ON d.idMovie = m.Id '
+                                 + 'WHERE d.idMovie = ' + IntToStr(idMovie[ComboBox1.ItemIndex-1]);
+    DataModule.Request.Active := true;
 
-    DataModule.Request.Parameters.ParamByName('movie').Value := IntToStr(idCurMovie);
-    DataModule.Request.Parameters.ParamByName('count').Value := Edit1.Text;
-    DataModule.Request.Parameters.ParamByName('price').Value := Edit2.Text;
-    DataModule.Request.Parameters.ParamByName('day').Value := Edit3.Text;
+    if Not(DataModule.Request.IsEmpty) then
+      ShowMessage('Диск с таким фильмом есть в продаже')
+    else
+    begin
+      DataModule.Request.SQL.Clear;
+      DataModule.Request.SQL.Text := 'UPDATE Disk '
+                                   + 'SET idMovie = :movie '
+                                   + ', countDisks = :count '
+                                   + ', UnitPrice = :price '
+                                   + ', priceDay = :day '
+                                   + 'WHERE Id = ' + IntToStr(DataModule.TDiskId.Value);
 
-    DataModule.Request.ExecSQL;
-    DataModule.TDisk.Refresh;
-    setViewMode;
-    uploadData;
-    editMode := false;
+      DataModule.Request.Parameters.ParamByName('movie').Value := IntToStr(idMovie[ComboBox1.ItemIndex - 1]);
+      DataModule.Request.Parameters.ParamByName('count').Value := Edit1.Text;
+      DataModule.Request.Parameters.ParamByName('price').Value := Edit2.Text;
+      DataModule.Request.Parameters.ParamByName('day').Value := Edit3.Text;
+
+      if ComboBox1.Items[ComboBox1.ItemIndex] = 'Выберите фильм...' then
+      begin
+        DataModule.TDisk.Last;
+        DataModule.Request.SQL.Clear;
+        DataModule.Request.SQL.Text := 'DELETE FROM Disk WHERE Id = ' + IntToStr(DataModule.TDiskId.Value);
+      end;
+
+      DataModule.Request.ExecSQL;
+      DataModule.TDisk.Close;
+      DataModule.TDisk.Open;
+      DataModule.TDisk.First;
+      newRecord := false;
+      setViewMode;
+      uploadData;
+    end;
   end;
 end;
 

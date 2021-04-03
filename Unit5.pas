@@ -940,7 +940,7 @@ begin
                                  + '  , Return = ' + BoolToStr(retDisk)
                                  + ' WHERE Id = ' + IntToStr(DataModule.THireId.Value);
 
-    DataModule.Request.Parameters.ParamByName('disk').Value := IntToStr(idMovie);
+    DataModule.Request.Parameters.ParamByName('disk').Value := IntToStr(idDisk);
     DataModule.Request.Parameters.ParamByName('client').Value := IntToStr(idClient);
     DataModule.Request.Parameters.ParamByName('issue').Value := MaskEdit1.Text;
     DataModule.Request.Parameters.ParamByName('return').Value := MaskEdit2.Text;

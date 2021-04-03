@@ -4,7 +4,7 @@ object Form7: TForm7
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1050#1083#1080#1077#1085#1090#1099
-  ClientHeight = 683
+  ClientHeight = 678
   ClientWidth = 994
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -2333,7 +2333,7 @@ object Form7: TForm7
     Left = 0
     Top = 70
     Width = 994
-    Height = 523
+    Height = 558
     Align = alClient
     Alignment = taLeftJustify
     BevelOuter = bvNone
@@ -2348,6 +2348,7 @@ object Form7: TForm7
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
+    ExplicitHeight = 523
     object Image3: TImage
       Left = 20
       Top = 25
@@ -2407,7 +2408,6 @@ object Form7: TForm7
           '3'
           '4'
           '5')
-        ExplicitLeft = 92
       end
     end
     object Panel10: TPanel
@@ -2547,9 +2547,9 @@ object Form7: TForm7
   end
   object Panel14: TPanel
     Left = 0
-    Top = 593
+    Top = 628
     Width = 994
-    Height = 90
+    Height = 50
     Align = alBottom
     BevelOuter = bvNone
     BiDiMode = bdLeftToRight
@@ -2571,6 +2571,7 @@ object Form7: TForm7
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitHeight = 90
       object Panel55: TPanel
         Left = 92
         Top = 0
@@ -2750,6 +2751,7 @@ object Form7: TForm7
             Font.Style = [fsBold]
             ParentFont = False
             Layout = tlCenter
+            OnClick = Label45Click
             OnMouseDown = Label45MouseDown
             OnMouseMove = Label45MouseMove
             OnMouseLeave = Label45MouseLeave
@@ -2849,49 +2851,6 @@ object Form7: TForm7
             ExplicitHeight = 29
           end
         end
-      end
-    end
-    object Panel46: TPanel
-      Left = 0
-      Top = 50
-      Width = 994
-      Height = 40
-      Align = alBottom
-      BevelOuter = bvNone
-      Caption = 'Panel46'
-      ParentBackground = False
-      ShowCaption = False
-      TabOrder = 1
-      object Shape7: TShape
-        Left = 0
-        Top = 0
-        Width = 994
-        Height = 40
-        Margins.Left = 0
-        Margins.Right = 0
-        Align = alClient
-        Brush.Color = clMaroon
-        Pen.Color = clBlue
-        Pen.Style = psClear
-        Pen.Width = 0
-        ExplicitWidth = 222222
-      end
-      object Label42: TLabel
-        Left = 0
-        Top = 0
-        Width = 994
-        Height = 40
-        Align = alClient
-        Caption = '  '#1050#1086#1084#1084#1077#1085#1090#1072#1088#1080#1081' '#1082' '#1076#1077#1081#1089#1090#1074#1080#1102
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clCream
-        Font.Height = -19
-        Font.Name = 'Magneto'
-        Font.Style = []
-        ParentFont = False
-        Layout = tlCenter
-        ExplicitWidth = 251
-        ExplicitHeight = 24
       end
     end
   end

@@ -116,7 +116,6 @@ type
     Panel51: TPanel;
     Shape7: TShape;
     Panel46: TPanel;
-    Label42: TLabel;
     Panel52: TPanel;
     Label43: TLabel;
     Panel53: TPanel;
@@ -799,7 +798,6 @@ begin
   Form1.Label43.Font.Color := clCream;
   Form1.Label44.Font.Color := clCream;
   Form1.Label45.Font.Color := clCream;
-  Form1.Label42.Font.Color := clCream;
   Form1.Label7.Font.Color := clCream;
 
   Form1.Edit1.Color := RGB(26, 20, 59);

@@ -1,0 +1,98 @@
+unit Unit4;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.Win.ADODB, Data.DB, Vcl.Dialogs,
+  Vcl.ExtDlgs, Vcl.ExtCtrls;
+
+type
+  TDataModule4 = class(TDataModule)
+    ADOConnection1: TADOConnection;
+    TActors: TADOTable;
+    TCategory: TADOTable;
+    TClients: TADOTable;
+    TCountries: TADOTable;
+    TDisk: TADOTable;
+    TGenre: TADOTable;
+    THire: TADOTable;
+    TMovie: TADOTable;
+    TMovieActors: TADOTable;
+    TMovieCountries: TADOTable;
+    TMovieGenre: TADOTable;
+    TMovieProducers: TADOTable;
+    TProducers: TADOTable;
+    Request: TADOQuery;
+    OpenPictureDialog1: TOpenPictureDialog;
+    TMovieId: TAutoIncField;
+    TMovietitleMovie: TWideStringField;
+    TMovieyearIssue: TSmallintField;
+    TMovieduration: TSmallintField;
+    TMovieIMDb: TFloatField;
+    TMovieKinopoisk: TFloatField;
+    TMoviefeesWorld: TBCDField;
+    TMoviebudget: TBCDField;
+    TMovietagline: TWideStringField;
+    TMovieageCategory: TIntegerField;
+    TActorsId: TAutoIncField;
+    TActorsfullName: TWideStringField;
+    TCategoryId: TAutoIncField;
+    TCategoryMPAA: TWideStringField;
+    TCategoryClarification: TWideStringField;
+    TCategoryDescription: TWideStringField;
+    TClientsId: TAutoIncField;
+    TClientsfullName: TWideStringField;
+    TClientsPlaceLivivng: TWideStringField;
+    TClientsMobileNumber: TWideStringField;
+    TCountriesId: TAutoIncField;
+    TCountriesName: TWideStringField;
+    TMovieActorsId: TAutoIncField;
+    TMovieActorsidActors: TIntegerField;
+    TMovieActorsidMovie: TIntegerField;
+    TMovieCountriesId: TAutoIncField;
+    TMovieCountriesidCountries: TIntegerField;
+    TMovieCountriesidMovie: TIntegerField;
+    TMovieGenreId: TAutoIncField;
+    TMovieGenreidMovie: TIntegerField;
+    TMovieGenreidGenre: TIntegerField;
+    TMovieProducersId: TAutoIncField;
+    TMovieProducersidProducers: TIntegerField;
+    TMovieProducersidMovie: TIntegerField;
+    TProducersId: TAutoIncField;
+    TProducersfullName: TWideStringField;
+    TProducersdateBirth: TDateTimeField;
+    TProducerscountFilms: TSmallintField;
+    TActorscountFilms: TSmallintField;
+    TActorsDateBirth: TDateTimeField;
+    TDiskId: TAutoIncField;
+    TDiskidMovie: TIntegerField;
+    TDiskcountDisks: TSmallintField;
+    TDiskUnitPrice: TBCDField;
+    TDiskpriceDay: TBCDField;
+    TGenreId: TAutoIncField;
+    TGenreName: TWideStringField;
+    THireId: TAutoIncField;
+    THireidDisk: TIntegerField;
+    THireidClient: TIntegerField;
+    THireDateIssue: TDateTimeField;
+    THireDateReturn: TDateTimeField;
+    THirePledge: TBCDField;
+    THirePricePerDay: TBCDField;
+    THireamountPay: TBCDField;
+    THireReturn: TBooleanField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule: TDataModule4;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

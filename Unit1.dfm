@@ -3260,8 +3260,8 @@ object Form1: TForm1
             OnMouseDown = Label45MouseDown
             OnMouseMove = Label45MouseMove
             OnMouseLeave = Label45MouseLeave
-            ExplicitLeft = 6
-            ExplicitTop = -6
+            ExplicitWidth = 97
+            ExplicitHeight = 29
           end
         end
         object Panel53: TPanel
@@ -3384,23 +3384,6 @@ object Form1: TForm1
         Pen.Width = 3
         ExplicitLeft = 8
         ExplicitTop = 44
-      end
-      object Label42: TLabel
-        Left = 0
-        Top = 0
-        Width = 994
-        Height = 40
-        Align = alClient
-        Caption = '  '#1050#1086#1084#1084#1077#1085#1090#1072#1088#1080#1081' '#1082' '#1076#1077#1081#1089#1090#1074#1080#1102
-        Font.Charset = RUSSIAN_CHARSET
-        Font.Color = clBlack
-        Font.Height = -19
-        Font.Name = 'Magneto'
-        Font.Style = [fsBold]
-        ParentFont = False
-        Layout = tlCenter
-        ExplicitWidth = 253
-        ExplicitHeight = 22
       end
     end
   end

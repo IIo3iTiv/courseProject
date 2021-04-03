@@ -46,6 +46,7 @@ object DataModule4: TDataModule4
     Active = True
     Connection = ADOConnection1
     CursorType = ctStatic
+    Filtered = True
     TableName = 'Category'
     Left = 192
     Top = 16
@@ -56,10 +57,6 @@ object DataModule4: TDataModule4
     object TCategoryMPAA: TWideStringField
       FieldName = 'MPAA'
       Size = 10
-    end
-    object TCategoryClarification: TWideStringField
-      FieldName = 'Clarification'
-      Size = 50
     end
     object TCategoryDescription: TWideStringField
       FieldName = 'Description'
@@ -243,8 +240,7 @@ object DataModule4: TDataModule4
     Left = 696
     Top = 16
     object TMovieActorsId: TAutoIncField
-      DisplayLabel = 'Id'
-      FieldName = #1050#1086#1076
+      FieldName = 'Id'
       ReadOnly = True
     end
     object TMovieActorsidActors: TIntegerField
