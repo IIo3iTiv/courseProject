@@ -2128,6 +2128,7 @@ object Form14: TForm14
     FFFFFFFE000000007FFFFFFFFFFFFFFFFFFFFFFFE8000017FFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   OldCreateOrder = False
+  PopupMenu = DataModule4.PopupMenu1
   Position = poDesktopCenter
   OnActivate = FormActivate
   OnClose = FormClose
@@ -2190,7 +2191,7 @@ object Form14: TForm14
         Font.Style = [fsBold]
         ParentFont = False
         Layout = tlCenter
-        ExplicitLeft = -26
+        ExplicitLeft = 22
         ExplicitWidth = 235
         ExplicitHeight = 52
       end
@@ -2240,6 +2241,7 @@ object Form14: TForm14
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label3Click
           OnMouseDown = Label3MouseDown
           OnMouseMove = Label3MouseMove
           OnMouseLeave = Label3MouseLeave
@@ -2307,7 +2309,6 @@ object Form14: TForm14
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitHeight = 200
     object Panel6: TPanel
       Left = 125
       Top = 25
@@ -2371,7 +2372,6 @@ object Form14: TForm14
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
-    ExplicitTop = 320
     object Panel55: TPanel
       Left = 0
       Top = 0

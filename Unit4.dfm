@@ -337,4 +337,63 @@ object DataModule4: TDataModule4
     Left = 464
     Top = 88
   end
+  object PopupMenu1: TPopupMenu
+    Left = 552
+    Top = 88
+    object N1: TMenuItem
+      Caption = #1060#1080#1083#1100#1084#1099
+      object N2: TMenuItem
+        Caption = #1060#1080#1083#1100#1084#1099
+        OnClick = N2Click
+      end
+      object N3: TMenuItem
+        Caption = #1040#1082#1090#1105#1088#1099
+      end
+      object N4: TMenuItem
+        Caption = #1056#1077#1078#1080#1089#1089#1105#1088#1099
+      end
+    end
+    object N5: TMenuItem
+      Caption = #1055#1088#1086#1082#1072#1090
+      object N6: TMenuItem
+        Caption = #1055#1088#1086#1082#1072#1090
+      end
+      object N7: TMenuItem
+        Caption = #1050#1083#1080#1077#1085#1090#1099
+      end
+      object N8: TMenuItem
+        Caption = #1044#1080#1089#1082#1080
+      end
+    end
+    object N9: TMenuItem
+      Caption = #1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1086
+      object N10: TMenuItem
+        Caption = #1057#1090#1088#1072#1085#1099
+      end
+      object N11: TMenuItem
+        Caption = #1046#1072#1085#1088#1099
+      end
+      object N12: TMenuItem
+        Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1080
+      end
+    end
+    object N13: TMenuItem
+      Caption = #1057#1074#1103#1079#1080
+      object N14: TMenuItem
+        Caption = #1040#1082#1090#1105#1088#1099
+      end
+      object N15: TMenuItem
+        Caption = #1056#1077#1078#1080#1089#1089#1105#1088#1099
+      end
+      object N16: TMenuItem
+        Caption = #1057#1090#1088#1072#1085#1099
+      end
+      object N17: TMenuItem
+        Caption = #1046#1072#1085#1088#1099
+      end
+    end
+    object N18: TMenuItem
+      Caption = #1054#1090#1095#1105#1090#1099
+    end
+  end
 end

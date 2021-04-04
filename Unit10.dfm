@@ -2128,8 +2128,10 @@ object Form10: TForm10
     FFFFFFFE000000007FFFFFFFFFFFFFFFFFFFFFFFE8000017FFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   OldCreateOrder = False
+  PopupMenu = DataModule4.PopupMenu1
   Position = poDesktopCenter
   OnActivate = FormActivate
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -2239,6 +2241,7 @@ object Form10: TForm10
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label3Click
           OnMouseDown = Label3MouseDown
           OnMouseMove = Label3MouseMove
           OnMouseLeave = Label3MouseLeave
@@ -2269,6 +2272,7 @@ object Form10: TForm10
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label5Click
           OnMouseDown = Label5MouseDown
           OnMouseMove = Label5MouseMove
           OnMouseLeave = Label5MouseLeave
@@ -2300,40 +2304,11 @@ object Form10: TForm10
           ParentFont = False
           Transparent = True
           Layout = tlCenter
+          OnClick = Label2Click
           OnMouseDown = Label2MouseDown
           OnMouseMove = Label2MouseMove
           OnMouseLeave = Label2MouseLeave
           ExplicitHeight = 24
-        end
-      end
-      object Panel15: TPanel
-        Left = 325
-        Top = 0
-        Width = 73
-        Height = 70
-        BevelOuter = bvNone
-        Caption = 'Panel7'
-        ShowCaption = False
-        TabOrder = 3
-        object Label10: TLabel
-          Left = 0
-          Top = 0
-          Width = 73
-          Height = 70
-          Align = alClient
-          Alignment = taCenter
-          Caption = #1057#1090#1088#1072#1085#1099
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -19
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          OnMouseDown = Label10MouseDown
-          OnMouseMove = Label10MouseMove
-          OnMouseLeave = Label10MouseLeave
-          ExplicitHeight = 22
         end
       end
     end

@@ -2130,6 +2130,7 @@ object Form11: TForm11
   OldCreateOrder = False
   Position = poDesktopCenter
   OnActivate = FormActivate
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -2239,6 +2240,7 @@ object Form11: TForm11
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label3Click
           OnMouseDown = Label3MouseDown
           OnMouseMove = Label3MouseMove
           OnMouseLeave = Label3MouseLeave
@@ -2270,6 +2272,7 @@ object Form11: TForm11
           ParentFont = False
           Transparent = True
           Layout = tlCenter
+          OnClick = Label2Click
           OnMouseDown = Label2MouseDown
           OnMouseMove = Label2MouseMove
           OnMouseLeave = Label2MouseLeave
@@ -2389,6 +2392,7 @@ object Form11: TForm11
           Font.Name = 'Magneto'
           Font.Style = [fsBold]
           ParentFont = False
+          PopupMenu = DataModule4.PopupMenu1
           Layout = tlCenter
           OnClick = Label45Click
           OnMouseDown = Label45MouseDown

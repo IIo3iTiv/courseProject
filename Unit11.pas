@@ -100,6 +100,9 @@ type
     procedure Label45Click(Sender: TObject);
     procedure Edit1Click(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Label2Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -120,7 +123,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit3;
+uses Unit1, Unit2, Unit4, Unit3, Unit13, Unit14;
 
 procedure TForm11.Edit1Click(Sender: TObject);
 begin
@@ -158,6 +161,11 @@ end;
 procedure TForm11.FormActivate(Sender: TObject);
 begin
   Label14.OnClick(Self);
+end;
+
+procedure TForm11.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Form1.Show;
 end;
 
 procedure TForm11.FormCreate(Sender: TObject);
@@ -311,6 +319,12 @@ begin
   Label17.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm11.Label2Click(Sender: TObject);
+begin
+  Form11.Hide;
+  Form13.Show;
+end;
+
 procedure TForm11.Label2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -326,6 +340,12 @@ procedure TForm11.Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label2.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm11.Label3Click(Sender: TObject);
+begin
+  Form11.Hide;
+  Form14.Show;
 end;
 
 procedure TForm11.Label3MouseDown(Sender: TObject; Button: TMouseButton;
@@ -421,8 +441,15 @@ begin
   btn := MessageDlg('Вы действительно хотите удалить текущую запись?', mtConfirmation, mbYesNo, 0);
   if btn = mrYes then
   begin
+
     DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'DELETE FROM Countries WHERE Id = ' + IntToStr(DataModule.TCountriesId.Value);;
+    DataModule.Request.SQL.Text := 'DELETE FROM [Movie - Countries] WHERE idCountries = ' + IntToStr(DataModule.TCountriesId.Value);
+    DataModule.Request.ExecSQL;
+    DataModule.TMovieCountries.Close;
+    DataModule.TMovieCountries.Open;
+
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Countries WHERE Id = ' + IntToStr(DataModule.TCountriesId.Value);
     DataModule.Request.ExecSQL;
     DataModule.TCountries.Close;
     DataModule.TCountries.Open;

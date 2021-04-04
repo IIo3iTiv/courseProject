@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, System.UITypes,
-  Vcl.Buttons, PNGImage, Vcl.DBCtrls, Vcl.Mask;
+  Vcl.Buttons, PNGImage, Vcl.DBCtrls, Vcl.Mask, DB;
 
 type
   TForm3 = class(TForm)
@@ -77,9 +77,6 @@ type
     Panel16: TPanel;
     Label10: TLabel;
     ListBox1: TListBox;
-    Panel17: TPanel;
-    Label12: TLabel;
-    DBLookupComboBox1: TDBLookupComboBox;
     Panel18: TPanel;
     Label13: TLabel;
     Edit1: TEdit;
@@ -197,8 +194,17 @@ type
     procedure MaskEdit1KeyPress(Sender: TObject; var Key: Char);
     procedure Edit7KeyPress(Sender: TObject; var Key: Char);
     procedure Image3Click(Sender: TObject);
+    procedure FormClick(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
+    procedure Label38Click(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Edit2Change(Sender: TObject);
+    procedure ComboBox1Change(Sender: TObject);
+    procedure Edit1KeyPress(Sender: TObject; var Key: Char);
+    procedure Edit2KeyPress(Sender: TObject; var Key: Char);
   private
 
+    procedure filterOut;
     procedure setViewMode;
     procedure showFilter;
     procedure setEditMode;
@@ -215,12 +221,37 @@ type
 var
   Form3: TForm3;
   filter, editMode: boolean;
+  idMovie: array[0 .. 100] of integer;
 
 implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4;
+uses Unit1, Unit2, Unit4, Unit9, Unit5;
+
+procedure TForm3.filterOut;
+var t: string;
+begin
+  DataModule.TProducers.Filter := '';
+  DataModule.TProducers.Filtered := false;
+
+  if Edit1.Text <> '' then
+    DataModule.TProducers.Filter := DataModule.TProducers.Filter + 'fullName LIKE %' + Edit1.Text + '% And ';
+
+  if Edit2.Text <> '' then
+  case ComboBox1.ItemIndex of
+    0: DataModule.TProducers.Filter := DataModule.TProducers.Filter + 'countFilms > ' + Edit2.Text + ' And ';
+    1: DataModule.TProducers.Filter := DataModule.TProducers.Filter + 'countFilms < ' + Edit2.Text + ' And ';
+    2: DataModule.TProducers.Filter := DataModule.TProducers.Filter + 'countFilms = ' + Edit2.Text + ' And ';
+  end;
+
+  //ShowMessage(DataModule.TProducers.Filter);
+  t := DataModule.TProducers.Filter;
+  Delete(t, Length(t) - 3, Length(t));
+  DataModule.TProducers.Filter := t;
+  DataModule.TProducers.Filtered :=true;
+  uploadData;
+end;
 
 procedure TForm3.showFilter;
 begin
@@ -234,6 +265,40 @@ begin
 
   if (not filter) and (Panel15.Left > 616) then
     Panel15.Left := Panel15.Left - 5;
+end;
+
+procedure TForm3.Edit1Change(Sender: TObject);
+begin
+  filterOut;
+end;
+
+procedure TForm3.Edit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    'а' .. 'я': ;
+    'А' .. 'Я': ;
+    #8: ;
+    #13: ;
+    #32: ;
+    #3, #22: ;
+    else Key := Chr(0);
+  end;
+end;
+
+procedure TForm3.Edit2Change(Sender: TObject);
+begin
+  filterOut;
+end;
+
+procedure TForm3.Edit2KeyPress(Sender: TObject; var Key: Char);
+begin
+  case Key of
+    '0' .. '9': ;
+    #8: ;
+    #13: ;
+    #3, #22: ;
+    else Key := Chr(0);
+  end;
 end;
 
 procedure TForm3.Edit5Enter(Sender: TObject);
@@ -289,8 +354,14 @@ begin
   editMode := false;
   newRecord := false;
   setViewMode;
-  DataModule.TActors.First;
+  if Not(chsPrd) then
+    DataModule.TActors.First;
   uploadData;
+end;
+
+procedure TForm3.FormClick(Sender: TObject);
+begin
+  Form1.Show;
 end;
 
 procedure TForm3.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -703,6 +774,12 @@ begin
   Label45.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm3.Label5Click(Sender: TObject);
+begin
+  Form3.Hide;
+  Form5.Show;
+end;
+
 procedure TForm3.Label5MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -766,7 +843,22 @@ end;
 
 procedure TForm3.ListBox1Click(Sender: TObject);
 begin
-  Button1.SetFocus;
+  if newRecord Or editMode then
+  begin
+    if ListBox1.ItemIndex = ListBox1.Items.Count - 1 then
+    begin
+      Form2.Hide;
+      Form9.Show;
+    end
+  end
+  else
+  begin
+    chsPrd := true;
+    DataModule.TMovie.Locate('Id', idMovie[ListBox1.ItemIndex], [loCaseInsensitive]);
+    Form3.Hide;
+    Form1.Show;
+    chsPrd := false;
+  end;
 end;
 
 procedure TForm3.ListBox1DrawItem(Control: TWinControl; Index: Integer;
@@ -825,6 +917,16 @@ begin
   Shape5.Pen.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm3.Label38Click(Sender: TObject);
+begin
+  if DataModule.TProducers.Filtered then
+  begin
+    DataModule.TProducers.Filtered := false;
+    uploadData
+  end;
+
+end;
+
 procedure TForm3.Label38MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -855,6 +957,13 @@ end;
 
 procedure TForm3.delRecord;      // Удалить запись
 begin
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM [Movie - Producers] WHERE idProducers = ' + IntToStr(DataModule.TProducersId.Value);
+  DataModule.Request.ExecSQL;
+  DataModule.TMovieProducers.Close;
+  DataModule.TMovieProducers.Open;
+
   DataModule.Request.SQL.Clear;
   DataModule.Request.SQL.Text := 'DELETE FROM Producers WHERE Id = ' + IntToStr(DataModule.TProducersId.Value);
   DataModule.Request.ExecSQL;
@@ -903,6 +1012,11 @@ begin
   editMode := true;
   setEditMode;
   uploadData;
+end;
+
+procedure TForm3.ComboBox1Change(Sender: TObject);
+begin
+  filterOut;
 end;
 
 procedure TForm3.uploadData;    // Загрузить данные
@@ -957,7 +1071,9 @@ begin
     DataModule.Request.Next;
     Inc(i);
   end;
-  ListBox1.Items.Add('Добавить фильмы');
+
+  if newRecord Or editMode then
+    ListBox1.Items.Add('Добавить');
 
 
 end;

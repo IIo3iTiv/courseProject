@@ -2130,6 +2130,7 @@ object Form3: TForm3
   OldCreateOrder = False
   Position = poDesktopCenter
   OnActivate = FormActivate
+  OnClick = FormClick
   OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
@@ -2258,7 +2259,7 @@ object Form3: TForm3
         end
       end
       object Panel7: TPanel
-        Left = 297
+        Left = 201
         Top = 0
         Width = 68
         Height = 70
@@ -2280,7 +2281,9 @@ object Form3: TForm3
           Font.Name = 'Magneto'
           Font.Style = [fsBold]
           ParentFont = False
+          PopupMenu = DataModule4.PopupMenu1
           Layout = tlCenter
+          OnClick = Label5Click
           OnMouseDown = Label5MouseDown
           OnMouseMove = Label5MouseMove
           OnMouseLeave = Label5MouseLeave
@@ -2288,7 +2291,7 @@ object Form3: TForm3
         end
       end
       object Panel8: TPanel
-        Left = 201
+        Left = 293
         Top = 0
         Width = 71
         Height = 70
@@ -2476,9 +2479,6 @@ object Form3: TForm3
         Text = 'MaskEdit1'
         OnEnter = MaskEdit1Enter
         OnKeyPress = MaskEdit1KeyPress
-        ExplicitLeft = 3
-        ExplicitTop = 73
-        ExplicitWidth = 988
         ExplicitHeight = 32
       end
     end
@@ -2530,7 +2530,7 @@ object Form3: TForm3
     end
     object Panel16: TPanel
       Left = 397
-      Top = 214
+      Top = 211
       Width = 500
       Height = 265
       BevelOuter = bvNone
@@ -2974,23 +2974,23 @@ object Form3: TForm3
         ExplicitTop = 40
         ExplicitHeight = 573
       end
-      object Panel17: TPanel
+      object Panel18: TPanel
         Left = 0
         Top = 50
         Width = 350
-        Height = 70
+        Height = 62
         BevelOuter = bvNone
-        Caption = 'Panel17'
+        Caption = 'Panel18'
         ShowCaption = False
         TabOrder = 0
-        object Label12: TLabel
+        object Label13: TLabel
           Left = 0
           Top = 0
           Width = 350
           Height = 24
           Align = alTop
           Alignment = taCenter
-          Caption = #1056#1077#1078#1080#1089#1089#1105#1088
+          Caption = #1056#1077#1078#1080#1089#1089#1077#1088
           Font.Charset = RUSSIAN_CHARSET
           Font.Color = clCream
           Font.Height = -21
@@ -2999,46 +2999,6 @@ object Form3: TForm3
           ParentFont = False
           Layout = tlCenter
           ExplicitWidth = 102
-        end
-        object DBLookupComboBox1: TDBLookupComboBox
-          Left = 25
-          Top = 30
-          Width = 300
-          Height = 32
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -21
-          Font.Name = 'Magneto'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 0
-        end
-      end
-      object Panel18: TPanel
-        Left = 0
-        Top = 145
-        Width = 350
-        Height = 62
-        BevelOuter = bvNone
-        Caption = 'Panel18'
-        ShowCaption = False
-        TabOrder = 1
-        object Label13: TLabel
-          Left = 0
-          Top = 0
-          Width = 350
-          Height = 24
-          Align = alTop
-          Alignment = taCenter
-          Caption = #1044#1072#1090#1072' '#1088#1086#1078#1076#1077#1085#1080#1103
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -21
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          ExplicitWidth = 158
         end
         object Edit1: TEdit
           Left = 25
@@ -3053,18 +3013,19 @@ object Form3: TForm3
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          Text = 'Edit1'
+          OnChange = Edit1Change
+          OnKeyPress = Edit1KeyPress
         end
       end
       object Panel22: TPanel
         Left = 0
-        Top = 237
+        Top = 145
         Width = 350
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel22'
         ShowCaption = False
-        TabOrder = 2
+        TabOrder = 1
         object Label16: TLabel
           Left = 0
           Top = 0
@@ -3094,7 +3055,7 @@ object Form3: TForm3
           object ComboBox1: TComboBox
             Left = 0
             Top = 0
-            Width = 100
+            Width = 113
             Height = 32
             Align = alLeft
             Font.Charset = RUSSIAN_CHARSET
@@ -3106,6 +3067,7 @@ object Form3: TForm3
             ParentFont = False
             TabOrder = 0
             Text = #1041#1086#1083#1100#1096#1077
+            OnChange = ComboBox1Change
             Items.Strings = (
               #1041#1086#1083#1100#1096#1077
               #1052#1077#1085#1100#1096#1077
@@ -3123,7 +3085,8 @@ object Form3: TForm3
             Font.Style = []
             ParentFont = False
             TabOrder = 1
-            Text = 'Edit2'
+            OnChange = Edit2Change
+            OnKeyPress = Edit2KeyPress
           end
         end
       end
@@ -3135,7 +3098,7 @@ object Form3: TForm3
         BevelOuter = bvNone
         Caption = 'Panel37'
         ShowCaption = False
-        TabOrder = 3
+        TabOrder = 2
         object Shape5: TShape
           Left = 0
           Top = 0
@@ -3164,6 +3127,7 @@ object Form3: TForm3
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label38Click
           OnMouseDown = Label38MouseDown
           OnMouseMove = Label38MouseMove
           OnMouseLeave = Label38MouseLeave

@@ -173,6 +173,7 @@ type
     procedure Label44Click(Sender: TObject);
     procedure Label43Click(Sender: TObject);
     procedure Label45Click(Sender: TObject);
+    procedure Label6Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -199,7 +200,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit3, Unit6;
+uses Unit1, Unit2, Unit4, Unit3, Unit6, Unit7;
 
 procedure TForm5.showFilter;
 begin
@@ -222,7 +223,10 @@ begin
 
   if cnt > 0 then
   begin
-    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idM) + '.jpg');
+    if FileExists('img/Posters/' + IntToStr(idM) + '.jpg') then
+      Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idM) + '.jpg')
+    else
+      Image3.Picture.LoadFromFile('img/Posters/0.jpg');
     DataModule.Request.SQL.Clear;
     DataModule.Request.SQL.Text := 'SELECT UnitPrice, priceDay '
                                  + 'FROM Disk '
@@ -784,6 +788,12 @@ begin
   Label45.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm5.Label6Click(Sender: TObject);
+begin
+  Form5.Hide;
+  Form7.Show;
+end;
+
 procedure TForm5.Label6MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -1136,8 +1146,15 @@ begin
   end;
 
   // Картинки
-  Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie) + '.jpg');
-  Image1.Picture.LoadFromFile('img/Clients/' + IntToStr(idClient) + '.jpg');
+  if FileExists('img/Posters/' + IntToStr(idMovie) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+
+  if FileExists('img/Clients/' + IntToStr(idClient) + '.jpg') then
+    Image1.Picture.LoadFromFile('img/Clients/' + IntToStr(idClient) + '.jpg')
+  else
+    Image1.Picture.LoadFromFile('img/Clients/0.jpg');
 
   // Дата выдачи
   if Not(editMode) then

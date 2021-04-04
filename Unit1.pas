@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.Buttons,
-  Vcl.Imaging.JPEG, Vcl.DBCtrls, System.UITypes;
+  Vcl.Imaging.JPEG, Vcl.DBCtrls, System.UITypes, DB;
 
 type
   TForm1 = class(TForm)
@@ -136,7 +136,7 @@ type
     Panel58: TPanel;
     Panel59: TPanel;
     Edit13: TEdit;
-    Edit14: TEdit;
+    ComboBox1: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
@@ -179,7 +179,6 @@ type
     procedure Edit10Enter(Sender: TObject);
     procedure Edit11Enter(Sender: TObject);
     procedure Edit12Enter(Sender: TObject);
-    procedure ListBox1Enter(Sender: TObject);
     procedure ListBox1Click(Sender: TObject);
     procedure ListBox1DrawItem(Control: TWinControl; Index: Integer;
       Rect: TRect; State: TOwnerDrawState);
@@ -189,9 +188,6 @@ type
       Rect: TRect; State: TOwnerDrawState);
     procedure ListBox4DrawItem(Control: TWinControl; Index: Integer;
       Rect: TRect; State: TOwnerDrawState);
-    procedure ListBox2Enter(Sender: TObject);
-    procedure ListBox3Enter(Sender: TObject);
-    procedure ListBox4Enter(Sender: TObject);
     procedure Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure Label14MouseLeave(Sender: TObject);
@@ -261,9 +257,19 @@ type
     procedure Edit13Change(Sender: TObject);
     procedure ListBox2Click(Sender: TObject);
     procedure Label4Click(Sender: TObject);
+    procedure ListBox4Click(Sender: TObject);
+    procedure ListBox3Click(Sender: TObject);
+    procedure Label38Click(Sender: TObject);
+    procedure ComboBox1DrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure ComboBox1Change(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Edit2Change(Sender: TObject);
+    procedure Edit3Change(Sender: TObject);
+    procedure Edit4Change(Sender: TObject);
 
   private
-
+    procedure filterOut;
     procedure showFilter;
     procedure setEditMode;
     procedure setViewMode;
@@ -281,9 +287,11 @@ type
 
 var
   Form1: TForm1;
-  filter, editMode, aviableSale, lastRecord, newRecord, saveRecord: boolean;
-  idActors: array[0 .. 10] of integer;
-  idProducers: array[0 .. 10] of Integer;
+  filter, editMode, aviableSale, lastRecord, newRecord, saveRecord, chsPrd, chsAct: boolean;
+  idActors: array[0 .. 1000000] of integer;
+  idProducers: array[0 .. 1000000] of Integer;
+  idGenre: array[0 .. 1000000] of integer;
+
   curMovie: integer;
 
   titleMovie, tagline, filtr: String;
@@ -295,7 +303,73 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, Unit3, Unit4, Unit6, Unit5;
+uses Unit2, Unit3, Unit4, Unit6, Unit5, Unit10, Unit12, Unit9, Unit8;
+
+procedure TForm1.filterOut;
+var text: string;
+begin
+  text := '';
+  if Edit13.Text <> '' then
+  begin
+    text := text + '(titleMovie LIKE %' + Edit13.Text + '%';
+    text := text + ') And ';
+  end;
+
+  if ComboBox1.ItemIndex >= 0 then
+  begin
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'SELECT m.Id '
+                                 + 'FROM Movie AS m '
+                                 + 'INNER JOIN (SELECT mg.idMovie '
+                                 + '            FROM Genre AS g '
+                                 + '            INNER JOIN [Movie - Genre] AS mg '
+                                 + '            ON g.Id = mg.idGenre '
+                                 + '            WHERE g.Id = ' + IntToStr(idGenre[ComboBox1.ItemIndex])
+                                 + '            ) AS mg '
+                                 + 'ON m.Id = mg.idMovie ';
+    DataModule.Request.Active := true;
+    text := text + '(';
+    while Not(DataModule.Request.Eof) do
+    begin
+      text := text + 'Id = ' + DataModule.Request.Fields[0].AsString;
+      text := text + ' Or ';
+      DataModule.Request.Next;
+    end;
+
+    Delete(text, Length(text)-3, Length(text));
+    text := text + ') And ';
+  end;
+
+  if Edit1.Text <> '' then
+  begin
+    text := text + '(yearIssue > ' + Edit1.Text;
+    text := text + ') And ';
+  end;
+
+  if Edit2.Text <> '' then
+  begin
+    text := text + '(yearIssue <= ' + Edit2.Text;
+    text := text + ') And ';
+  end;
+
+  if Edit3.Text <> '' then
+  begin
+    text := text + '(duration >= ' + Edit3.Text;
+    text := text + ') And ';
+  end;
+
+  if Edit4.Text <> '' then
+  begin
+    text := text + '(duration <= ' + Edit4.Text;
+    text := text + ') And ';
+  end;
+
+  Delete(text, Length(text)-3, length(text));
+  ShowMessage(text);
+  DataModule.TMovie.Filter := text;
+  DataModule.TMovie.Filtered := true;
+  uploadData;
+end;
 
 procedure TForm1.showFilter();
 begin
@@ -465,11 +539,10 @@ begin
   Form1.ListBox4.Color := RGB(26, 20, 59);
 
   Form1.Edit13.Color := RGB(26, 20, 59);
-  Form1.Edit14.Color := RGB(26, 20, 59);
+  Form1.ComboBox1.Color := RGB(26, 20, 59);
   Form1.Edit13.BorderStyle := bsSingle;
   Form1.Edit13.Font.Color := clCream;
-  Form1.Edit14.BorderStyle := bsSingle;
-  Form1.Edit14.Font.Color := clCream;
+  Form1.ComboBox1.Font.Color := clCream;
 
   //Form1.Label8.Font.Color := RGB(248, 16, 77);
 
@@ -494,6 +567,32 @@ end;
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   setViewMode();
+end;
+
+procedure TForm1.ComboBox1Change(Sender: TObject);
+begin
+  filterOut;
+  Button4.SetFocus;
+end;
+
+procedure TForm1.ComboBox1DrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+begin
+  with ComboBox1 do
+  begin
+    if odSelected in State then
+    begin
+      Canvas.Brush.Color := RGB(214, 16, 77);
+    end
+    else
+    begin
+      Canvas.Brush.Color := RGB(26, 20, 59);
+    end;
+    Canvas.FillRect(Rect);
+
+    Canvas.TextOut(Rect.Left + 5, Rect.Top + 3, Items[Index]);
+    if odFocused in State then Canvas.DrawFocusRect(Rect);
+  end;
 end;
 
 procedure TForm1.ComboBox3Enter(Sender: TObject);
@@ -570,17 +669,7 @@ end;
 
 procedure TForm1.Edit13Change(Sender: TObject);
 begin
-  if Form1.Edit13.Text <> '' then
-    filtr := filtr + '(titleMovie LIKE "%' + Form1.Edit13.Text + '%")' + ' and ';
-
-  if filtr <> '' then
-  begin
-    DataModule.TMovie.Filter := Copy(filtr, 1, Length(filtr) - 5);
-    DataModule.TMovie.Filtered := true;
-  end
-  else
-    DataModule.TMovie.Filtered := false;
-  ShowMessage(DataModule.TMovie.Filter);
+  filterOut;
 end;
 
 procedure TForm1.Edit13KeyPress(Sender: TObject; var Key: Char);
@@ -609,6 +698,11 @@ begin
   end;
 end;
 
+procedure TForm1.Edit1Change(Sender: TObject);
+begin
+  filterOut;
+end;
+
 procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: Char);
 begin
   case Key of
@@ -618,6 +712,11 @@ begin
     #3, #22: ;
     else Key := Chr(0);
   end;
+end;
+
+procedure TForm1.Edit2Change(Sender: TObject);
+begin
+  filterOut;
 end;
 
 procedure TForm1.Edit2KeyPress(Sender: TObject; var Key: Char);
@@ -631,6 +730,11 @@ begin
   end;
 end;
 
+procedure TForm1.Edit3Change(Sender: TObject);
+begin
+  filterOut;
+end;
+
 procedure TForm1.Edit3KeyPress(Sender: TObject; var Key: Char);
 begin
   case Key of
@@ -640,6 +744,11 @@ begin
     #3, #22: ;
     else Key := Chr(0);
   end;
+end;
+
+procedure TForm1.Edit4Change(Sender: TObject);
+begin
+  filterOut;
 end;
 
 procedure TForm1.Edit4KeyPress(Sender: TObject; var Key: Char);
@@ -756,11 +865,32 @@ begin
 end;
 
 procedure TForm1.FormActivate(Sender: TObject);
+var i: integer;
 begin
-  DataModule.TMovie.First;
+  if Not(chsPrd) then
+    DataModule.TMovie.First;
+  setViewMode;
   uploadData;
   newRecord := false;
   saveRecord := false;
+  chsPrd := false;
+  chsAct := false;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'SELECT Id, Name '
+                               + 'FROM Genre ';
+  DataModule.Request.Active := true;
+
+  i := 0;
+  ComboBox1.Items.Clear;
+  while Not(DataModule.Request.Eof) do
+  begin
+    idGenre[i] := DataModule.Request.Fields[0].AsInteger;
+    ComboBox1.Items.Add(DataModule.Request.Fields[1].AsString);
+    Inc(i);
+    DataModule.Request.Next;
+  end;
+
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -976,6 +1106,12 @@ begin
   Form1.Label2.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm1.Label38Click(Sender: TObject);
+begin
+  if DataModule.TMovie.Filtered then
+    DataModule.TMovie.Filtered := false;
+end;
+
 procedure TForm1.Label38MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -1188,118 +1324,129 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
-  Form1.Button4.SetFocus;
+  if newRecord Or editMode then
+  begin
+    if ListBox1.ItemIndex = ListBox1.Items.Count - 1 then
+    begin
+      Form1.Hide;
+      Form8.Show;
+    end
+  end
+  else
+  begin
+    chsAct := true;
+    DataModule.TActors.Locate('Id', idActors[ListBox1.ItemIndex], [loCaseInsensitive]);
+    Form1.Hide;
+    Form2.Show;
+    chsAct := false;
+  end;
 end;
 
 procedure TForm1.ListBox1DrawItem(Control: TWinControl; Index: Integer;
   Rect: TRect; State: TOwnerDrawState);
-  var BackColor, FontColor : tColor;
+var Offset: Integer;
 begin
-  if odSelected in State then begin
-    BackColor := RGB(248, 16, 77);
-    FontColor := clCream;
-  end else begin
-    BackColor := RGB(26, 20, 59);
-    FontColor := clCream;
-  end;
+  with ListBox1.Canvas do begin
+    if odSelected in State then
+      Brush.Color := RGB(248, 16, 77)
+    else
+      Brush.Color := RGB(26, 20, 59);
 
-  With ListBox1.Canvas do begin
-    Brush.Color := BackColor;
-    FillRect(rect);
-    Font.Color := FontColor;
-    TextOut(rect.Left + 7, rect.Top + 2, ListBox1.Items[Index]);
+    FillRect(Rect);
+    Offset := Round(Rect.Right / 2 - TextWidth((Control as TListBox).Items[Index])/2 );
+    TextOut( Offset, Rect.Top + 5, (Control as TListBox).Items[Index]  );
+    if odFocused in State then DrawFocusRect(Rect);
   end;
-end;
-
-procedure TForm1.ListBox1Enter(Sender: TObject);
-begin
-  if editMode then
-    begin
-      Form1.Button4.SetFocus;
-    end;
 end;
 
 procedure TForm1.ListBox2Click(Sender: TObject);
 begin
-  Form1.Button4.SetFocus;
+  if newRecord Or editMode then
+  begin
+    if ListBox2.ItemIndex = ListBox2.Items.Count - 1 then
+    begin
+      Form1.Hide;
+      Form9.Show;
+    end
+  end
+  else
+  begin
+    chsPrd := true;
+    DataModule.TProducers.Locate('Id', idProducers[ListBox2.ItemIndex], [loCaseInsensitive]);
+    ShowMessage(IntToStr(idProducers[ListBox2.ItemIndex]));
+    Form1.Hide;
+    Form3.Show;
+    chsPrd := false;
+  end;
 end;
 
 procedure TForm1.ListBox2DrawItem(Control: TWinControl; Index: Integer;
   Rect: TRect; State: TOwnerDrawState);
-  var BackColor, FontColor : tColor;
+var Offset: Integer;
 begin
-  if odSelected in State then begin
-    BackColor := RGB(248, 16, 77);
-    FontColor := clCream;
-  end else begin
-    BackColor := RGB(26, 20, 59);
-    FontColor := clCream;
-  end;
+  with ListBox2.Canvas do begin
+    if odSelected in State then
+      Brush.Color := RGB(248, 16, 77)
+    else
+      Brush.Color := RGB(26, 20, 59);
 
-  With ListBox2.Canvas do begin
-    Brush.Color := BackColor;
-    FillRect(rect);
-    Font.Color := FontColor;
-    TextOut(rect.Left + 7, rect.Top + 2, ListBox2.Items[Index]);
+    FillRect(Rect);
+    Offset := Round(Rect.Right / 2 - TextWidth((Control as TListBox).Items[Index])/2 );
+    TextOut( Offset, Rect.Top + 5, (Control as TListBox).Items[Index]  );
+    if odFocused in State then DrawFocusRect(Rect);
   end;
 end;
 
-procedure TForm1.ListBox2Enter(Sender: TObject);
+procedure TForm1.ListBox3Click(Sender: TObject);
 begin
-  if editMode then
-    begin
-      Form1.Button4.SetFocus;
-    end;
+  if ListBox3.ItemIndex = ListBox3.Items.Count - 1 then
+  begin
+    Form1.Hide;
+    Form12.Show;
+  end;
 end;
 
 procedure TForm1.ListBox3DrawItem(Control: TWinControl; Index: Integer;
   Rect: TRect; State: TOwnerDrawState);
-  var BackColor, FontColor : tColor;
+var Offset: Integer;
 begin
-  if odSelected in State then begin
-    BackColor := RGB(248, 16, 77);
-    FontColor := clCream;
-  end else begin
-    BackColor := RGB(26, 20, 59);
-    FontColor := clCream;
-  end;
+  with ListBox3.Canvas do begin
+    if odSelected in State then
+      Brush.Color := RGB(248, 16, 77)
+    else
+      Brush.Color := RGB(26, 20, 59);
 
-  With ListBox3.Canvas do begin
-    Brush.Color := BackColor;
-    FillRect(rect);
-    Font.Color := FontColor;
-    TextOut(rect.Left + 7, rect.Top + 2, ListBox3.Items[Index]);
+    FillRect(Rect);
+    Offset := Round(Rect.Right / 2 - TextWidth((Control as TListBox).Items[Index])/2 );
+    TextOut( Offset, Rect.Top + 5, (Control as TListBox).Items[Index]  );
+    if odFocused in State then DrawFocusRect(Rect);
   end;
 end;
 
-procedure TForm1.ListBox3Enter(Sender: TObject);
+procedure TForm1.ListBox4Click(Sender: TObject);
 begin
-  Form1.Button4.SetFocus;
+  if ListBox4.ItemIndex = ListBox4.Items.Count - 1 then
+  begin
+    Form1.Hide;
+    Form10.Show;
+  end;
 end;
 
 procedure TForm1.ListBox4DrawItem(Control: TWinControl; Index: Integer;
   Rect: TRect; State: TOwnerDrawState);
-  var BackColor, FontColor : tColor;
+var Offset: Integer;
 begin
-  if odSelected in State then begin
-    BackColor := RGB(248, 16, 77);
-    FontColor := clCream;
-  end else begin
-    BackColor := RGB(26, 20, 59);
-    FontColor := clCream;
-  end;
+  with ListBox4.Canvas do begin
+    if odSelected in State then
+      Brush.Color := RGB(248, 16, 77)
+    else
+      Brush.Color := RGB(26, 20, 59);
 
-  With ListBox4.Canvas do begin
-    Brush.Color := BackColor;
-    FillRect(rect);
-    Font.Color := FontColor;
-    TextOut(rect.Left + 7, rect.Top + 2, ListBox4.Items[Index]);
+    FillRect(Rect);
+    Offset := Round(Rect.Right / 2 - TextWidth((Control as TListBox).Items[Index])/2 );
+    TextOut( Offset, Rect.Top + 5, (Control as TListBox).Items[Index]  );
+    if odFocused in State then DrawFocusRect(Rect);
   end;
-end;
-
-procedure TForm1.ListBox4Enter(Sender: TObject);
-begin
-  Form1.Button4.SetFocus;
 end;
 
 procedure TForm1.Memo1Enter(Sender: TObject);
@@ -1343,7 +1490,44 @@ begin
 end;
 
 procedure TForm1.delRecord;  // Удалить запись
+var idDisk: string;
 begin
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'SELECT d.Id '
+                               + 'FROM Movie AS m '
+                               + 'INNER JOIN Disk AS d '
+                               + 'ON d.idMovie = m.Id '
+                               + 'WHERE m.Id = ' + IntToStr(DataModule.TMovieId.Value);
+  DataModule.Request.Active := true;
+  if DataModule.Request.RecordCount >= 1 then
+  begin
+    idDisk := DataModule.Request.Fields[0].AsString;
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Hire WHERE idDisk = ' + idDisk;
+    DataModule.Request.ExecSQL;
+  end;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM Disk WHERE idMovie = ' + IntToStr(DataModule.TMovieId.Value);
+  DataModule.Request.ExecSQL;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM [Movie - Actors] WHERE idMovie = ' + IntToStr(DataModule.TMovieId.Value);
+  DataModule.Request.ExecSQL;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM [Movie - Producers] WHERE idMovie = ' + IntToStr(DataModule.TMovieId.Value);
+  DataModule.Request.ExecSQL;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM [Movie - Countries] WHERE idMovie = ' + IntToStr(DataModule.TMovieId.Value);
+  DataModule.Request.ExecSQL;
+
+  DataModule.Request.SQL.Clear;
+  DataModule.Request.SQL.Text := 'DELETE FROM [Movie - Genre] WHERE idMovie = ' + IntToStr(DataModule.TMovieId.Value);
+  DataModule.Request.ExecSQL;
+
   DataModule.Request.SQL.Clear;
   DataModule.Request.SQL.Text := 'DELETE FROM Movie WHERE Id = ' + IntToStr(DataModule.TMovieId.Value);
   DataModule.Request.ExecSQL;
@@ -1351,6 +1535,21 @@ begin
   DataModule.TMovie.Open;
   setViewMode;
   uploadData;
+
+  DataModule.THire.Close;
+  DataModule.THire.Open;
+  DataModule.TDisk.Close;
+  DataModule.TDisk.Open;
+  DataModule.TMovie.Close;
+  DataModule.TMovie.Open;
+  DataModule.TMovieActors.Close;
+  DataModule.TMovieActors.Open;
+  DataModule.TMovieCountries.Close;
+  DataModule.TMovieCountries.Open;
+  DataModule.TMovieGenre.Close;
+  DataModule.TMovieGenre.Open;
+  DataModule.TMovieProducers.Close;
+  DataModule.TMovieProducers.Open;
 end;
 
 procedure TForm1.savRecord;  // Сохранить запись
@@ -1486,7 +1685,7 @@ begin
 
    // Возростная категория
    DataModule.Request.SQL.Clear;
-   DataModule.Request.SQL.Text := 'SELECT Category.MPAA '
+   DataModule.Request.SQL.Text := 'SELECT Category.MPAA, Category.Id '
                                 + 'FROM Category INNER JOIN Movie '
                                 + 'ON Category.Id = Movie.ageCategory '
                                 + 'WHERE 1 = 1 '
@@ -1576,6 +1775,7 @@ begin
      DataModule.Request.Next;
    end;
 
+
    // Присутствует в продаже
    DataModule.Request.SQL.Clear;
    DataModule.Request.SQL.Text := 'SELECT d.countDisks '
@@ -1598,6 +1798,14 @@ begin
       Form1.Label39.Font.Color := RGB(176, 13, 30);
       Form1.Shape6.Pen.Color := RGB(176, 13, 30);
       aviableSale := true;
+    end;
+
+    if newRecord Or editMode then
+    begin
+      ListBox1.Items.Add('Добавить');
+      ListBox2.Items.Add('Добавить');
+      ListBox3.Items.Add('Добавить');
+      ListBox4.Items.Add('Добавить');
     end;
 
 end;

@@ -14,8 +14,6 @@ type
     Panel4: TPanel;
     Label1: TLabel;
     Panel2: TPanel;
-    Panel5: TPanel;
-    Label3: TLabel;
     Panel7: TPanel;
     Label5: TLabel;
     Panel3: TPanel;
@@ -86,11 +84,6 @@ type
     procedure Label2MouseLeave(Sender: TObject);
     procedure Label2MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label3MouseLeave(Sender: TObject);
-    procedure Label3MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure Label5MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure Label5MouseLeave(Sender: TObject);
@@ -119,6 +112,10 @@ type
     procedure ComboBox1CloseUp(Sender: TObject);
     procedure Label4Click(Sender: TObject);
     procedure Label45Click(Sender: TObject);
+    procedure Label2Click(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
+    procedure Label10Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
 
     procedure addRecord;      // Добавить запись
@@ -142,12 +139,15 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit3;
+uses Unit1, Unit2, Unit4, Unit3, Unit10, Unit8, Unit12;
 
 procedure TForm9.ComboBox1Change(Sender: TObject);
 begin
   Button1.SetFocus;
-  Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie[ComboBox1.ItemIndex-1]) + '.jpg');
+  if FileExists('img/Posters/' + IntToStr(idMovie[ComboBox1.ItemIndex-1]) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie[ComboBox1.ItemIndex-1]) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Posters/0.jpg');
 end;
 
 procedure TForm9.ComboBox1CloseUp(Sender: TObject);
@@ -186,7 +186,10 @@ end;
 procedure TForm9.ComboBox2Change(Sender: TObject);
 begin
   Button1.SetFocus;
-  Image1.Picture.LoadFromFile('img/Producers/' + IntToStr(idProducer[ComboBox2.ItemIndex-1]) + '.jpg');
+  if FileExists('img/Producers/' + IntToStr(idActor[ComboBox2.ItemIndex-1]) + '.jpg') then
+    Image1.Picture.LoadFromFile('img/Producers/' + IntToStr(idActor[ComboBox2.ItemIndex-1]) + '.jpg')
+  else
+    Image1.Picture.LoadFromFile('img/Producers/0.jpg');
 end;
 
 procedure TForm9.ComboBox2CloseUp(Sender: TObject);
@@ -231,6 +234,11 @@ begin
 end;
 
 
+procedure TForm9.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Form1.Show;
+end;
+
 procedure TForm9.FormCreate(Sender: TObject);
 begin
   filter := true;
@@ -248,6 +256,12 @@ begin
   // Нижняя
   Panel51.Color := RGB(40, 31, 85);
 
+end;
+
+procedure TForm9.Label10Click(Sender: TObject);
+begin
+  Form9.Hide;
+  Form10.Show;
 end;
 
 procedure TForm9.Label14Click(Sender: TObject);
@@ -391,6 +405,12 @@ begin
   Label17.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm9.Label2Click(Sender: TObject);
+begin
+  Form9.Hide;
+  Form8.Show;
+end;
+
 procedure TForm9.Label2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -406,23 +426,6 @@ procedure TForm9.Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label2.Font.Color := RGB(248, 16, 77);
-end;
-
-procedure TForm9.Label3MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Label3.Font.Color := RGB(210, 17, 77);
-end;
-
-procedure TForm9.Label3MouseLeave(Sender: TObject);
-begin
-  Label3.Font.Color := clCream;
-end;
-
-procedure TForm9.Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Label3.Font.Color := RGB(248, 16, 77);
 end;
 
 procedure TForm9.Label41Click(Sender: TObject);
@@ -539,6 +542,12 @@ procedure TForm9.Label4MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label4.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm9.Label5Click(Sender: TObject);
+begin
+  Form9.Hide;
+  Form12.Show;
 end;
 
 procedure TForm9.Label5MouseDown(Sender: TObject; Button: TMouseButton;
@@ -682,8 +691,15 @@ begin
 
   end;
 
-  Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(DataModule.TMovieProducersidMovie.Value) + '.jpg');
-  Image1.Picture.LoadFromFile('img/Producers/' + IntToStr(DataModule.TMovieProducersidProducers.Value) + '.jpg');
+  if FileExists('img/Posters/' + IntToStr(DataModule.TMovieProducersidMovie.Value) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(DataModule.TMovieProducersidMovie.Value) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Posters/0.jpg');
+
+  if FileExists('img/Producers/' + IntToStr(DataModule.TMovieProducersidProducers.Value) + '.jpg') then
+    Image1.Picture.LoadFromFile('img/Producers/' + IntToStr(DataModule.TMovieProducersidProducers.Value) + '.jpg')
+  else
+    Image1.Picture.LoadFromFile('img/Producers/0.jpg');
 end;
 
 end.

@@ -2280,7 +2280,9 @@ object Form6: TForm6
           Font.Name = 'Magneto'
           Font.Style = [fsBold]
           ParentFont = False
+          PopupMenu = DataModule4.PopupMenu1
           Layout = tlCenter
+          OnClick = Label5Click
           OnMouseDown = Label5MouseDown
           OnMouseMove = Label5MouseMove
           OnMouseLeave = Label5MouseLeave
@@ -2618,8 +2620,8 @@ object Form6: TForm6
             OnMouseDown = Label41MouseDown
             OnMouseMove = Label41MouseMove
             OnMouseLeave = Label41MouseLeave
-            ExplicitLeft = -6
-            ExplicitTop = 6
+            ExplicitWidth = 19
+            ExplicitHeight = 37
           end
         end
         object Panel50: TPanel
@@ -2761,7 +2763,7 @@ object Form6: TForm6
             OnMouseDown = Label43MouseDown
             OnMouseMove = Label43MouseMove
             OnMouseLeave = Label43MouseLeave
-            ExplicitTop = -6
+            ExplicitHeight = 29
           end
         end
         object Panel9: TPanel

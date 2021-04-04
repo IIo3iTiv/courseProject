@@ -147,6 +147,7 @@ type
     procedure Memo1Click(Sender: TObject);
     procedure Label43Click(Sender: TObject);
     procedure Label45Click(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -170,7 +171,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit3;
+uses Unit1, Unit2, Unit4, Unit3, Unit5, Unit7;
 
 procedure TForm6.showFilter;
 begin
@@ -410,7 +411,7 @@ end;
 
 procedure TForm6.Label2Click(Sender: TObject);
 begin
-  Form3.Hide;
+  Form6.Hide;
   Form1.Show;
 end;
 
@@ -433,8 +434,8 @@ end;
 
 procedure TForm6.Label3Click(Sender: TObject);
 begin
-  Form3.Hide;
-  Form2.Show;
+  Form6.Hide;
+  Form5.Show;
 end;
 
 procedure TForm6.Label3MouseDown(Sender: TObject; Button: TMouseButton;
@@ -551,6 +552,12 @@ procedure TForm6.Label45MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label45.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm6.Label5Click(Sender: TObject);
+begin
+  Form6.Hide;
+  Form7.Show;
 end;
 
 procedure TForm6.Label5MouseDown(Sender: TObject; Button: TMouseButton;

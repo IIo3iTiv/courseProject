@@ -42,8 +42,6 @@ type
     Image3: TImage;
     Button1: TButton;
     Shape1: TShape;
-    Panel15: TPanel;
-    Label10: TLabel;
     Panel6: TPanel;
     ComboBox1: TComboBox;
     ComboBox2: TComboBox;
@@ -114,15 +112,14 @@ type
     procedure ComboBox1CloseUp(Sender: TObject);
     procedure Label4Click(Sender: TObject);
     procedure Label45Click(Sender: TObject);
-    procedure Label10MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label10MouseLeave(Sender: TObject);
-    procedure Label10MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure Label17Click(Sender: TObject);
     procedure Label41Click(Sender: TObject);
     procedure Label15Click(Sender: TObject);
     procedure Label14Click(Sender: TObject);
+    procedure Label2Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
 
     procedure addRecord;      // Добавить запись
@@ -146,12 +143,15 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit3;
+uses Unit1, Unit2, Unit4, Unit3, Unit8, Unit9, Unit12;
 
 procedure TForm10.ComboBox1Change(Sender: TObject);
 begin
   Button1.SetFocus;
-  Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie[ComboBox1.ItemIndex-1]) + '.jpg');
+  if FileExists('img/Posters/' + IntToStr(idMovie[ComboBox1.ItemIndex-1]) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(idMovie[ComboBox1.ItemIndex-1]) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Posters/0.jpg');
 end;
 
 procedure TForm10.ComboBox1CloseUp(Sender: TObject);
@@ -233,6 +233,11 @@ begin
 end;
 
 
+procedure TForm10.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Form1.Show;
+end;
+
 procedure TForm10.FormCreate(Sender: TObject);
 begin
   filter := true;
@@ -250,23 +255,6 @@ begin
   // Нижняя
   Panel51.Color := RGB(40, 31, 85);
 
-end;
-
-procedure TForm10.Label10MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Label10.Font.Color := RGB(210, 17, 77);
-end;
-
-procedure TForm10.Label10MouseLeave(Sender: TObject);
-begin
-  Label10.Font.Color := clCream;
-end;
-
-procedure TForm10.Label10MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Label10.Font.Color := RGB(248, 16, 77);
 end;
 
 procedure TForm10.Label14Click(Sender: TObject);
@@ -410,6 +398,12 @@ begin
   Label17.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm10.Label2Click(Sender: TObject);
+begin
+  Form10.Hide;
+  Form8.Show;
+end;
+
 procedure TForm10.Label2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -425,6 +419,12 @@ procedure TForm10.Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label2.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm10.Label3Click(Sender: TObject);
+begin
+  Form10.Hide;
+  Form9.Show;
 end;
 
 procedure TForm10.Label3MouseDown(Sender: TObject; Button: TMouseButton;
@@ -558,6 +558,12 @@ procedure TForm10.Label4MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label4.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm10.Label5Click(Sender: TObject);
+begin
+  Form10.Hide;
+  Form12.Show;
 end;
 
 procedure TForm10.Label5MouseDown(Sender: TObject; Button: TMouseButton;
@@ -700,7 +706,10 @@ begin
     ComboBox2.ItemIndex := 0;
   end;
 
-  Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(DataModule.TMovieCountriesidMovie.Value) + '.jpg');
+  if FileExists('img/Posters/' + IntToStr(DataModule.TMovieCountriesidMovie.Value) + '.jpg') then
+    Image3.Picture.LoadFromFile('img/Posters/' + IntToStr(DataModule.TMovieCountriesidMovie.Value) + '.jpg')
+  else
+    Image3.Picture.LoadFromFile('img/Posters/0.jpg');
 end;
 
 end.

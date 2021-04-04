@@ -2128,6 +2128,7 @@ object Form7: TForm7
     FFFFFFFE000000007FFFFFFFFFFFFFFFFFFFFFFFE8000017FFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   OldCreateOrder = False
+  PopupMenu = DataModule4.PopupMenu1
   Position = poDesktopCenter
   OnActivate = FormActivate
   OnClose = FormClose
@@ -2281,6 +2282,7 @@ object Form7: TForm7
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label5Click
           OnMouseDown = Label5MouseDown
           OnMouseMove = Label5MouseMove
           OnMouseLeave = Label5MouseLeave
@@ -2348,7 +2350,6 @@ object Form7: TForm7
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
-    ExplicitHeight = 523
     object Image3: TImage
       Left = 20
       Top = 25
@@ -2571,7 +2572,6 @@ object Form7: TForm7
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
-      ExplicitHeight = 90
       object Panel55: TPanel
         Left = 92
         Top = 0

@@ -4,7 +4,7 @@ object Form13: TForm13
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1046#1072#1085#1088#1099
-  ClientHeight = 370
+  ClientHeight = 321
   ClientWidth = 550
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -2128,8 +2128,10 @@ object Form13: TForm13
     FFFFFFFE000000007FFFFFFFFFFFFFFFFFFFFFFFE8000017FFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   OldCreateOrder = False
+  PopupMenu = DataModule4.PopupMenu1
   Position = poDesktopCenter
   OnActivate = FormActivate
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -2239,6 +2241,7 @@ object Form13: TForm13
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label3Click
           OnMouseDown = Label3MouseDown
           OnMouseMove = Label3MouseMove
           OnMouseLeave = Label3MouseLeave
@@ -2274,7 +2277,7 @@ object Form13: TForm13
           OnMouseDown = Label2MouseDown
           OnMouseMove = Label2MouseMove
           OnMouseLeave = Label2MouseLeave
-          ExplicitTop = -6
+          ExplicitHeight = 24
         end
       end
     end
@@ -2291,7 +2294,7 @@ object Form13: TForm13
     Left = 0
     Top = 70
     Width = 550
-    Height = 200
+    Height = 201
     Align = alClient
     Alignment = taLeftJustify
     BevelOuter = bvNone
@@ -2306,6 +2309,7 @@ object Form13: TForm13
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
+    ExplicitHeight = 200
     object Panel6: TPanel
       Left = 125
       Top = 25
@@ -2339,9 +2343,9 @@ object Form13: TForm13
   end
   object Panel14: TPanel
     Left = 0
-    Top = 270
+    Top = 271
     Width = 550
-    Height = 100
+    Height = 50
     Align = alBottom
     BevelOuter = bvNone
     BiDiMode = bdLeftToRight
@@ -2351,116 +2355,7 @@ object Form13: TForm13
     ParentBackground = False
     ShowCaption = False
     TabOrder = 2
-    object Panel56: TPanel
-      Left = 0
-      Top = 50
-      Width = 550
-      Height = 50
-      Align = alBottom
-      BevelOuter = bvNone
-      Caption = 'Panel56'
-      ShowCaption = False
-      TabOrder = 0
-      object Panel54: TPanel
-        Left = 373
-        Top = 0
-        Width = 97
-        Height = 50
-        BevelOuter = bvNone
-        Caption = 'Panel54'
-        Font.Charset = RUSSIAN_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -24
-        Font.Name = 'Magneto'
-        Font.Style = [fsBold]
-        ParentFont = False
-        ShowCaption = False
-        TabOrder = 0
-        object Label45: TLabel
-          Left = 0
-          Top = 0
-          Width = 97
-          Height = 50
-          Align = alClient
-          Alignment = taCenter
-          Caption = #1059#1076#1072#1083#1080#1090#1100
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -24
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          OnClick = Label45Click
-          OnMouseDown = Label45MouseDown
-          OnMouseMove = Label45MouseMove
-          OnMouseLeave = Label45MouseLeave
-          ExplicitHeight = 29
-        end
-      end
-      object Panel52: TPanel
-        Left = 232
-        Top = 0
-        Width = 116
-        Height = 50
-        BevelOuter = bvNone
-        Caption = 'Panel52'
-        ShowCaption = False
-        TabOrder = 1
-        object Label43: TLabel
-          Left = 0
-          Top = 0
-          Width = 116
-          Height = 50
-          Align = alClient
-          Alignment = taCenter
-          Caption = #1044#1086#1073#1072#1074#1080#1090#1100
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -24
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          OnClick = Label43Click
-          OnMouseDown = Label43MouseDown
-          OnMouseMove = Label43MouseMove
-          OnMouseLeave = Label43MouseLeave
-          ExplicitHeight = 29
-        end
-      end
-      object Panel8: TPanel
-        Left = 79
-        Top = 0
-        Width = 128
-        Height = 50
-        BevelOuter = bvNone
-        Caption = 'Panel8'
-        ShowCaption = False
-        TabOrder = 2
-        object Label4: TLabel
-          Left = 0
-          Top = 0
-          Width = 128
-          Height = 50
-          Align = alClient
-          Alignment = taCenter
-          Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -24
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          OnClick = Label4Click
-          OnMouseDown = Label4MouseDown
-          OnMouseMove = Label4MouseMove
-          OnMouseLeave = Label4MouseLeave
-          ExplicitTop = 6
-        end
-      end
-    end
+    ExplicitTop = 320
     object Panel55: TPanel
       Left = 0
       Top = 0
@@ -2471,8 +2366,7 @@ object Form13: TForm13
       Caption = 'Panel55'
       ParentColor = True
       ShowCaption = False
-      TabOrder = 1
-      ExplicitTop = -6
+      TabOrder = 0
       object Panel47: TPanel
         Left = 175
         Top = 0
@@ -2497,7 +2391,6 @@ object Form13: TForm13
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
-          OnClick = Label14Click
           OnMouseDown = Label14MouseDown
           OnMouseMove = Label14MouseMove
           OnMouseLeave = Label14MouseLeave
@@ -2561,7 +2454,6 @@ object Form13: TForm13
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
-          OnClick = Label41Click
           OnMouseDown = Label41MouseDown
           OnMouseMove = Label41MouseMove
           OnMouseLeave = Label41MouseLeave
@@ -2597,8 +2489,8 @@ object Form13: TForm13
           OnMouseDown = Label17MouseDown
           OnMouseMove = Label17MouseMove
           OnMouseLeave = Label17MouseLeave
-          ExplicitLeft = -8
-          ExplicitTop = -6
+          ExplicitWidth = 38
+          ExplicitHeight = 37
         end
       end
     end

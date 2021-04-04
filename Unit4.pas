@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, Data.Win.ADODB, Data.DB, Vcl.Dialogs,
-  Vcl.ExtDlgs, Vcl.ExtCtrls;
+  Vcl.ExtDlgs, Vcl.ExtCtrls, Vcl.Menus, Vcl.Forms;
 
 type
   TDataModule4 = class(TDataModule)
@@ -79,6 +79,26 @@ type
     TMovieActorsId: TAutoIncField;
     TMovieActorsidActors: TIntegerField;
     TMovieActorsidMovie: TIntegerField;
+    PopupMenu1: TPopupMenu;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    N3: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
+    N8: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    N14: TMenuItem;
+    N15: TMenuItem;
+    N16: TMenuItem;
+    N17: TMenuItem;
+    N18: TMenuItem;
+    procedure N2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -92,6 +112,22 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
+uses Unit1;
+
 {$R *.dfm}
+
+procedure TDataModule4.N2Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form1.Show;
+end;
 
 end.

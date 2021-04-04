@@ -2128,6 +2128,7 @@ object Form2: TForm2
     FFFFFFFE000000007FFFFFFFFFFFFFFFFFFFFFFFE8000017FFFFFFFFFFFFFFFF
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   OldCreateOrder = False
+  PopupMenu = DataModule4.PopupMenu1
   Position = poDesktopCenter
   OnActivate = FormActivate
   OnClose = FormClose
@@ -2282,6 +2283,7 @@ object Form2: TForm2
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label5Click
           OnMouseDown = Label5MouseDown
           OnMouseMove = Label5MouseMove
           OnMouseLeave = Label5MouseLeave
@@ -2576,7 +2578,6 @@ object Form2: TForm2
         TabOrder = 0
         OnClick = ListBox1Click
         OnDrawItem = ListBox1DrawItem
-        OnEnter = ListBox1Enter
       end
     end
   end
@@ -2998,60 +2999,7 @@ object Form2: TForm2
           Layout = tlCenter
           ExplicitWidth = 60
         end
-        object ComboBox2: TComboBox
-          Left = 25
-          Top = 30
-          Width = 300
-          Height = 32
-          Style = csOwnerDrawFixed
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -21
-          Font.Name = 'Magneto'
-          Font.Style = []
-          ItemHeight = 26
-          ParentFont = False
-          TabOrder = 0
-          OnChange = ComboBox2Change
-          OnDrawItem = ComboBox2DrawItem
-          Items.Strings = (
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088
-            #1040#1082#1090#1105#1088)
-        end
-      end
-      object Panel18: TPanel
-        Left = 0
-        Top = 145
-        Width = 350
-        Height = 62
-        BevelOuter = bvNone
-        Caption = 'Panel18'
-        ShowCaption = False
-        TabOrder = 1
-        object Label13: TLabel
-          Left = 0
-          Top = 0
-          Width = 350
-          Height = 24
-          Align = alTop
-          Alignment = taCenter
-          Caption = #1044#1072#1090#1072' '#1088#1086#1078#1076#1077#1085#1080#1103
-          Font.Charset = RUSSIAN_CHARSET
-          Font.Color = clCream
-          Font.Height = -21
-          Font.Name = 'Magneto'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Layout = tlCenter
-          ExplicitWidth = 158
-        end
-        object Edit1: TEdit
+        object Edit3: TEdit
           Left = 25
           Top = 30
           Width = 300
@@ -3064,18 +3012,19 @@ object Form2: TForm2
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          Text = 'Edit1'
+          OnChange = Edit3Change
+          OnKeyPress = Edit3KeyPress
         end
       end
       object Panel22: TPanel
         Left = 0
-        Top = 237
+        Top = 145
         Width = 350
         Height = 70
         BevelOuter = bvNone
         Caption = 'Panel22'
         ShowCaption = False
-        TabOrder = 2
+        TabOrder = 1
         object Label16: TLabel
           Left = 0
           Top = 0
@@ -3127,7 +3076,7 @@ object Form2: TForm2
               #1056#1072#1074#1085#1086)
           end
           object Edit2: TEdit
-            Left = 125
+            Left = 126
             Top = 0
             Width = 175
             Height = 32
@@ -3138,7 +3087,8 @@ object Form2: TForm2
             Font.Style = []
             ParentFont = False
             TabOrder = 1
-            Text = 'Edit2'
+            OnChange = Edit2Change
+            OnKeyPress = Edit2KeyPress
           end
         end
       end
@@ -3150,7 +3100,7 @@ object Form2: TForm2
         BevelOuter = bvNone
         Caption = 'Panel37'
         ShowCaption = False
-        TabOrder = 3
+        TabOrder = 2
         object Shape5: TShape
           Left = 0
           Top = 0
@@ -3179,6 +3129,7 @@ object Form2: TForm2
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label38Click
           OnMouseDown = Label38MouseDown
           OnMouseMove = Label38MouseMove
           OnMouseLeave = Label38MouseLeave

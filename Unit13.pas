@@ -30,16 +30,9 @@ type
     Label41: TLabel;
     Panel50: TPanel;
     Label17: TLabel;
-    Panel56: TPanel;
-    Panel54: TPanel;
-    Label45: TLabel;
-    Panel52: TPanel;
-    Label43: TLabel;
     Image2: TImage;
     Button1: TButton;
     Shape1: TShape;
-    Panel8: TPanel;
-    Label4: TLabel;
     Panel6: TPanel;
     Edit1: TEdit;
     procedure FormCreate(Sender: TObject);
@@ -63,16 +56,6 @@ type
     procedure Label17MouseLeave(Sender: TObject);
     procedure Label17MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure Label43MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label43MouseLeave(Sender: TObject);
-    procedure Label43MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure Label45MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label45MouseLeave(Sender: TObject);
-    procedure Label45MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure Label2MouseLeave(Sender: TObject);
@@ -83,24 +66,17 @@ type
     procedure Label3MouseLeave(Sender: TObject);
     procedure Label3MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure Label4MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure Label4MouseLeave(Sender: TObject);
-    procedure Label4MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure Label17Click(Sender: TObject);
-    procedure Label41Click(Sender: TObject);
     procedure Label15Click(Sender: TObject);
     procedure Label14Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure Edit1Enter(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
-    procedure Label43Click(Sender: TObject);
-    procedure Label4Click(Sender: TObject);
-    procedure Label45Click(Sender: TObject);
     procedure Edit1Click(Sender: TObject);
     procedure Edit1Exit(Sender: TObject);
     procedure Label2Click(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
 
     procedure setViewMode;
@@ -121,7 +97,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit3, Unit11;
+uses Unit1, Unit2, Unit4, Unit3, Unit11, Unit14;
 
 procedure TForm13.Edit1Click(Sender: TObject);
 begin
@@ -159,6 +135,11 @@ end;
 procedure TForm13.FormActivate(Sender: TObject);
 begin
   Label14.OnClick(Self);
+end;
+
+procedure TForm13.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Form1.Show;
 end;
 
 procedure TForm13.FormCreate(Sender: TObject);
@@ -338,6 +319,12 @@ begin
   Label2.Font.Color := RGB(248, 16, 77);
 end;
 
+procedure TForm13.Label3Click(Sender: TObject);
+begin
+  Form13.Hide;
+  Form14.Show;
+end;
+
 procedure TForm13.Label3MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -355,29 +342,6 @@ begin
   Label3.Font.Color := RGB(248, 16, 77);
 end;
 
-procedure TForm13.Label41Click(Sender: TObject);
-begin
-  if Not(newRecord) then
-  begin
-    setViewMode;
-    DataModule.TGenre.Next;
-    Edit1.Text := DataModule.TGenreName.Value;
-  end
-  else
-  begin
-    Button1.SetFocus;
-    DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'DELETE FROM Genre WHERE Id = ' + IntToStr(DataModule.TGenreId.Value);;
-    DataModule.Request.ExecSQL;
-    DataModule.TGenre.Close;
-    DataModule.TGenre.Open;
-    DataModule.TGenre.Next;
-    Edit1.Text := DataModule.TGenreName.Value;
-    newRecord := false;
-    setViewMode;
-  end;
-end;
-
 procedure TForm13.Label41MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -393,122 +357,6 @@ procedure TForm13.Label41MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label41.Font.Color := RGB(248, 16, 77);
-end;
-
-procedure TForm13.Label43Click(Sender: TObject);
-begin
-  DataModule.Request.SQL.Clear;
-  DataModule.Request.SQL.Text := 'INSERT INTO Genre DEFAULT VALUES';
-  DataModule.Request.ExecSQL;
-  DataModule.TGenre.Close;
-  DataModule.TGenre.Open;
-  DataModule.TGenre.Last;
-  setEditMode;
-  newRecord := true;
-end;
-
-procedure TForm13.Label43MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Label43.Font.Color := RGB(210, 17, 77);
-end;
-
-procedure TForm13.Label43MouseLeave(Sender: TObject);
-begin
-  Label43.Font.Color := clCream;
-end;
-
-procedure TForm13.Label43MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Label43.Font.Color := RGB(248, 16, 77);
-end;
-
-procedure TForm13.Label45Click(Sender: TObject);
-var btn: integer;
-begin
-  if Not(newRecord) then
-  begin
-  btn := MessageDlg('Вы действительно хотите удалить текущую запись?', mtConfirmation, mbYesNo, 0);
-  if btn = mrYes then
-  begin
-    DataModule.Request.SQL.Clear;
-    DataModule.Request.SQL.Text := 'DELETE FROM Genre WHERE Id = ' + IntToStr(DataModule.TGenreId.Value);;
-    DataModule.Request.ExecSQL;
-    DataModule.TGenre.Close;
-    DataModule.TGenre.Open;
-    DataModule.TGenre.First;
-    Edit1.Text := DataModule.TGenreName.Value;
-  end;
-  end;
-end;
-
-procedure TForm13.Label45MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Label45.Font.Color := RGB(210, 17, 77);
-end;
-
-procedure TForm13.Label45MouseLeave(Sender: TObject);
-begin
-  Label45.Font.Color := clCream;
-end;
-
-procedure TForm13.Label45MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Label45.Font.Color := RGB(248, 16, 77);
-end;
-
-procedure TForm13.Label4Click(Sender: TObject);
-begin
-  if newRecord then
-  begin
-    Button1.SetFocus;
-    if Edit1.Text <> 'Введите название...' then
-    begin
-      DataModule.Request.SQL.Clear;
-      DataModule.Request.SQL.Text := 'SELECT Name '
-                                   + 'FROM Genre '
-                                   + 'WHERE Name = "' + Edit1.Text + '"';
-      DataModule.Request.Active := true;
-      if DataModule.Request.RecordCount >= 1 then
-        ShowMessage('Введённый жанр уже есть в списке')
-      else
-      begin
-        DataModule.Request.SQL.Clear;
-        DataModule.Request.SQL.Text := 'UPDATE Genre SET Name = :name WHERE Id = ' + IntToStr(DataModule.TGenreId.Value);
-        DataModule.Request.Parameters.ParamByName('name').Value := Edit1.Text;
-        DataModule.Request.ExecSQL;
-        DataModule.TGenre.Close;
-        DataModule.TGenre.Open;
-        DataModule.TGenre.Last;
-        setViewMode;
-        newRecord := false;
-      end;
-    end
-    else
-    begin
-      ShowMessage('Вы не ввели название...');
-    end;
-  end;
-end;
-
-procedure TForm13.Label4MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Label4.Font.Color := RGB(210, 17, 77);
-end;
-
-procedure TForm13.Label4MouseLeave(Sender: TObject);
-begin
-  Label4.Font.Color := clCream;
-end;
-
-procedure TForm13.Label4MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  Label4.Font.Color := RGB(248, 16, 77);
 end;
 
 end.
