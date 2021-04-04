@@ -2148,6 +2148,7 @@ object Form1: TForm1
     BevelOuter = bvNone
     Color = clMaroon
     ParentBackground = False
+    PopupMenu = DataModule4.PopupMenu1
     TabOrder = 0
     object Shape1: TShape
       Left = 324
@@ -2299,6 +2300,7 @@ object Form1: TForm1
           Font.Style = [fsBold]
           ParentFont = False
           Layout = tlCenter
+          OnClick = Label5Click
           OnMouseMove = Label5MouseMove
           OnMouseLeave = Label5MouseLeave
           ExplicitHeight = 22
@@ -2349,7 +2351,7 @@ object Form1: TForm1
     Left = 0
     Top = 70
     Width = 994
-    Height = 701
+    Height = 731
     Align = alClient
     Alignment = taLeftJustify
     BevelOuter = bvNone
@@ -2362,6 +2364,7 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentBackground = False
     ParentFont = False
+    PopupMenu = DataModule4.PopupMenu1
     ShowCaption = False
     TabOrder = 1
     object Image1: TImage
@@ -2720,6 +2723,7 @@ object Form1: TForm1
         Font.Name = 'Magneto'
         Font.Style = []
         ParentFont = False
+        PopupMenu = DataModule4.PopupMenu1
         TabOrder = 0
         Text = 'Edit5'
         OnEnter = Edit5Enter
@@ -2766,6 +2770,7 @@ object Form1: TForm1
         Font.Name = 'Magneto'
         Font.Style = []
         ParentFont = False
+        PopupMenu = DataModule4.PopupMenu1
         ReadOnly = True
         TabOrder = 0
         Text = 'Edit6'
@@ -2813,6 +2818,7 @@ object Form1: TForm1
         Font.Name = 'Magneto'
         Font.Style = [fsBold]
         ParentFont = False
+        PopupMenu = DataModule4.PopupMenu1
         TabOrder = 0
         Text = '8,7'
         OnEnter = Edit7Enter
@@ -2859,6 +2865,7 @@ object Form1: TForm1
         Font.Name = 'Magneto'
         Font.Style = [fsBold]
         ParentFont = False
+        PopupMenu = DataModule4.PopupMenu1
         TabOrder = 0
         Text = '8,7'
         OnEnter = Edit8Enter
@@ -2905,6 +2912,7 @@ object Form1: TForm1
         Font.Name = 'Magneto'
         Font.Style = []
         ParentFont = False
+        PopupMenu = DataModule4.PopupMenu1
         TabOrder = 0
         Text = 'Edit9'
         OnEnter = Edit9Enter
@@ -2951,6 +2959,7 @@ object Form1: TForm1
         Font.Name = 'Magneto'
         Font.Style = []
         ParentFont = False
+        PopupMenu = DataModule4.PopupMenu1
         TabOrder = 0
         Text = 'Edit10'
         OnEnter = Edit10Enter
@@ -3052,9 +3061,9 @@ object Form1: TForm1
   end
   object Panel14: TPanel
     Left = 0
-    Top = 771
+    Top = 801
     Width = 994
-    Height = 90
+    Height = 60
     Align = alBottom
     BevelOuter = bvNone
     BiDiMode = bdLeftToRight
@@ -3062,6 +3071,7 @@ object Form1: TForm1
     Color = clMedGray
     ParentBiDiMode = False
     ParentBackground = False
+    PopupMenu = DataModule4.PopupMenu1
     ShowCaption = False
     TabOrder = 2
     object Panel51: TPanel
@@ -3363,7 +3373,7 @@ object Form1: TForm1
       Left = 0
       Top = 50
       Width = 994
-      Height = 40
+      Height = 10
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel46'
@@ -3373,14 +3383,12 @@ object Form1: TForm1
         Left = 0
         Top = 0
         Width = 994
-        Height = 40
+        Height = 10
         Margins.Left = 0
         Margins.Right = 0
         Align = alClient
         Pen.Color = clCream
         Pen.Width = 3
-        ExplicitLeft = 8
-        ExplicitTop = 44
       end
     end
   end
@@ -3393,6 +3401,7 @@ object Form1: TForm1
     Caption = #1060#1080#1083#1100#1090#1088
     Color = clGrayText
     ParentBackground = False
+    PopupMenu = DataModule4.PopupMenu1
     ShowCaption = False
     TabOrder = 3
     object Panel19: TPanel

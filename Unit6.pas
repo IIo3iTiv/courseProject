@@ -44,7 +44,6 @@ type
     Label7: TLabel;
     Panel46: TPanel;
     Shape7: TShape;
-    Label42: TLabel;
     Image2: TImage;
     Panel6: TPanel;
     Image3: TImage;

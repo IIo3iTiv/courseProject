@@ -46,7 +46,6 @@ type
     Label7: TLabel;
     Panel46: TPanel;
     Shape7: TShape;
-    Label42: TLabel;
     Panel15: TPanel;
     Panel19: TPanel;
     Panel20: TPanel;
@@ -202,6 +201,7 @@ type
     procedure ComboBox1Change(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
     procedure Edit2KeyPress(Sender: TObject; var Key: Char);
+    procedure Label6Click(Sender: TObject);
   private
 
     procedure filterOut;
@@ -227,7 +227,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit2, Unit4, Unit9, Unit5;
+uses Unit1, Unit2, Unit4, Unit9, Unit5, Unit15;
 
 procedure TForm3.filterOut;
 var t: string;
@@ -795,6 +795,12 @@ procedure TForm3.Label5MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label5.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm3.Label6Click(Sender: TObject);
+begin
+  Form3.Hide;
+  Form15.Show;
 end;
 
 procedure TForm3.Label6MouseDown(Sender: TObject; Button: TMouseButton;

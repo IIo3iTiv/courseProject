@@ -36,6 +36,7 @@ type
     Label41: TLabel;
     Panel50: TPanel;
     Label17: TLabel;
+    Panel7: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);

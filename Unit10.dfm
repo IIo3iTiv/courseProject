@@ -2671,6 +2671,20 @@ object Form10: TForm10
           end
         end
       end
+      object Panel9: TPanel
+        Left = 0
+        Top = 40
+        Width = 1000
+        Height = 10
+        Align = alBottom
+        BevelOuter = bvNone
+        Caption = 'Panel9'
+        Color = 5050616
+        ParentBackground = False
+        ShowCaption = False
+        TabOrder = 2
+        ExplicitTop = 0
+      end
     end
   end
   object Button1: TButton

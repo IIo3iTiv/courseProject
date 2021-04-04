@@ -348,52 +348,105 @@ object DataModule4: TDataModule4
       end
       object N3: TMenuItem
         Caption = #1040#1082#1090#1105#1088#1099
+        OnClick = N3Click
       end
       object N4: TMenuItem
         Caption = #1056#1077#1078#1080#1089#1089#1105#1088#1099
+        OnClick = N4Click
       end
     end
     object N5: TMenuItem
       Caption = #1055#1088#1086#1082#1072#1090
       object N6: TMenuItem
         Caption = #1055#1088#1086#1082#1072#1090
+        OnClick = N6Click
       end
       object N7: TMenuItem
         Caption = #1050#1083#1080#1077#1085#1090#1099
+        OnClick = N7Click
       end
       object N8: TMenuItem
         Caption = #1044#1080#1089#1082#1080
+        OnClick = N8Click
       end
     end
     object N9: TMenuItem
       Caption = #1044#1086#1087#1086#1083#1085#1080#1090#1077#1083#1100#1085#1086
       object N10: TMenuItem
         Caption = #1057#1090#1088#1072#1085#1099
+        OnClick = N10Click
       end
       object N11: TMenuItem
         Caption = #1046#1072#1085#1088#1099
+        OnClick = N11Click
       end
       object N12: TMenuItem
         Caption = #1050#1072#1090#1077#1075#1086#1088#1080#1080
+        OnClick = N12Click
       end
     end
     object N13: TMenuItem
       Caption = #1057#1074#1103#1079#1080
       object N14: TMenuItem
         Caption = #1040#1082#1090#1105#1088#1099
+        OnClick = N14Click
       end
       object N15: TMenuItem
         Caption = #1056#1077#1078#1080#1089#1089#1105#1088#1099
+        OnClick = N15Click
       end
       object N16: TMenuItem
         Caption = #1057#1090#1088#1072#1085#1099
+        OnClick = N16Click
       end
       object N17: TMenuItem
         Caption = #1046#1072#1085#1088#1099
+        OnClick = N17Click
       end
     end
     object N18: TMenuItem
       Caption = #1054#1090#1095#1105#1090#1099
+      object N19: TMenuItem
+        Caption = #1040#1082#1090#1105#1088#1099
+        OnClick = N19Click
+      end
+      object N20: TMenuItem
+        Caption = #1056#1077#1078#1080#1089#1089#1105#1088#1099
+        OnClick = N20Click
+      end
     end
+  end
+  object ADOQuery1: TADOQuery
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT a.fullName, ma.titleMovie, ma.yearIssue'
+      'FROM Actors AS a'
+      'INNER JOIN ( SELECT ma.idActors, m.titleMovie, m.yearIssue'
+      '             FROM Movie AS m'
+      '             INNER JOIN [Movie - Actors] AS ma'
+      '             ON m.Id = ma.idMovie'
+      '           ) AS ma'
+      'ON a.Id = ma.idActors')
+    Left = 376
+    Top = 152
+  end
+  object ADOQuery2: TADOQuery
+    Active = True
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'SELECT a.fullName, ma.titleMovie, ma.yearIssue'
+      'FROM Producers AS a'
+      'INNER JOIN ( SELECT ma.idProducers, m.titleMovie, m.yearIssue'
+      '             FROM Movie AS m'
+      '             INNER JOIN [Movie - Producers] AS ma'
+      '             ON m.Id = ma.idMovie'
+      '           ) AS ma'
+      'ON a.Id = ma.idProducers')
+    Left = 464
+    Top = 152
   end
 end

@@ -47,7 +47,6 @@ type
     Label7: TLabel;
     Panel46: TPanel;
     Shape7: TShape;
-    Label42: TLabel;
     Panel15: TPanel;
     Panel19: TPanel;
     Panel20: TPanel;
@@ -204,6 +203,7 @@ type
     procedure Edit2Change(Sender: TObject);
     procedure Label38Click(Sender: TObject);
     procedure Edit2KeyPress(Sender: TObject; var Key: Char);
+    procedure Label6Click(Sender: TObject);
   private
 
     procedure filterOut;
@@ -230,7 +230,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit1, Unit3, Unit4, Unit5, Unit9, Unit8;
+uses Unit1, Unit3, Unit4, Unit5, Unit9, Unit8, Unit15;
 
 procedure TForm2.filterOut;
 var t: string;
@@ -837,6 +837,12 @@ procedure TForm2.Label5MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label5.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm2.Label6Click(Sender: TObject);
+begin
+  Form2.Hide;
+  Form15.Show;
 end;
 
 procedure TForm2.Label6MouseDown(Sender: TObject; Button: TMouseButton;

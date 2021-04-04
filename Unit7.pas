@@ -59,6 +59,7 @@ type
     Panel12: TPanel;
     Label9: TLabel;
     Edit3: TEdit;
+    Panel15: TPanel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure Shape2MouseDown(Sender: TObject; Button: TMouseButton;

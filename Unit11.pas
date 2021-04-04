@@ -42,6 +42,7 @@ type
     Label4: TLabel;
     Panel6: TPanel;
     Edit1: TEdit;
+    Panel7: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);

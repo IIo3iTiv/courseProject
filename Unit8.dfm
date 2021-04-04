@@ -2422,7 +2422,7 @@ object Form8: TForm8
       Left = 0
       Top = 0
       Width = 1300
-      Height = 50
+      Height = 40
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel51'
@@ -2678,6 +2678,20 @@ object Form8: TForm8
           end
         end
       end
+    end
+    object Panel3: TPanel
+      Left = 0
+      Top = 40
+      Width = 1300
+      Height = 10
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = 'Panel3'
+      Color = 5050616
+      ParentBackground = False
+      ShowCaption = False
+      TabOrder = 1
+      ExplicitTop = 46
     end
   end
   object Button1: TButton

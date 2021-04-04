@@ -47,6 +47,7 @@ type
     ComboBox2: TComboBox;
     Panel8: TPanel;
     Label4: TLabel;
+    Panel7: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);

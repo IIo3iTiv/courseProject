@@ -267,6 +267,7 @@ type
     procedure Edit2Change(Sender: TObject);
     procedure Edit3Change(Sender: TObject);
     procedure Edit4Change(Sender: TObject);
+    procedure Label5Click(Sender: TObject);
 
   private
     procedure filterOut;
@@ -303,7 +304,7 @@ implementation
 
 {$R *.dfm}
 
-uses Unit2, Unit3, Unit4, Unit6, Unit5, Unit10, Unit12, Unit9, Unit8;
+uses Unit2, Unit3, Unit4, Unit6, Unit5, Unit10, Unit12, Unit9, Unit8, Unit15;
 
 procedure TForm1.filterOut;
 var text: string;
@@ -1268,6 +1269,12 @@ procedure TForm1.Label4MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Form1.Label4.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm1.Label5Click(Sender: TObject);
+begin
+  Form1.Hide;
+  Form15.Show;
 end;
 
 procedure TForm1.Label5MouseLeave(Sender: TObject);

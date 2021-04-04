@@ -1,0 +1,149 @@
+unit Unit15;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TForm15 = class(TForm)
+    Panel1: TPanel;
+    Shape1: TShape;
+    Label24: TLabel;
+    Panel4: TPanel;
+    Label1: TLabel;
+    Image2: TImage;
+    Panel2: TPanel;
+    Panel5: TPanel;
+    Label3: TLabel;
+    Panel7: TPanel;
+    Label5: TLabel;
+    Panel15: TPanel;
+    Label10: TLabel;
+    Button4: TButton;
+    Panel13: TPanel;
+    Panel3: TPanel;
+    Label2: TLabel;
+    procedure Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure Label5MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure Label10MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure Label3MouseLeave(Sender: TObject);
+    procedure Label5MouseLeave(Sender: TObject);
+    procedure Label10MouseLeave(Sender: TObject);
+    procedure Label2MouseLeave(Sender: TObject);
+    procedure Label3MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Label5MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Label10MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Label2MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form15: TForm15;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit1, Unit4;
+
+procedure TForm15.FormActivate(Sender: TObject);
+begin
+  // Верхняя
+  Panel1.Color := RGB(248, 16, 77);
+  Shape1.Brush.Color := RGB(40, 31, 85);
+  Panel2.Color := RGB(40, 31, 85);
+
+  // Серцевина
+  Panel13.Color := RGB(26, 20, 59);
+end;
+
+procedure TForm15.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Form1.Show;
+end;
+
+procedure TForm15.Label10MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label10.Font.Color := RGB(210, 16, 77);
+end;
+
+procedure TForm15.Label10MouseLeave(Sender: TObject);
+begin
+  Label10.Font.Color := clCream;
+end;
+
+procedure TForm15.Label10MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label10.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm15.Label2MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label2.Font.Color := RGB(210, 16, 77);
+end;
+
+procedure TForm15.Label2MouseLeave(Sender: TObject);
+begin
+  Label2.Font.Color := clCream;
+end;
+
+procedure TForm15.Label2MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label2.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm15.Label3MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label3.Font.Color := RGB(210, 16, 77);
+end;
+
+procedure TForm15.Label3MouseLeave(Sender: TObject);
+begin
+  Label3.Font.Color := clCream;
+end;
+
+procedure TForm15.Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label3.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm15.Label5MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Label5.Font.Color := RGB(210, 16, 77);
+end;
+
+procedure TForm15.Label5MouseLeave(Sender: TObject);
+begin
+  Label5.Font.Color := clCream;
+end;
+
+procedure TForm15.Label5MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Label5.Font.Color := RGB(248, 16, 77);
+end;
+
+end.

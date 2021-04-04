@@ -2335,7 +2335,7 @@ object Form6: TForm6
     Left = 0
     Top = 70
     Width = 994
-    Height = 523
+    Height = 553
     Align = alClient
     Alignment = taLeftJustify
     BevelOuter = bvNone
@@ -2350,6 +2350,7 @@ object Form6: TForm6
     ParentFont = False
     ShowCaption = False
     TabOrder = 1
+    ExplicitHeight = 523
     object Image3: TImage
       Left = 20
       Top = 25
@@ -2494,9 +2495,9 @@ object Form6: TForm6
   end
   object Panel14: TPanel
     Left = 0
-    Top = 593
+    Top = 623
     Width = 994
-    Height = 90
+    Height = 60
     Align = alBottom
     BevelOuter = bvNone
     BiDiMode = bdLeftToRight
@@ -2803,7 +2804,7 @@ object Form6: TForm6
       Left = 0
       Top = 50
       Width = 994
-      Height = 40
+      Height = 10
       Align = alBottom
       BevelOuter = bvNone
       Caption = 'Panel46'
@@ -2814,7 +2815,7 @@ object Form6: TForm6
         Left = 0
         Top = 0
         Width = 994
-        Height = 40
+        Height = 10
         Margins.Left = 0
         Margins.Right = 0
         Align = alClient
@@ -2822,24 +2823,6 @@ object Form6: TForm6
         Pen.Color = clBlue
         Pen.Style = psClear
         Pen.Width = 0
-        ExplicitWidth = 222222
-      end
-      object Label42: TLabel
-        Left = 0
-        Top = 0
-        Width = 994
-        Height = 40
-        Align = alClient
-        Caption = '  '#1050#1086#1084#1084#1077#1085#1090#1072#1088#1080#1081' '#1082' '#1076#1077#1081#1089#1090#1074#1080#1102
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clCream
-        Font.Height = -19
-        Font.Name = 'Magneto'
-        Font.Style = []
-        ParentFont = False
-        Layout = tlCenter
-        ExplicitWidth = 251
-        ExplicitHeight = 24
       end
     end
   end

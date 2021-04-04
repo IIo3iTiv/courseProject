@@ -2415,7 +2415,7 @@ object Form12: TForm12
       Left = 0
       Top = 0
       Width = 1000
-      Height = 50
+      Height = 40
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel51'
@@ -2423,6 +2423,7 @@ object Form12: TForm12
       ParentBackground = False
       ShowCaption = False
       TabOrder = 0
+      ExplicitHeight = 50
       object Panel55: TPanel
         Left = 92
         Top = 0
@@ -2671,6 +2672,20 @@ object Form12: TForm12
           end
         end
       end
+    end
+    object Panel7: TPanel
+      Left = 0
+      Top = 40
+      Width = 1000
+      Height = 10
+      Align = alBottom
+      BevelOuter = bvNone
+      Caption = 'Panel7'
+      Color = 5050616
+      ParentBackground = False
+      ShowCaption = False
+      TabOrder = 1
+      ExplicitTop = 9
     end
   end
   object Button1: TButton

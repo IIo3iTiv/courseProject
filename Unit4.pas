@@ -98,7 +98,25 @@ type
     N16: TMenuItem;
     N17: TMenuItem;
     N18: TMenuItem;
+    N19: TMenuItem;
+    N20: TMenuItem;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
     procedure N2Click(Sender: TObject);
+    procedure N19Click(Sender: TObject);
+    procedure N20Click(Sender: TObject);
+    procedure N3Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
+    procedure N6Click(Sender: TObject);
+    procedure N7Click(Sender: TObject);
+    procedure N8Click(Sender: TObject);
+    procedure N10Click(Sender: TObject);
+    procedure N11Click(Sender: TObject);
+    procedure N12Click(Sender: TObject);
+    procedure N14Click(Sender: TObject);
+    procedure N15Click(Sender: TObject);
+    procedure N16Click(Sender: TObject);
+    procedure N17Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -112,9 +130,136 @@ implementation
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
-uses Unit1;
+uses Unit1, Unit15, Unit16, Unit11, Unit13, Unit14, Unit8, Unit9, Unit10,
+  Unit12, Unit2, Unit3, Unit5, Unit6, Unit7, Unit17, Unit18;
 
 {$R *.dfm}
+
+procedure TDataModule4.N10Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form11.Show;
+end;
+
+procedure TDataModule4.N11Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form13.Show;
+end;
+
+procedure TDataModule4.N12Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form14.Show;
+end;
+
+procedure TDataModule4.N14Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form8.Show;
+end;
+
+procedure TDataModule4.N15Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form9.Show;
+end;
+
+procedure TDataModule4.N16Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form10.Show;
+end;
+
+procedure TDataModule4.N17Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form12.Show;
+end;
+
+procedure TDataModule4.N19Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form15.Show;
+end;
+
+procedure TDataModule4.N20Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form18.Show;
+end;
 
 procedure TDataModule4.N2Click(Sender: TObject);
 var i: integer;
@@ -128,6 +273,76 @@ begin
     frm.Hide;
   end;
   Form1.Show;
+end;
+
+procedure TDataModule4.N3Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form2.Show;
+end;
+
+procedure TDataModule4.N4Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form3.Show;
+end;
+
+procedure TDataModule4.N6Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form5.Show;
+end;
+
+procedure TDataModule4.N7Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form6.Show;
+end;
+
+procedure TDataModule4.N8Click(Sender: TObject);
+var i: integer;
+    frm: TForm;
+begin
+  for i := 0 to Application.ComponentCount - 1 do
+  begin
+    if Not(Application.Components[i] is TForm) then
+      Continue;
+    frm := Application.Components[i] as TForm;
+    frm.Hide;
+  end;
+  Form7.Show;
 end;
 
 end.

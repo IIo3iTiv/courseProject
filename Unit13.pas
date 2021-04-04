@@ -35,6 +35,7 @@ type
     Shape1: TShape;
     Panel6: TPanel;
     Edit1: TEdit;
+    Panel7: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure Label14MouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
@@ -77,6 +78,7 @@ type
     procedure Label2Click(Sender: TObject);
     procedure Label3Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Label41Click(Sender: TObject);
   private
 
     procedure setViewMode;
@@ -340,6 +342,29 @@ procedure TForm13.Label3MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   Label3.Font.Color := RGB(248, 16, 77);
+end;
+
+procedure TForm13.Label41Click(Sender: TObject);
+begin
+  if Not(newRecord) then
+  begin
+    setViewMode;
+    DataModule.TGenre.Next;
+    Edit1.Text := DataModule.TGenreName.Value;
+  end
+  else
+  begin
+    Button1.SetFocus;
+    DataModule.Request.SQL.Clear;
+    DataModule.Request.SQL.Text := 'DELETE FROM Genre WHERE Id = ' + IntToStr(DataModule.TGenreId.Value);;
+    DataModule.Request.ExecSQL;
+    DataModule.TGenre.Close;
+    DataModule.TGenre.Open;
+    DataModule.TGenre.Next;
+    Edit1.Text := DataModule.TGenreName.Value;
+    newRecord := false;
+    setViewMode;
+  end;
 end;
 
 procedure TForm13.Label41MouseDown(Sender: TObject; Button: TMouseButton;
