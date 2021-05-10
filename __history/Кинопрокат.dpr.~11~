@@ -23,6 +23,7 @@ uses
 
 begin
   Application.Initialize;
+  //Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TForm14, Form14);
   Application.CreateForm(TForm13, Form13);
